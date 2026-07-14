@@ -365,6 +365,9 @@
   .offer .btn{margin-top:0}
   #stagebar{display:block;width:100%}
   #stagebar .rankbar2{width:100%;box-sizing:border-box}
+  .corner-live{border:1px solid var(--gold);border-radius:6px;padding:10px;margin:6px 0 4px;background:radial-gradient(120% 100% at 50% 0,rgba(255,190,18,.10),transparent);animation:cornerPulse 1.4s ease-in-out infinite}
+  @keyframes cornerPulse{0%,100%{box-shadow:0 0 0 rgba(255,190,18,0)}50%{box-shadow:0 0 16px rgba(255,190,18,.4)}}
+  .corner-live .corner-read{margin-top:0}
   .corner-read{background:var(--panel2);border-left:3px solid var(--gold);border-radius:3px;padding:11px 12px;font-family:'Oswald';font-size:13px;font-weight:300;color:#e8e8ee;margin:6px 0 10px;animation:slideIn .3s ease}
   .corner-read b{color:var(--gold2);font-weight:600}
   .corner-read .cico{font-size:16px}
@@ -381,7 +384,7 @@
   @media(min-width:880px){
     .app{max-width:1020px}
     #scr-create,#scr-draft{max-width:470px;margin-left:auto;margin-right:auto}
-    #scr-game{display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
+    #scr-game:not(.hidden){display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
     #scr-game > .fcard{align-self:start}
     #scr-game > .panel{margin-top:0 !important}
     #scr-game > .btn{grid-column:1;margin-top:4px}
@@ -810,8 +813,8 @@ function simulateFight(){
       '<div class="round-ind"><span id="ri">ROUND 1</span> <small id="risub">de '+GF.rounds+'</small></div>'+
       '<div class="fbars">'+fbar('you',F.nick.toUpperCase(),'red')+fbar('opp',currentOpp.name.toUpperCase(),'blue')+'</div>'+
       '<div class="ring"><div id="figy" class="fighter you">'+fighterSVG('red')+'</div><div id="figo" class="fighter opp">'+fighterSVG('blue')+'</div><div id="fx"></div></div>'+
-      '<div class="pbp" id="pbp"></div>'+
       '<div id="corner"></div>'+
+      '<div class="pbp" id="pbp"></div>'+
       '<button class="btn ghost sm" onclick="skipSim()">Pular para o resultado &#9656;</button>'+
     '</div>';
   updateBarsRaw(100,100);
@@ -939,6 +942,7 @@ function coachRead(){
 }
 function showCorner(){
   var el=document.getElementById('corner');if(!el)return;
+  el.className='corner-live';if(el.scrollIntoView){try{el.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}}
   var hurt=GF.Y.hp<32;
   var h='<div class="corner-read"><span class="cico">🗣️</span> <b>Treinador:</b> '+coachRead()+'</div>'+
     '<div class="corner-actions">'+
@@ -950,7 +954,7 @@ function showCorner(){
     (hurt?'<button class="btn ghost sm" style="border-color:var(--red);color:var(--red2)" onclick="throwTowel()">🏳️ Jogar a toalha (desistir)</button>':'');
   el.innerHTML=h;
 }
-function pickPlan(p){var el=document.getElementById('corner');if(el)el.innerHTML='';runRound(p);}
+function pickPlan(p){var el=document.getElementById('corner');if(el){el.innerHTML='';el.className='';}runRound(p);}
 function throwTowel(){GF.result={kind:'tko',won:false,round:GF.round,towel:true};var el=document.getElementById('corner');if(el)el.innerHTML='';pbp('🏳️ O córner jogou a toalha! '+F.nick+' não volta pro próximo round.');revealFinishGF();}
 function fbar(who,name,color){
   return '<div><div class="fbtop"><b>'+name+'</b><span id="'+who+'hp-n">100</span></div>'+
