@@ -384,16 +384,16 @@
   @media(min-width:880px){
     .app{max-width:1020px}
     #scr-create,#scr-draft{max-width:470px;margin-left:auto;margin-right:auto}
-    #scr-game:not(.hidden){display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
-    #scr-game > .fcard{align-self:start}
+    #scr-game:not(.hidden){display:grid;grid-template-columns:370px 1fr;grid-template-rows:auto 1fr;column-gap:22px;row-gap:12px;align-items:start}
+    #scr-game > .fcard{grid-column:1;grid-row:2;position:sticky;top:14px}
     #scr-game > .panel{margin-top:0 !important}
-    #scr-game > .btn{grid-column:1;margin-top:4px}
+    #scr-game > .btn{grid-column:1;grid-row:1;width:auto;justify-self:start;margin-top:0;padding:9px 16px;font-size:12px}
     #scr-game > .panel{grid-column:2;grid-row:1 / span 2}
     .ring{height:210px !important}
   }
   @media(min-width:1200px){
     .app{max-width:1120px}
-    #scr-game{grid-template-columns:430px 1fr}
+    #scr-game:not(.hidden){grid-template-columns:400px 1fr}
   }
 </style>
 </head>
