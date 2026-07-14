@@ -378,6 +378,20 @@
   .trait{font-family:'Barlow Condensed';font-weight:700;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--dim)}
   .trait.g{border-color:#2f7d4a;color:#5fd48a;background:rgba(47,125,74,.12)}
   .trait.b{border-color:#8a2b2b;color:#ff6b6b;background:rgba(138,43,43,.12)}
+  @media(min-width:880px){
+    .app{max-width:1020px}
+    #scr-create,#scr-draft{max-width:470px;margin-left:auto;margin-right:auto}
+    #scr-game{display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
+    #scr-game > .fcard{align-self:start}
+    #scr-game > .panel{margin-top:0 !important}
+    #scr-game > .btn{grid-column:1;margin-top:4px}
+    #scr-game > .panel{grid-column:2;grid-row:1 / span 2}
+    .ring{height:210px !important}
+  }
+  @media(min-width:1200px){
+    .app{max-width:1120px}
+    #scr-game{grid-template-columns:430px 1fr}
+  }
 </style>
 </head>
 <body>
