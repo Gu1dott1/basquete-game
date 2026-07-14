@@ -1399,17 +1399,20 @@ function rollInjury(kind,won,round){
 function hurtAttrs(pts){var ks=['poder','velocidade','cardio','queixo','chao','precisao','defesa','agressao'];for(var i=0;i<pts;i++){var k=ks[Math.floor(Math.random()*ks.length)];if(F.attrs[k]!=null)F.attrs[k]=Math.max(40,F.attrs[k]-1);}recalcOvr();}
 function openInjury(){
   var inj=F.injuryPending;if(!inj){closeLadder();return;}
-  var full=inj.cost,early=Math.round(inj.cost*0.4),canFull=(F.money||0)>=full;
+  var full=inj.cost,basic=Math.round(inj.cost*0.4);
+  var canFull=(F.money||0)>=full,canBasic=(F.money||0)>=basic;
   var h='<div class="ladder-h">🏥 SALA DE RECUPERAÇÃO <button class="lx" onclick="closeLadder()">✕</button></div>';
-  h+='<div style="padding:12px 16px;color:var(--dim);font-family:Oswald;font-size:12px">Você sofreu: <b style="color:#fff">'+inj.tipo+'</b> (lesão '+inj.sev+'). Escolha a recuperação:</div>';
-  h+='<div class="offer"><div class="of-top"><b>Curar 100%</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(full)+'</span></div><div class="of-terms">Layoff ~'+inj.meses+' meses · sem sequela'+(inj.perm?' (lesão grave ainda tira ~'+inj.perm+' de atributo)':'')+'</div><div class="of-note">Volta inteiro, mas perde mais tempo (envelhece mais).</div>'+(canFull?'<button class="btn gold sm" onclick="treatInjury(\'full\')">TRATAR ▸</button>':'<div class="of-note" style="color:var(--red2)">Sem grana pro tratamento completo</div>')+'</div>';
-  h+='<div class="offer"><div class="of-top"><b>Voltar cedo</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(early)+'</span></div><div class="of-terms">Layoff curto · sequela nos atributos + risco de reagravar</div><div class="of-note">Volta rápido, porém mais fraco e com chance maior de nova lesão.</div><button class="btn sm" onclick="treatInjury(\'early\')">VOLTAR CEDO ▸</button></div>';
+  h+='<div style="padding:12px 16px;color:var(--dim);font-family:Oswald;font-size:12px">Você sofreu: <b style="color:#fff">'+inj.tipo+'</b> (lesão '+inj.sev+'). Carteira: <b style="color:#37d47e">'+fmtMoney(F.money||0)+'</b>. Escolha a recuperação:</div>';
+  h+='<div class="offer"><div class="of-top"><b>Cirurgia + recuperação total</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(full)+'</span></div><div class="of-terms">Layoff ~'+inj.meses+' meses · volta 100%'+(inj.perm?' (grave: ainda ~'+inj.perm+' de sequela)':'')+'</div>'+(canFull?'<button class="btn gold sm" onclick="treatInjury(\'full\')">TRATAR ▸</button>':'<div class="of-note" style="color:var(--red2)">Sem dinheiro — precisa de '+fmtMoney(full)+'</div>')+'</div>';
+  h+='<div class="offer"><div class="of-top"><b>Tratamento básico</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(basic)+'</span></div><div class="of-terms">Layoff curto · sequela leve + risco de reagravar</div>'+(canBasic?'<button class="btn sm" onclick="treatInjury(\'basic\')">FAZER ▸</button>':'<div class="of-note" style="color:var(--red2)">Sem dinheiro — precisa de '+fmtMoney(basic)+'</div>')+'</div>';
+  h+='<div class="offer"><div class="of-top"><b>Se virar sozinho</b><span class="of-bonus" style="color:var(--dim)">grátis</span></div><div class="of-terms">Sem médico: muito tempo parado, sequela pesada e alto risco de nova lesão'+(inj.sev==='grave'?' — pode encerrar a carreira':'')+'</div><button class="btn ghost sm" onclick="treatInjury(\'none\')">AGUENTAR NA RAÇA ▸</button></div>';
   showOverlay(h);
 }
 function treatInjury(mode){
   var inj=F.injuryPending;if(!inj)return;
-  if(mode==='full'){F.money=Math.max(0,(F.money||0)-inj.cost);F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/6));if(inj.perm)hurtAttrs(inj.perm);}
-  else{F.money=Math.max(0,(F.money||0)-Math.round(inj.cost*0.4));F.age=(F.age||25)+Math.max(0,Math.round(inj.meses/12));hurtAttrs((inj.perm||0)+rnd(1,3));F.reinjuryRisk=true;}
+  if(mode==='full'){if((F.money||0)<inj.cost){toast('Sem dinheiro pra isso');return;}F.money-=inj.cost;F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/6));if(inj.perm)hurtAttrs(inj.perm);}
+  else if(mode==='basic'){var b=Math.round(inj.cost*0.4);if((F.money||0)<b){toast('Sem dinheiro pra isso');return;}F.money-=b;F.age=(F.age||25)+Math.max(0,Math.round(inj.meses/12));hurtAttrs((inj.perm||0)+rnd(1,3));F.reinjuryRisk=true;}
+  else{F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/4));hurtAttrs((inj.perm||0)+rnd(3,6));F.reinjuryRisk=true;F.wear=(F.wear||0)+4;if(inj.sev==='grave'&&Math.random()<0.28){F.retired=true;F.retireCause='lesao';F.injuryPending=null;closeLadder();showRetirement();return;}}
   F.wear=(F.wear||0)+3;F.injuryPending=null;applyAging();
   closeLadder();renderStages();renderFicha();
   if(checkRetire()){showRetirement();return;}
