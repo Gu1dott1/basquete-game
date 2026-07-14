@@ -365,6 +365,19 @@
   .offer .btn{margin-top:0}
   #stagebar{display:block;width:100%}
   #stagebar .rankbar2{width:100%;box-sizing:border-box}
+  .corner-read{background:var(--panel2);border-left:3px solid var(--gold);border-radius:3px;padding:11px 12px;font-family:'Oswald';font-size:13px;font-weight:300;color:#e8e8ee;margin:6px 0 10px;animation:slideIn .3s ease}
+  .corner-read b{color:var(--gold2);font-weight:600}
+  .corner-read .cico{font-size:16px}
+  .corner-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+  .cbtn{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),#0f0f14);color:#fff;border-radius:4px;padding:10px 11px;text-align:left;cursor:pointer;transition:.12s;font-family:'Oswald'}
+  .cbtn:hover{border-color:var(--gold);transform:translateY(-1px)}
+  .cbtn:active{transform:translateY(1px)}
+  .cbtn b{display:block;font-family:'Barlow Condensed';font-weight:800;font-size:14px;letter-spacing:.3px}
+  .cbtn span{font-size:10px;color:var(--dim)}
+  .traits{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px;position:relative;z-index:1}
+  .trait{font-family:'Barlow Condensed';font-weight:700;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--dim)}
+  .trait.g{border-color:#2f7d4a;color:#5fd48a;background:rgba(47,125,74,.12)}
+  .trait.b{border-color:#8a2b2b;color:#ff6b6b;background:rgba(138,43,43,.12)}
 </style>
 </head>
 <body>
@@ -441,7 +454,7 @@ var LEGENDS=[
   {ini:"VB",name:"Vitor Belfort",dom:"Explosão",sig:"poder",st:{poder:97,precisao:86,chao:82,cardio:78,agressao:92}},
   {ini:"DM",name:"Demian Maia",dom:"Jiu-jitsu / defesa",sig:"chao",st:{poder:70,precisao:78,chao:99,cardio:86,agressao:76}}
 ];
-var ATTRS=[{key:"poder",label:"Poder"},{key:"precisao",label:"Precisão"},{key:"chao",label:"Chão"},{key:"cardio",label:"Cardio"},{key:"queixo",label:"Queixo"},{key:"agressao",label:"Agressão"}];
+var ATTRS=[{key:"poder",label:"Poder"},{key:"velocidade",label:"Velocidade"},{key:"precisao",label:"Precisão"},{key:"defesa",label:"Defesa"},{key:"chao",label:"Chão"},{key:"cardio",label:"Cardio"},{key:"queixo",label:"Queixo"},{key:"fightIQ",label:"Fight IQ"},{key:"agressao",label:"Agressão"},{key:"coracao",label:"Coração"}];
 var EMOJIS=["🥊","🤼","🥊","🤼","🥊"];
 
 var F={name:"",nick:"",state:"SP",weight:"Leve",style:"Trocador",emo:"🥊",attrs:{},ovr:0,w:0,l:0,d:0,stage:0,fightsInStage:0,champion:false};
@@ -538,7 +551,7 @@ function skipLegend(){
   renderDraft();
 }
 
-function goCard(){F.belts={};F.divsEver={};F.hist=[];F.h2h={};F.streak=0;F.bestStreak=0;F.finishes=0;F.titleWins=0;F.titleDef=0;F.lastLossTo=null;F.money=1500;F.careerEarn=0;F.tp=0;F.campBonus=0;F.bought={};F.unrankedWins=0;F.tierIdx=-1;F.stage2="varzea";F.circuitWins=0;F.winMult=1;F.ppvDeal=false;F.pendingOffer=null;F.contract={name:"Várzea",show:600,win:600,ppv:false};if(F.carisma==null)F.carisma=40;setDivision(F.weight);show("scr-game");renderStages();renderFicha();nextFight();}
+function goCard(){F.belts={};F.divsEver={};F.hist=[];F.h2h={};F.streak=0;F.bestStreak=0;F.finishes=0;F.titleWins=0;F.titleDef=0;F.lastLossTo=null;F.money=1500;F.careerEarn=0;F.tp=0;F.campBonus=0;F.bought={};F.unrankedWins=0;F.tierIdx=-1;F.stage2="varzea";F.circuitWins=0;F.winMult=1;F.ppvDeal=false;F.pendingOffer=null;F.superFight=false;F.debutStrength=null;F.wear=0;F.fightCount=0;F.retired=false;F.retireCause=null;F.bestOvr=F.ovr||0;F.nc=0;F.injuryPending=null;F.reinjuryRisk=false;F.contract={name:"Várzea",show:600,win:600,ppv:false};if(F.carisma==null)F.carisma=40;setDivision(F.weight);show("scr-game");renderStages();renderFicha();nextFight();}
 function renderFicha(){
   var el=document.getElementById("ficha");
   var bars=ATTRS.map(function(a){
@@ -550,10 +563,11 @@ function renderFicha(){
     '<div class="silhouette">'+fighterSVG('red')+'</div>'+
     '<div class="fname">'+F.name.toUpperCase()+'</div>'+
     '<div class="fnick">"'+F.nick+'"</div>'+
-    '<div class="meta">'+F.weight+' • '+F.state+', BRASIL</div>'+
+    '<div class="meta">'+F.weight+' • '+F.state+' • '+(F.age||22)+' anos</div>'+
     (F.champion?'<div class="belt">🏆 CAMPEÃO MUNDIAL 🏆</div>':'')+
     '<div class="attrs">'+bars+'</div>'+
-    '<div class="fame">CARISMA <b>'+(F.carisma||40)+'</b> • CARTEIRA <b>'+fmtMoney(F.money||0)+'</b></div>';
+    '<div class="fame">CARISMA <b>'+(F.carisma||40)+'</b> • CARTEIRA <b>'+fmtMoney(F.money||0)+'</b></div>'+
+    ((F.traits&&F.traits.length)?'<div class="traits">'+F.traits.map(function(t){var d=traitName(t);return '<span class="trait '+(d&&d.good>0?'g':(d&&d.good<0?'b':''))+'">'+(d?d.name:t)+'</span>';}).join('')+'</div>':'');
 }
 
 var STAGES=[
@@ -648,8 +662,22 @@ function openDivisions(){
 }
 function switchDivision(name){
   if(name===curDivName){closeLadder();return;}
-  if(DIVSTATE[curDivName])DIVSTATE[curDivName].rank=DIVSTATE[curDivName].rank.filter(notYou);
-  F.weight=name;F.lastLossTo=null;setDivision(name);
+  var od=curDivName, oldRank=playerRank(), wasChamp=F.champion;
+  if(DIVSTATE[od])DIVSTATE[od].rank=DIVSTATE[od].rank.filter(notYou);
+  F.weight=name;F.lastLossTo=null;F.unrankedWins=0;
+  if(wasChamp){
+    F.belts[od]=false;
+    var arr=DIVSTATE[od].rank;
+    if(arr.length){DIVSTATE[od].champ=arr[0];arr.splice(0,1);DIVSTATE[od].rank=arr.slice(0,15);}
+    setDivision(name);
+    F.superFight=true;F.debutStrength='strong';
+    toast('Vagou o cinturão dos '+od.toUpperCase()+'! Subiu pra desafiar o campeão dos '+name.toUpperCase()+' 🏆');
+  } else {
+    setDivision(name);
+    F.superFight=false;
+    F.debutStrength=(oldRank<=8)?'strong':'weak';
+    toast('Divisão dos '+name.toUpperCase()+' — '+(F.debutStrength==='strong'?'estreia contra alguém do ranking!':'comece de baixo, prove seu valor.'));
+  }
   closeLadder();renderStages();renderFicha();nextFight();
 }
 function openHistory(){
@@ -707,15 +735,25 @@ function nextFight(){
     var gap=st2==='varzea'?rnd(-5,1):rnd(-3,3);
     opp={name:pl[0],emo:pl[1],ovr:Math.max(40,Math.min(99,F.ovr+gap)),rec:[rnd(2,9),rnd(0,5),0]};
     oppLabel=st2==='varzea'?'VÁRZEA':'NACIONAL';
-  } else if(!F.champion && pr>=16){
-    prospect=true;
-    var pc=CONTENDERS[Math.floor(Math.random()*CONTENDERS.length)];
-    opp={name:pc[0],emo:pc[1],ovr:Math.max(45,Math.min(90,F.ovr+rnd(-5,3))),rec:[rnd(3,10),rnd(0,4),0]};
-    oppLabel='PROSPECTO';
+  } else if(F.superFight){opp=CHAMP;titleFlag=true;oppLabel='CAMPEÃO';F.superFight=false;}
+  else if(!F.champion && pr>=16){
+    if(F.debutStrength==='strong' && RANK.length>0){
+      var di=Math.min(RANK.length-1,12+rnd(0,2));opp=RANK[di];oppLabel='#'+(di+1);
+    } else {
+      prospect=true;
+      var pc=CONTENDERS[Math.floor(Math.random()*CONTENDERS.length)];
+      opp={name:pc[0],emo:pc[1],ovr:Math.max(45,Math.min(90,F.ovr+rnd(-5,3))),rec:[rnd(3,10),rnd(0,4),0]};
+      oppLabel='PROSPECTO';
+    }
   } else if(F.champion){var i=Math.floor(Math.random()*Math.min(5,RANK.length));opp=RANK[i];titleFlag=true;oppLabel='#'+(i+1);}
-  else if(pr===1){opp=CHAMP;titleFlag=true;oppLabel='CAMPEÃO';}
-  else {var ti=(pr>=16)?RANK.length-1:(pr-2);if(ti<0)ti=0;opp=RANK[ti];oppLabel='#'+(ti+1);}
-  if(st2==='liga' && !titleFlag && !prospect && F.lastLossTo){var li=RANK.indexOf(F.lastLossTo);if(li>=0 && Math.random()<0.6){opp=F.lastLossTo;oppLabel='#'+(li+1);rematch=true;}F.lastLossTo=null;}
+  else if(pr===1 || (pr<=3 && (F.streak||0)>=4 && Math.random()<0.4)){opp=CHAMP;titleFlag=true;oppLabel='CAMPEÃO';}
+  else {
+    var ti;
+    if(pr<=8 && Math.random()<0.15){ti=Math.min(RANK.length-1,(pr-1)+rnd(1,2));}
+    else {var st=stepUp(F.streak||0);ti=Math.max(0,(pr-1)-st);if(ti>=pr-1)ti=pr-2;if(ti<0)ti=0;}
+    opp=RANK[ti];oppLabel='#'+(ti+1);
+  }
+  if(st2==='liga' && !titleFlag && !prospect && F.lastLossTo){var li=RANK.indexOf(F.lastLossTo);if(li>=0 && Math.random()<0.35){opp=F.lastLossTo;oppLabel='#'+(li+1);rematch=true;}F.lastLossTo=null;}
   var _gap=circuit?0:(prospect?rnd(-8,0):(titleFlag?(F.champion?rnd(-2,8):rnd(3,11)):rnd(-2,7)));
   var _mm=circuit?opp.ovr:Math.max(45,Math.min(99,Math.min(opp.ovr+2,F.ovr+_gap)));
   currentOpp={name:opp.name,emo:opp.emo,ovr:_mm,title:titleFlag,ref:((prospect||circuit)?null:opp),label:oppLabel,prospect:prospect,circuit:circuit};
@@ -739,135 +777,167 @@ function nextFight(){
 }
 
 /* ---------- MOTOR DE SIMULAÇÃO (o jogador NÃO controla) ---------- */
-function oInit(){var v=currentOpp.ovr;return {poder:rndStat(v),precisao:rndStat(v),chao:rndStat(v),cardio:rndStat(v),queixo:rndStat(v),agressao:rndStat(v)};}
+function oInit(){var v=currentOpp.ovr;return {poder:rndStat(v),velocidade:rndStat(v),precisao:rndStat(v),defesa:rndStat(v),chao:rndStat(v),cardio:rndStat(v),queixo:rndStat(v),fightIQ:rndStat(v),agressao:rndStat(v),coracao:rndStat(v)};}
 function R(lo,hi){return lo+Math.random()*(hi-lo);}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
-function striking(f){return (f.a.poder*0.6+f.a.precisao*0.4)*(0.55+0.45*f.st/100)*(1+f.mo*0.04);}
+function striking(f){return (f.a.poder*0.5+f.a.precisao*0.3+(f.a.velocidade||55)*0.2)*(0.55+0.45*f.st/100)*(1+f.mo*0.04);}
 function grappling(f){return f.a.chao*(0.6+0.4*f.st/100)*(1+f.mo*0.03);}
 function drainF(f,r){var d=(5+r*1.6)*(1.2-f.a.cardio/150);f.st=Math.max(0,f.st-Math.max(1,d));}
 
 var SIM=null,simIdx=0,simTimer=null;
 
-function runSim(){
-  var Y={name:F.nick,a:F.attrs,hp:100,st:100,mo:0},
-      O={name:currentOpp.name,a:oInit(),hp:100,st:100,mo:0};
-  var rounds=currentOpp.title?5:3;
-  var ev=[],result=null,rWinY=0,rWinO=0,cards=[];
 
-  function snap(txt,hit,dmg,r){ev.push({type:'x',txt:txt,y:Math.round(Y.hp),o:Math.round(O.hp),hit:hit||null,dmg:dmg||0,r:r});}
-  function KO(winner,loser,r){result={kind:'ko',won:winner===Y,round:r};}
-  function SUB(winner,loser,r){result={kind:'sub',won:winner===Y,round:r};}
-
-  function strikeEx(r,dr){
-    var yr=striking(Y)*R(0.6,1.45), or_=striking(O)*R(0.6,1.45);
-    var win = yr>=or_ ? Y : O, los = yr>=or_ ? O : Y, hit = win===Y?'opp':'you';
-    var margin=Math.abs(yr-or_);
-    var d=Math.round(Math.min(28, 4+margin/8 + R(0,5)));
-    d=Math.max(1,Math.round(d*(1-(((los.a.queixo||70)-60)/220))));
-    los.hp-=d; win.mo=Math.min(5,win.mo+1); los.mo=Math.max(-2,los.mo-1);
-    dr[win===Y?'y':'o']+=d;
-    var txt=pick([
-      win.name+' encaixa a direita e balança '+los.name+'!',
-      win.name+' toma a iniciativa e conecta uma boa combinação.',
-      'Troca franca — '+win.name+' leva a melhor no meio do octógono.',
-      win.name+' acerta um cruzado pesado ('+d+').',
-      los.name+' tenta responder, mas '+win.name+' domina a troca.'
-    ]);
-    snap(txt,hit,d,r);
-    if(los.hp<=0){ if(win===Y)KO(Y,O,r);else KO(O,Y,r); return true; }
-    // puncher's chance: nocaute relâmpago proporcional ao poder (mesmo perdendo a troca)
-    var flashProb=(los.a.poder/100)*0.008;
-    if(Math.random()<flashProb*(1-(((win.a.queixo||70)-60)/200))){
-      win.hp-=999;
-      snap('💥 DO NADA! '+los.name+' solta uma bomba e '+win.name+' apaga no susto!','',0,r);
-      if(los===Y)KO(Y,O,r);else KO(O,Y,r); return true;
-    }
-    return false;
-  }
-  function groundSeq(top,bot,r,dr){
-    var control=1+Math.floor(R(0,2.4));
-    for(var c=0;c<control;c++){
-      // dano de ground and pound
-      var d=Math.round(Math.max(1,(top.a.poder/100)*R(1.5,5)));
-      d=Math.max(1,Math.round(d*(1-(((bot.a.queixo||70)-60)/240))));
-      bot.hp-=d; dr[top===Y?'y':'o']+=d;
-      // tentativa de finalização
-      var subP=(top.a.chao/950)+(1-bot.st/100)*0.09+(1-bot.hp/100)*0.13;
-      if(Math.random()<subP){
-        snap('🐍 '+top.name+' encaixa o mata-leão... '+bot.name+' resiste... BATEU!',top===Y?'opp':'you',d,r);
-        if(top===Y)SUB(Y,O,r);else SUB(O,Y,r); return true;
-      }
-      snap(pick([
-        top.name+' domina por cima e martela no chão ('+d+').',
-        top.name+' passa a guarda e busca a finalização.',
-        top.name+' controla '+bot.name+' contra a grade.'
-      ]),top===Y?'opp':'you',d,r);
-      if(bot.hp<=0){ if(top===Y)KO(Y,O,r);else KO(O,Y,r); return true; }
-      if(Math.random()<0.35){ snap(bot.name+' consegue voltar pra luta em pé.',null,0,r); return false; }
-    }
-    return false;
-  }
-
-  outer:
-  for(var r=1;r<=rounds;r++){
-    ev.push({type:'round',txt:'ROUND '+r,y:Math.round(Y.hp),o:Math.round(O.hp),r:r});
-    var dr={y:0,o:0};
-    var exch=4+Math.floor(Math.random()*2);
-    for(var e=0;e<exch;e++){
-      drainF(Y,r);drainF(O,r);
-      var gTend=(Y.a.chao+O.a.chao), sTend=(Y.a.poder+Y.a.precisao+O.a.poder+O.a.precisao)/2;
-      var goGround = Math.random() < (gTend/(gTend+sTend))*0.55;
-      var finished=false;
-      if(goGround){
-        var tk = grappling(Y)*R(0.6,1.4) >= grappling(O)*R(0.6,1.4) ? Y : O;
-        var bot = tk===Y?O:Y;
-        var tkP = 0.45 + (tk.a.chao-bot.a.chao)/240;
-        if(Math.random()<tkP){
-          snap('🤼 '+tk.name+' finca a queda e leva '+bot.name+' pro chão!',null,0,r);
-          finished=groundSeq(tk,bot,r,dr);
-        } else {
-          snap('🛡️ '+bot.name+' defende bem a queda de '+tk.name+'.',null,0,r);
-        }
-      } else {
-        finished=strikeEx(r,dr);
-      }
-      if(result){break outer;}
-      if(finished){/* voltou pra pé */}
-    }
-    var cy=10,co=10;
-    if(dr.y>dr.o){rWinY++;co=(dr.y-dr.o>18)?8:9;}
-    else if(dr.o>dr.y){rWinO++;cy=(dr.o-dr.y>18)?8:9;}
-    else { if(Y.hp>=O.hp){co=9;}else{cy=9;} }
-    cards.push({y:cy,o:co});
-  }
-
-  if(!result){
-    // decisão
-    var draw=(rWinY===rWinO && Math.abs(Y.hp-O.hp)<5);
-    if(draw) result={kind:'draw',won:null,round:rounds};
-    else { var yw=(rWinY>rWinO)||(rWinY===rWinO && Y.hp>=O.hp); result={kind:'dec',won:yw,round:rounds}; }
-    result.cards=cards;
-    ev.push({type:'x',txt:'Os 3 juízes recolhem as súmulas...',y:Math.round(Y.hp),o:Math.round(O.hp),hit:null,dmg:0,r:rounds});
-  }
-  ev.push({type:'finish',txt:'',y:Math.round(Y.hp),o:Math.round(O.hp),kind:result.kind,won:result.won,round:result.round});
-  return {events:ev,result:result};
-}
 
 /* ---------- REVELAÇÃO (o jogador só assiste) ---------- */
 function simulateFight(){
-  SIM=runSim();simIdx=0;
+  gfStart();
   document.getElementById("fight-area").innerHTML=
     '<div class="fstage">'+
-      '<div class="round-ind"><span id="ri">PRELIMINARES</span> <small id="risub">a luta vai começar...</small></div>'+
+      '<div class="round-ind"><span id="ri">ROUND 1</span> <small id="risub">de '+GF.rounds+'</small></div>'+
       '<div class="fbars">'+fbar('you',F.nick.toUpperCase(),'red')+fbar('opp',currentOpp.name.toUpperCase(),'blue')+'</div>'+
       '<div class="ring"><div id="figy" class="fighter you">'+fighterSVG('red')+'</div><div id="figo" class="fighter opp">'+fighterSVG('blue')+'</div><div id="fx"></div></div>'+
       '<div class="pbp" id="pbp"></div>'+
+      '<div id="corner"></div>'+
       '<button class="btn ghost sm" onclick="skipSim()">Pular para o resultado &#9656;</button>'+
     '</div>';
   updateBarsRaw(100,100);
   pbp('🔔 E COMEÇA A LUTA!');
-  simTimer=setTimeout(playNext,700);
+  simTimer=setTimeout(function(){runRound('balanced');},700);
 }
+var GF=null;
+function gfStart(){
+  GF={Y:{name:F.nick,a:F.attrs,hp:100,st:100,mo:0,cut:0,dur:(F.durability||70)},
+      O:{name:currentOpp.name,a:oInit(),hp:100,st:100,mo:0,cut:0,dur:rnd(55,92)},
+      rounds:currentOpp.title?5:3,round:0,rWinY:0,rWinO:0,cards:[],result:null,plan:'balanced'};
+}
+function planMods(plan){
+  if(plan==='pressao')return {yStrike:1.18,dmgTaken:1.12,drain:1.35,groundBias:0,finish:1.18};
+  if(plan==='contra') return {yStrike:1.05,dmgTaken:0.68,drain:0.8,groundBias:-0.05,finish:0.85};
+  if(plan==='chao')   return {yStrike:0.95,dmgTaken:0.95,drain:1.1,groundBias:0.32,finish:1.05};
+  if(plan==='boxear') return {yStrike:1.08,dmgTaken:0.8,drain:0.95,groundBias:-0.28,finish:0.95};
+  return {yStrike:1,dmgTaken:1,drain:1,groundBias:0,finish:1};
+}
+function gfRound(plan){
+  GF.round++;GF.plan=plan;
+  var r=GF.round,Y=GF.Y,O=GF.O,m=planMods(plan);
+  var ev=[],dr={y:0,o:0};
+  function snap(txt,hit,dmg){ev.push({type:'x',txt:txt,y:Math.round(Y.hp),o:Math.round(O.hp),hit:hit||null,dmg:dmg||0,r:r});}
+  function strikeEx2(){
+    var yr=striking(Y)*m.yStrike*R(0.6,1.45)*heartMult(Y)*yTraitOut(r), or_=striking(O)*R(0.6,1.45)*heartMult(O);
+    var win=yr>=or_?Y:O, los=yr>=or_?O:Y, hit=win===Y?'opp':'you';
+    var d=Math.round(Math.min(28,4+Math.abs(yr-or_)/8+R(0,5)));
+    d=Math.max(1,Math.round(d*(1-(((los.a.queixo||70)-60)/220))));
+    d=Math.max(1,Math.round(d*(1-(((los.a.defesa||55)-55)/300))));
+    if(los===Y){d=Math.max(1,Math.round(d*m.dmgTaken));if(hasTrait('granito'))d=Math.max(1,Math.round(d*0.72));}
+    los.hp-=d;win.mo=Math.min(5,win.mo+1);los.mo=Math.max(-2,los.mo-1);dr[win===Y?'y':'o']+=d;
+    snap(pick([win.name+' encaixa a direita e balança '+los.name+'!',win.name+' conecta uma boa combinação.','Troca franca — '+win.name+' leva a melhor.',win.name+' acerta um cruzado pesado ('+d+').',los.name+' tenta responder, mas '+win.name+' domina.']),hit,d);
+    var _cutp=0.045+(100-(los.dur||70))/600;if(los===Y&&hasTrait('sangrador'))_cutp*=2.2;if(los===Y&&hasTrait('granito'))_cutp*=0.6;
+    if(d>=9 && Math.random()<_cutp){los.cut=(los.cut||0)+1;snap('🩸 '+los.name+(los.cut>=2?' abriu um corte feio!':' começou a sangrar.'),hit,0);if(los.cut>=3){GF.result={kind:'tko',won:(los===O),round:r};snap('🩸 O médico interrompe — '+los.name+' não continua. TKO por corte!',null,0);return true;}}
+    if(los.hp<=0){GF.result={kind:(Math.random()<0.42?'tko':'ko'),won:(win===Y),round:r};return true;}
+    var flash=(los.a.poder/100)*0.008;if(los===Y)flash*=m.finish;if(win===Y&&hasTrait('nocauteador'))flash*=2.2;if(los===Y&&hasTrait('granito'))flash*=0.4;
+    if(Math.random()<flash*(1-(((win.a.queixo||70)-60)/200))){win.hp-=999;snap('💥 DO NADA! '+los.name+' solta uma bomba e '+win.name+' apaga!','',0);GF.result={kind:(Math.random()<0.42?'tko':'ko'),won:(los===Y),round:r};return true;}
+    return false;
+  }
+  function groundSeq2(top,bot){
+    var control=1+Math.floor(R(0,2.4));
+    for(var c=0;c<control;c++){
+      var d=Math.round(Math.max(1,(top.a.poder/100)*R(1.5,5)));
+      d=Math.max(1,Math.round(d*(1-(((bot.a.queixo||70)-60)/240))));
+      d=Math.max(1,Math.round(d*(1-(((bot.a.defesa||55)-55)/340))));if(bot===Y){d=Math.max(1,Math.round(d*m.dmgTaken));if(hasTrait('granito'))d=Math.max(1,Math.round(d*0.78));}
+      bot.hp-=d;dr[top===Y?'y':'o']+=d;
+      var subP=(top.a.chao/950)+(1-bot.st/100)*0.09+(1-bot.hp/100)*0.13;if(top===Y){subP*=m.finish;if(hasTrait('finalizador'))subP*=1.5;}
+      if(Math.random()<subP){snap('🐍 '+top.name+' encaixa o mata-leão... BATEU!',top===Y?'opp':'you',d);GF.result={kind:'sub',won:(top===Y),round:r};return true;}
+      snap(pick([top.name+' martela no chão ('+d+').',top.name+' passa a guarda e busca a finalização.',top.name+' controla '+bot.name+' contra a grade.']),top===Y?'opp':'you',d);
+      if(bot.hp<=0){GF.result={kind:'tko',won:(top===Y),round:r};return true;}
+      if(Math.random()<0.35){snap(bot.name+' volta pra luta em pé.',null,0);return false;}
+    }
+    return false;
+  }
+  ev.push({type:'round',txt:'ROUND '+r,y:Math.round(Y.hp),o:Math.round(O.hp),r:r});
+  var exch=4+Math.floor(Math.random()*2);
+  for(var e=0;e<exch;e++){
+    drainF(Y,r);if(m.drain!==1)Y.st=Math.max(0,Y.st-(m.drain-1)*4);if(hasTrait('maratonista'))Y.st=Math.min(100,Y.st+2.5);if(hasTrait('explosivo')&&r>=3)Y.st=Math.max(0,Y.st-3);drainF(O,r);
+    if(Math.random()<0.006){var vic=Math.random()<0.5?Y:O;if(Math.random()<0.4){snap('⚠️ Dedo no olho acidental em '+vic.name+'! Luta encerrada — SEM RESULTADO.',null,0);GF.result={kind:'nc',won:null,round:r};break;}else snap('⚠️ Falta acidental! Pausa pra '+vic.name+'.',null,0);}
+    var gTend=(Y.a.chao+O.a.chao),sTend=(Y.a.poder+Y.a.precisao+O.a.poder+O.a.precisao)/2;
+    var goGround=Math.random()<((gTend/(gTend+sTend))*0.55+m.groundBias);
+    if(goGround){
+      var tk=grappling(Y)*R(0.6,1.4)>=grappling(O)*R(0.6,1.4)?Y:O;var bot=tk===Y?O:Y;
+      var tkP=0.45+(tk.a.chao-bot.a.chao)/240;if(plan==='chao'&&tk===Y)tkP+=0.12;if(plan==='boxear'&&tk===O)tkP-=0.15;
+      if(Math.random()<tkP){snap('🤼 '+tk.name+' finca a queda e leva '+bot.name+' pro chão!',null,0);groundSeq2(tk,bot);}
+      else snap('🛡️ '+bot.name+' defende a queda de '+tk.name+'.',null,0);
+    } else { strikeEx2(); }
+    if(GF.result)break;
+  }
+  if(!GF.result){
+    var cy=10,co=10;
+    if(dr.y>dr.o){GF.rWinY++;co=(dr.y-dr.o>18)?8:9;}
+    else if(dr.o>dr.y){GF.rWinO++;cy=(dr.o-dr.y>18)?8:9;}
+    else{if(Y.hp>=O.hp)co=9;else cy=9;}
+    GF.cards.push({y:cy,o:co});
+  }
+  return ev;
+}
+function gfResolve(){
+  if(GF.result)return;
+  var draw=(GF.rWinY===GF.rWinO && Math.abs(GF.Y.hp-GF.O.hp)<5);
+  if(draw)GF.result={kind:'draw',won:null,round:GF.rounds};
+  else{var yw=(GF.rWinY>GF.rWinO)||(GF.rWinY===GF.rWinO&&GF.Y.hp>=GF.O.hp);GF.result={kind:'dec',won:yw,round:GF.rounds};}
+  GF.result.cards=GF.cards;
+  if(GF.result.kind==='dec')GF.result.close=(Math.abs(GF.rWinY-GF.rWinO)<=1);
+}
+function runRound(plan){
+  var events=gfRound(plan);
+  playEvents(events,afterRound);
+}
+function playEvents(events,cb){
+  var i=0;
+  function step(){
+    if(i>=events.length){cb();return;}
+    var e=events[i++];applyEvent(e);
+    var delay=e.type==='round'?700:(e.dmg>=18?900:580);
+    simTimer=setTimeout(step,delay);
+  }
+  step();
+}
+function afterRound(){
+  if(GF.result){revealFinishGF();return;}
+  if(GF.round>=GF.rounds){gfResolve();revealFinishGF();return;}
+  showCorner();
+}
+function revealFinishGF(){
+  var res=GF.result;
+  if(res.kind==='ko'||res.kind==='tko'){var loser=res.won?'figo':'figy';var lf=document.getElementById(loser);if(lf)lf.classList.add('ko');}
+  updateBarsRaw(GF.Y.hp,GF.O.hp);
+  setTimeout(function(){
+    if((res.kind==='dec'||res.kind==='draw')&&res.cards){playScorecard(res.cards,res.won,function(){endFight(res.kind,res.won,res.round,res.close);});}
+    else endFight(res.kind,res.won,res.round,res.close);
+  },600);
+}
+function coachRead(){
+  var Y=GF.Y,O=GF.O;
+  if(Y.hp<30)return 'Você tá bem machucado! Segura a onda e escolhe com cuidado, senão eu paro a luta.';
+  if(O.hp<30)return 'Ele tá caindo aos pedaços — vai pra cima e finaliza esse cara!';
+  if(Y.st<28)return 'Você gastou demais, tá sem fôlego. Segura o ritmo e economiza.';
+  if(O.cut>0)return 'Ele abriu um corte! Pressiona que o médico pode parar a luta.';
+  if(GF.rWinO>GF.rWinY)return 'Tá perdendo no placar. Precisa arriscar mais nesse round.';
+  if(GF.rWinY>GF.rWinO)return 'Tá na frente! Mantém a inteligência e não facilita.';
+  return 'Luta equilibrada. Qual o plano pra esse round?';
+}
+function showCorner(){
+  var el=document.getElementById('corner');if(!el)return;
+  var hurt=GF.Y.hp<32;
+  var h='<div class="corner-read"><span class="cico">🗣️</span> <b>Treinador:</b> '+coachRead()+'</div>'+
+    '<div class="corner-actions">'+
+      '<button class="cbtn" onclick="pickPlan(\'pressao\')"><b>🔥 Pressionar</b><span>Mais dano, gasta fôlego</span></button>'+
+      '<button class="cbtn" onclick="pickPlan(\'contra\')"><b>🛡️ Segurar & contra</b><span>Apanha menos, recupera</span></button>'+
+      '<button class="cbtn" onclick="pickPlan(\'chao\')"><b>🤼 Levar pro chão</b><span>Busca queda/finalização</span></button>'+
+      '<button class="cbtn" onclick="pickPlan(\'boxear\')"><b>🥊 Boxear de fora</b><span>Distância, evita queda</span></button>'+
+    '</div>'+
+    (hurt?'<button class="btn ghost sm" style="border-color:var(--red);color:var(--red2)" onclick="throwTowel()">🏳️ Jogar a toalha (desistir)</button>':'');
+  el.innerHTML=h;
+}
+function pickPlan(p){var el=document.getElementById('corner');if(el)el.innerHTML='';runRound(p);}
+function throwTowel(){GF.result={kind:'tko',won:false,round:GF.round,towel:true};var el=document.getElementById('corner');if(el)el.innerHTML='';pbp('🏳️ O córner jogou a toalha! '+F.nick+' não volta pro próximo round.');revealFinishGF();}
 function fbar(who,name,color){
   return '<div><div class="fbtop"><b>'+name+'</b><span id="'+who+'hp-n">100</span></div>'+
     '<div class="hpbar"><i id="'+who+'hp" class="'+color+'" style="width:100%"></i></div></div>';
@@ -908,32 +978,35 @@ function applyEvent(e){
 }
 function skipSim(){
   if(simTimer)clearTimeout(simTimer);
-  if(!SIM)return;
-  var last=SIM.events[SIM.events.length-1];
-  updateBarsRaw(last.y,last.o);
-  finishReveal();
+  if(!GF)return;
+  var el=document.getElementById('corner');if(el)el.innerHTML='';
+  var guard=0;while(!GF.result && GF.round<GF.rounds && guard<20){gfRound('balanced');guard++;}
+  gfResolve();updateBarsRaw(GF.Y.hp,GF.O.hp);revealFinishGF();
 }
 function finishReveal(){ if(!SIM)return; var r=SIM.result; SIM=null;
-  if((r.kind==='dec'||r.kind==='draw') && r.cards){ playScorecard(r.cards,r.won,function(){endFight(r.kind,r.won,r.round);}); }
-  else endFight(r.kind,r.won,r.round);
+  if((r.kind==='dec'||r.kind==='draw') && r.cards){ playScorecard(r.cards,r.won,function(){endFight(r.kind,r.won,r.round,r.close);}); }
+  else endFight(r.kind,r.won,r.round,r.close);
 }
 
-function endFight(kind,won,round){
+function endFight(kind,won,round,close){
   var o=currentOpp,method,cls,story,ko=false;
-  if(kind==='draw'){F.d++;method='EMPATE';cls='dec';story='Depois da distância completa, os juízes não separaram os dois. Empate.';}
+  if(kind==='nc'){F.nc=(F.nc||0)+1;method='SEM RESULTADO';cls='dec';story='Falta acidental interrompeu tudo. Declarada SEM RESULTADO (No Contest) — não conta como vitória nem derrota.';}
+  else if(kind==='draw'){F.d++;method='EMPATE';cls='dec';story='Depois da distância completa, os juízes não separaram os dois. Empate.';}
   else if(won){
     F.w++;
     if(kind==='ko'){method='NOCAUTE';cls='ko';ko=true;story=F.nick+' desligou '+o.name+' no round '+round+'! A arena explodiu.';}
+    else if(kind==='tko'){method='NOCAUTE TÉCNICO';cls='ko';ko=true;story=F.nick+' castigou '+o.name+' até a luta ser parada no round '+round+'.';}
     else if(kind==='sub'){method='FINALIZAÇÃO';cls='sub';story=F.nick+' fez '+o.name+' bater no round '+round+'. Finalização limpa.';}
     else{method='DECISÃO';cls='dec';story=F.nick+' levou a decisão dos juízes numa guerra de '+round+' rounds.';}
-    F.ovr=Math.min(99,F.ovr+(o.title?2:1));
+    F.ovr=Math.min(F.potential||99,F.ovr+(o.title?2:1));
   } else {
     F.l++;method='DERROTA';cls='loss';
-    var how=(kind==='ko')?'foi nocauteado no round '+round:(kind==='sub')?'bateu no round '+round:'perdeu na decisão';
+    var how=(kind==='ko')?'foi nocauteado no round '+round:(kind==='tko')?'foi parado (TKO) no round '+round:(kind==='sub')?'bateu no round '+round:'perdeu na decisão';
     story='Zebra dura de engolir. '+F.nick+' '+how+' contra '+o.name+'. De volta pro camp.';
   }
   var wasChamp=F.champion, rankMsg='';
-  if(won){
+  if(kind==='nc'){}
+  else if(won){
     if(currentOpp.circuit){
       F.circuitWins=(F.circuitWins||0)+1;
       if(F.circuitWins>=3){F.pendingOffer=(F.stage2==='varzea')?'nacional':'liga';rankMsg='Você brilhou! Tem proposta de contrato na mesa. 📝';}
@@ -944,21 +1017,28 @@ function endFight(kind,won,round){
       else rankMsg='Vitória no card preliminar ('+F.unrankedWins+'/2 pra entrar no ranking).';
     } else if(titleWasShot()){becomeChampion();F.titleWins=(F.titleWins||0)+1;rankMsg='🏆 CINTURÃO DOS '+curDivName.toUpperCase()+'!'+(beltCount()>=2?' CHAMP-CHAMP!':'');}
     else if(wasChamp){F.titleDef=(F.titleDef||0)+1;rankMsg='Cinturão defendido! ('+F.titleDef+'ª defesa)';}
-    else {climbTo(currentOpp.ref);rankMsg='Subiu para '+posStr()+' no ranking!';}
+    else {climbToSmart(currentOpp.ref,(kind==='ko'||kind==='sub'||kind==='tko'));rankMsg='Subiu para '+posStr()+' no ranking!';}
     F.streak=(F.streak||0)+1;if(F.streak>(F.bestStreak||0))F.bestStreak=F.streak;
-    var fin=(kind==='ko'||kind==='sub');if(fin)F.finishes=(F.finishes||0)+1;
+    var fin=(kind==='ko'||kind==='sub'||kind==='tko');if(fin)F.finishes=(F.finishes||0)+1;
     F.tp=(F.tp||0)+(fin?4:3)+(currentOpp.title?3:0)+(F.campBonus||0);
     autoImprove();autoImprove();
-    F.carisma=Math.min(99,(F.carisma||40)+(fin?2:1)+(currentOpp.title?1:0));
+    F.carisma=Math.min(99,(F.carisma||40)+(fin?2:1)+(currentOpp.title?1:0)+(hasTrait('queridinho')?1:0));
   } else if(kind!=='draw'){
     if(wasChamp){loseTitleTo(currentOpp.ref);rankMsg='Perdeu o cinturão dos '+curDivName.toUpperCase()+', mas segue como #1.';}
-    else if(!currentOpp.prospect && !currentOpp.circuit){ if(dropRank())rankMsg='Escorregou para '+posStr()+' no ranking.'; }
+    else if(!currentOpp.prospect && !currentOpp.circuit){ if(lossDrop(currentOpp.ref,kind,close))rankMsg='Caiu para '+posStr()+' no ranking.'; }
     F.streak=0;
   } else { F.streak=0; }
-  var res=won?'V':(kind==='draw'?'E':'D');
+  var res=won?'V':(kind==='draw'?'E':(kind==='nc'?'NC':'D'));
   recordFight(currentOpp.name,currentOpp.ovr,currentOpp.emo,res,method,round,currentOpp.title);
-  F.lastLossTo=(!won && kind!=='draw' && currentOpp.ref && RANK.indexOf(currentOpp.ref)>=0)?currentOpp.ref:null;
+  F.lastLossTo=(!won && kind==='dec' && close && currentOpp.ref && RANK.indexOf(currentOpp.ref)>=0)?currentOpp.ref:null;
   payFight(won,kind,currentOpp.title);
+  simEcosystem();
+  advanceTime(kind,won);
+  checkRetire();
+  rollInjury(kind,won,round);
+  if(F.retired && F.retireCause==='lesao'){story=story+' — 🏥 Lesão grave encerrou a carreira!';}
+  else if(F.injuryPending){story=story+' — 🏥 Você se machucou: '+F.injuryPending.tipo+'.';}
+  else if(F._leveNote){story=story+' — Saiu com uma lesão leve.';F._leveNote=false;}
   if(rankMsg) story=story+' — '+rankMsg;
   renderFicha();updateHUD();
   setTimeout(function(){showResult(method,cls,round,story,won,o,ko);},ko?350:150);
@@ -966,8 +1046,8 @@ function endFight(kind,won,round){
 function showResult(method,cls,round,story,win,o,ko){
   LASTRES={method:method,cls:cls,round:round,win:win,champ:(F.champion&&win&&o.title)};
   if(ko){var wf=document.createElement("div");wf.className="whiteflash";document.body.appendChild(wf);setTimeout(function(){if(wf.parentNode)wf.parentNode.removeChild(wf);},350);var app=document.getElementById("app");app.classList.add("shake");setTimeout(function(){app.classList.remove("shake");},450);}
-  var banner=win?"RESULTADO OFICIAL":(method==="EMPATE"?"RESULTADO OFICIAL":"DERROTA");
-  var showRound=(method==="NOCAUTE"||method==="FINALIZAÇÃO");
+  var banner=(method==="SEM RESULTADO")?"SEM RESULTADO":(win?"RESULTADO OFICIAL":(method==="EMPATE"?"RESULTADO OFICIAL":"DERROTA"));
+  var showRound=(method==="NOCAUTE"||method==="FINALIZAÇÃO"||method==="NOCAUTE TÉCNICO");
   var champLine=(F.champion&&win&&o.title)?'<div class="champbanner">'+F.nick.toUpperCase()+' É O NOVO<br>CAMPEÃO MUNDIAL DOS '+F.weight.toUpperCase()+'!</div>':'';
   document.getElementById("fight-area").innerHTML=
     '<div class="result">'+
@@ -976,12 +1056,12 @@ function showResult(method,cls,round,story,win,o,ko){
       (showRound?'<div class="rd">ROUND '+round+'</div>':'')+
       champLine+
       '<div class="story">'+story+'</div>'+
-      '<div class="cartel">CARTEL <b>'+F.w+'-'+F.l+'-'+F.d+'</b> &nbsp;•&nbsp; OVR <b>'+F.ovr+'</b></div>'+
+      '<div class="cartel">CARTEL <b>'+F.w+'-'+F.l+'-'+F.d+((F.nc||0)>0?' ('+F.nc+'NC)':'')+'</b> &nbsp;•&nbsp; OVR <b>'+F.ovr+'</b></div>'+
       (F.lastEarn?'<div class="earn">GANHOS: '+fmtMoney(F.lastEarn.total)+'<small>show '+fmtMoney(F.lastEarn.show)+(F.lastEarn.win?' + win '+fmtMoney(F.lastEarn.win):'')+' + venum '+fmtMoney(F.lastEarn.venum)+(F.lastEarn.bonus?' + bônus $50k':'')+(F.lastEarn.ppv?' + PPV '+fmtMoney(F.lastEarn.ppv):'')+'</small><span class="wallet">Carteira: '+fmtMoney(F.money)+'</span></div>':'')+
       ((F.tp||0)>0?'<button class="btn gold" onclick="openTreino()">🥋 TREINAR (+'+F.tp+' pts)</button>':'')+
       '<button class="btn gold" onclick="exportCard()">⬇️ BAIXAR CARD (PNG)</button>'+
       '<button class="btn ghost sm" onclick="shareCard()">📲 Copiar cartel (texto)</button>'+
-      (F.pendingOffer?'<button class="btn gold" onclick="openContractOffer()">📝 ESCOLHER CONTRATO ▸</button>':'<button class="btn" onclick="nextFight()">PRÓXIMA LUTA &#9656;</button>')+
+      (F.retired?'<button class="btn gold" onclick="showRetirement()">🏁 ENCERRAR CARREIRA ▸</button>':(F.injuryPending?'<button class="btn gold" onclick="openInjury()">🏥 TRATAR LESÃO ▸</button>':(F.pendingOffer?'<button class="btn gold" onclick="openContractOffer()">📝 ESCOLHER CONTRATO ▸</button>':'<button class="btn" onclick="nextFight()">PRÓXIMA LUTA &#9656;</button>')))+
     '</div>';
 }
 
@@ -1040,11 +1120,11 @@ function exportCard(){
 
 /* ===== PROGRESSÃO, CONTRATOS E DINHEIRO (mapeado no UFC real) ===== */
 var STYLE_START={
- "Jiu-jitsu":[42,44,56,50,48,44],
- "Muay Thai":[52,54,42,50,50,50],
- "Boxe":[56,58,40,48,52,48],
- "Wrestling":[48,44,56,52,48,46],
- "Trocador":[58,48,40,46,44,56]
+ "Jiu-jitsu":[42,46,44,50,58,52,48,54,44,54],
+ "Muay Thai":[52,50,54,50,42,52,50,50,50,50],
+ "Boxe":[56,54,58,56,40,50,52,50,48,50],
+ "Wrestling":[48,48,44,50,58,54,48,52,46,52],
+ "Trocador":[58,52,48,42,40,48,44,44,56,56]
 };
 var CONTRACTS=[
  {name:"Estreante",show:12000,win:12000,ppv:false},
@@ -1072,11 +1152,19 @@ function startCareer(){
 function initFighterAttrs(){
   var b=STYLE_START[F.style]||STYLE_START["Trocador"];
   ATTRS.forEach(function(a,i){F.attrs[a.key]=b[i];});
-  F.carisma=40;recalcOvr();
+  F.carisma=40;
+  F.potential=rnd(80,99);
+  F.durability=rnd(58,99);
+  F.primePeak=rnd(28,33);
+  F.primeStart=F.primePeak-rnd(3,5);
+  F.learnRate=0.85+Math.random()*0.5;
+  F.age=rnd(19,22);
+  F.traits=rollTraits();
+  recalcOvr();
 }
 function autoImprove(){
-  var lo=null;for(var i=0;i<ATTRS.length;i++){var k=ATTRS[i].key;if(F.attrs[k]<99&&(lo===null||F.attrs[k]<F.attrs[lo]))lo=k;}
-  if(lo){F.attrs[lo]=Math.min(99,F.attrs[lo]+1);recalcOvr();}
+  var cap=F.potential||99,lo=null;for(var i=0;i<ATTRS.length;i++){var k=ATTRS[i].key;if(F.attrs[k]<cap&&(lo===null||F.attrs[k]<F.attrs[lo]))lo=k;}
+  if(lo){F.attrs[lo]=Math.min(cap,F.attrs[lo]+1);recalcOvr();}
 }
 function enterRankings(){RANK=RANK.filter(notYou);RANK.splice(14,0,{you:true});DIVSTATE[curDivName].rank=RANK.slice(0,15);RANK=DIVSTATE[curDivName].rank;}
 function setContract(){
@@ -1091,7 +1179,7 @@ function venumPay(n){return n<=3?4000:n<=5?4500:n<=10?6000:n<=15?11000:(F.champi
 function payFight(won,kind,title){
   var c=F.contract||{show:600,win:600,ppv:false},liga=(F.stage2==='liga');
   var show=c.show,winb=won?Math.round(c.win*(F.winMult||1)):0,venum=liga?venumPay((F.w||0)+(F.l||0)+(F.d||0)):0,bonus=0,ppv=0,notes=[];
-  if(liga&&won&&(kind==='ko'||kind==='sub')&&Math.random()<(0.3+(F.carisma||40)/300)){bonus+=50000;notes.push('Performance da Noite');}
+  if(liga&&won&&(kind==='ko'||kind==='sub'||kind==='tko')&&Math.random()<(0.3+(F.carisma||40)/300)){bonus+=50000;notes.push('Performance da Noite');}
   if(liga&&(title||F.champion)&&(c.ppv||F.ppvDeal)){ppv=Math.round((F.carisma||40)*1500*(F.champion?1.4:1));notes.push('Pontos de PPV');}
   var total=show+winb+venum+bonus+ppv;
   F.money=(F.money||0)+total;F.careerEarn=(F.careerEarn||0)+total;
@@ -1099,19 +1187,19 @@ function payFight(won,kind,title){
 }
 function openTreino(){
   var pts=F.tp||0;
-  var icons={poder:'💥',precisao:'🎯',chao:'🤼',cardio:'🫁',queixo:'🪨',agressao:'😤',carisma:'⭐'};
+  var icons={poder:'💥',velocidade:'⚡',precisao:'🎯',defesa:'🛡️',chao:'🤼',cardio:'🫁',queixo:'🪨',fightIQ:'🧠',agressao:'😤',coracao:'❤️',carisma:'⭐'};
   var h='<div class="ladder-h">🥋 CENTRO DE TREINO <button class="lx" onclick="closeLadder()">✕</button></div>';
   h+='<div class="trn-hero"><div class="trn-cell"><b class="g">'+pts+'</b><span>PONTOS</span></div><div class="trn-cell"><b>'+F.ovr+'</b><span>OVERALL</span></div></div>';
-  h+='<div class="trn-note">'+(pts>0?'Distribua seus pontos e evolua o lutador ↓':'Vença lutas pra ganhar pontos. Nocaute, finalização e título rendem mais.')+'</div>';
+  h+='<div class="trn-note">'+(pts>0?'Distribua seus pontos ↓ · Teto de potencial: '+(F.potential||99):'Vença lutas pra ganhar pontos. Teto de potencial: '+(F.potential||99))+'</div>';
   var list=ATTRS.concat([{key:'carisma',label:'Carisma',fame:true}]);
   h+='<div class="trn-list">';
-  for(var i=0;i<list.length;i++){var a=list[i];var v=a.fame?(F.carisma||40):F.attrs[a.key];var can=(pts>0&&v<99);
+  for(var i=0;i<list.length;i++){var a=list[i];var v=a.fame?(F.carisma||40):F.attrs[a.key];var can=(pts>0&&v<(a.fame?99:(F.potential||99)));
     if(a.fame)h+='<div class="trn-sec">FAMA & MARKETING</div>';
     h+='<div class="trn-row"><span class="trn-ico">'+(icons[a.key]||'•')+'</span><div class="trn-mid"><div class="trn-top"><span>'+a.label+'</span><b>'+v+'</b></div><div class="trn-bar"><i style="width:'+v+'%"></i></div></div><button class="trn-plus'+(can?'':' off')+'" onclick="spendTP(\''+a.key+'\')">+</button></div>';}
   h+='</div>';
   showOverlay(h);
 }
-function spendTP(key){if((F.tp||0)<=0)return;var v=key==='carisma'?(F.carisma||40):F.attrs[key];if(v>=99)return;if(key==='carisma')F.carisma=v+1;else{F.attrs[key]=v+1;recalcOvr();}F.tp--;renderFicha();renderStages();openTreino();}
+function spendTP(key){if((F.tp||0)<=0)return;var v=key==='carisma'?(F.carisma||40):F.attrs[key];var cap=key==='carisma'?99:(F.potential||99);if(v>=cap)return;if(key==='carisma')F.carisma=v+1;else{F.attrs[key]=v+1;recalcOvr();}F.tp--;renderFicha();renderStages();openTreino();}
 function openCarteira(){
   var c=F.contract||{name:'-',show:0,win:0};
   var h='<div class="ladder-h">CARTEIRA & LOJA <button class="lx" onclick="closeLadder()">✕</button></div>';
@@ -1120,11 +1208,12 @@ function openCarteira(){
   h+='<div class="goat-sec">LOJA — INVISTA NA CARREIRA</div>';
   for(var i=0;i<SHOP.length;i++){var it=SHOP[i];var owned=(F.bought&&F.bought[it.id])||0;var can=(F.money>=it.cost&&owned<it.max);
     h+='<div class="gbench"><div class="gl">'+it.name+' <small>'+it.desc+(owned?' · '+owned+'/'+it.max:'')+'</small></div>'+(owned>=it.max?'<span class="gv" style="color:var(--dim)">máx</span>':'<button class="mvbtn" style="'+(can?'':'opacity:.4')+'" onclick="buyItem(\''+it.id+'\')">'+fmtMoney(it.cost)+'</button>')+'</div>';}
+  h+='<div class="goat-sec">CARREIRA</div><div style="padding:6px 16px 16px"><button class="btn ghost sm" style="border-color:var(--red);color:var(--red2)" onclick="retireNow()">🏁 Pendurar as luvas (aposentar agora)</button></div>';
   showOverlay(h);
 }
 function buyItem(id){var it=null;for(var i=0;i<SHOP.length;i++)if(SHOP[i].id===id)it=SHOP[i];if(!it)return;var owned=(F.bought&&F.bought[id])||0;if(owned>=it.max||(F.money||0)<it.cost){toast('Sem dinheiro ou no limite');return;}
   F.money-=it.cost;F.bought=F.bought||{};F.bought[id]=owned+1;
-  if(it.id==='camp')F.campBonus=(F.campBonus||0)+1;else if(it.attr)F.attrs[it.attr]=Math.min(99,F.attrs[it.attr]+it.amt);else if(it.carisma)F.carisma=Math.min(99,(F.carisma||40)+it.carisma);
+  if(it.id==='camp')F.campBonus=(F.campBonus||0)+1;else if(it.attr)F.attrs[it.attr]=Math.min(F.potential||99,F.attrs[it.attr]+it.amt);else if(it.carisma)F.carisma=Math.min(99,(F.carisma||40)+it.carisma);
   recalcOvr();renderFicha();renderStages();openCarteira();toast(it.name+' comprado!');
 }
 var FRAMES={idle:["........................................","..................KKKKKK................",".................KHHHHHHK...............","................KHHHHHHHHK..............","...............KHHHHHHHHHHK.............","...............KHHHHHHHHHHK.............","...............KHHHHHHHsHHKK............","...............KHGHHHHHHHGGGKK..........","..............KGGGGGHHHGGGGGGGK.........",".............KGGGGGGGSSGGGGGGGK.........",".............KGGGGGGGSGGGGGGGGGK........","............KGGGGGGGGGGGGGGGGGGK........",".............KGGGGGGGSGGGGGGGGGK........",".............KGGGGGGGSSGGGGGGGK.........","..............KgggggSSSgggggggK.........","............KKSSSgSSSSSSKgggSSK.........","...........KSSSSSSSSSSSSSSSSSSSK........","...........KSSSSSSSSSSSSSSSSSSSK........","...........KSSSSSSSSSSSSSSSSSSSK........","...........KSSSSSSSSSSSSSSSSSSSSK.......","...........KSSSSSSSSsSSSSSSSSSSSK.......","...........KSSSSSSSSSSSSSSSSSSSSK.......","...........KSSSSSSSSSSSSSsSSSSSSSK......","..........KSSSSSSSSSsSSSSSSSSSSSSK......","..........KSSSSSSSSSSSSSSSSKSSSSSK......","..........KSSSSSSSSSSSSSSSSKSSSSSK......","...........KSSSsSSSSsSSSSSSKKSSSK.......","............KKSsSSSSSSSSSSSK.KKK........","..............KSsSSSSSSSSSK.............","..............KSsSSSsSSSSSK.............","............KKKSsSSSSSSSSSKKK...........","...........KTWWSSSSSSSSSSSWWWK..........","...........KTWWWWWWWWWWWWWWWWK..........","............KTTTTTTTTTTTTTTKK...........","............KTTTTTTTTTTTTTTK............","............KTTTTTTTTTTTTTTK............","............KTTTTTTTTTTTTTTK............","............KttttttttttttttK............","............KttttttttttttttK............",".............KtttttttttttttK............",".............KttttttttttttSK............","............KSSSSSSKKKSSSSSSK...........","............KSSSSSSK.KSSSSSSK...........","...........KSSSSSSK...KSSSSSSK..........","...........KSSSSSSK...KSSSSSSK..........","...........KSSSSSK.....KSSSSSSK.........","..........KSSSSSSK.....KSSSSSSK.........","..........KSSSSSK......KSSSSSSK.........","..........KSSSSSK.......KSSSSSK.........","..........KSSSSSK.......KSSSSSSK........","..........KSSSSK.........KSSSSSK........","..........KSSSSK.........KSSSSSK........",".........KSSSSSK.........KSSSSSSK.......",".........KSSSSSK..........KSSSSSK.......","........KBBBBBBK..........KBBBBBBK......","........KBBBBBBK..........KBBBBBBK......","........KBBBBBBBK.........KBBBBBBBK.....","........KBBBBBBBK.........KBBBBBBBK....."],punch:["........................................","..................KKKKKK................",".................KHHHHHHK...............","................KHHHHHHHHK..............","...............KHHHHHHHHHHK.............","...............KHHHHHHHHHHK.............","...............KHHHHHHHsHHK.............","...............KHHGHHHHHHHK.............","...............KGGGGGHHEKHK.............","..............KGGGGGGGSSSSK.............","..............KGGGGGGGSSSSK.............",".............KGGGGGGGGGSSSK.............","..............KGGGGGGGSSSK..............","..............KGGGGGGGSSK...............","..............KKgggggSSSK.KKKK......KKK.","............KKSSSSgSSSSSKKSSSSKKK.KKgggK","...........KSSSSSSSSSSSSSSSSSSSSSKgggggg","...........KSSSSSSSSSSSSSSSSSSSSSSgggggg","...........KSSSSSSSSSSSSSSSSSSSSSggggggg","............KSSSSSSSSSSSSSSSSSSSSggggggg","............KSSSSSSSsSSSSSSSKSSSSggggggg","............KSSSSSSSSSSSSSSSKKKKSSgggggg","...........KSSSSSSSSSSSSSsSSK...KKGGGGGG","...........KSSSSSSSSsSSSSSSSK.....KKGGGK","...........KSSSSSSSSSSSSSSSK........KKK.","...........KSSSSSSSSSSSSSSSK............","............KSSSSSSSsSSSSSSK............",".............KSsSSSSSSSSSSSK............","..............KSsSSSSSSSSSK.............","..............KSsSSSsSSSSSK.............","............KKKSsSSSSSSSSSKKK...........","...........KTWWSSSSSSSSSSSWWWK..........","...........KTWWWWWWWWWWWWWWWWK..........","............KTTTTTTTTTTTTTTKK...........","............KTTTTTTTTTTTTTTK............","............KTTTTTTTTTTTTTTK............","............KTTTTTTTTTTTTTTK............","............KttttttttttttttK............","............KttttttttttttttK............",".............KtttttttttttttK............",".............KttttttttttttSK............","............KSSSSSSKKKSSSSSSK...........","............KSSSSSSK.KSSSSSSK...........","...........KSSSSSSK...KSSSSSSK..........","...........KSSSSSSK...KSSSSSSK..........","...........KSSSSSK.....KSSSSSSK.........","..........KSSSSSSK.....KSSSSSSK.........","..........KSSSSSK......KSSSSSSK.........","..........KSSSSSK.......KSSSSSK.........","..........KSSSSSK.......KSSSSSSK........","..........KSSSSK.........KSSSSSK........","..........KSSSSK.........KSSSSSK........",".........KSSSSSK.........KSSSSSSK.......",".........KSSSSSK..........KSSSSSK.......","........KBBBBBBK..........KBBBBBBK......","........KBBBBBBK..........KBBBBBBK......","........KBBBBBBBK.........KBBBBBBBK.....","........KBBBBBBBK.........KBBBBBBBK....."],hit:["........................................","..................KKKKKK................",".................KHHHHHHK...............","................KHHHHHHHHK..............","...............KHHHHHHHHHHK.............","...............KHHHHHHHHHHK.............","...............KHHHHHHHsHHK.............","...............KHHHHHHHHHHK.............","...............KHHHHHHHEKHK.............","..............KKGSSSSSSSSSKKKK..........",".............KGGGGGSSSSSSSKGGGKK........","............KGGGGGGGSSsSSGGGGGGGK.......","............KGGGGGGGSSSSSGGGGGGGK.......","...........KGGGGGGGGGSSSGGGGGGGGGK......","............KgggggggSSSSgggggggggK......","............KgggggggSSSSgggggggggK......","...........KSSgggggSSSSSSgggggggK.......","...........KSSSSgSSSSSSSSgggggggK.......","...........KSSSSSSSSSSSSSSSgggSSK.......","............KSSSSSSSSSSSSSSSSSSSK.......","...........KSSSSSSSSsSSSSSSSSSSSK.......","...........KSSSSSSSSSSSSSSSSSSSSK.......","...........KSSSSSSSSSSSSSsSSSSSSK.......","...........KSSSSSSSSsSSSSSSSSSSSSK......","..........KSSSSSSSSSSSSSSSSSSSSSSK......","..........KSSSSSSSSSSSSSSSSKSSSSSK......","..........KSSSSSSSSSsSSSSSSKSSSSSK......","...........KSSSsSSSSSSSSSSSKKSSSK.......","............KKKSsSSSSSSSSSK..KKK........","..............KSsSSSsSSSSSK.............","............KKKSsSSSSSSSSSKKK...........","...........KTWWSSSSSSSSSSSWWWK..........","...........KTWWWWWWWWWWWWWWWWK..........","............KTTTTTTTTTTTTTTKK...........","............KTTTTTTTTTTTTTTK............","............KTTTTTTTTTTTTTTK............","............KTTTTTTTTTTTTTTK............","............KttttttttttttttK............","............KttttttttttttttK............",".............KtttttttttttttK............",".............KttttttttttttSK............","............KSSSSSSKKKSSSSSSK...........","............KSSSSSSK.KSSSSSSK...........","...........KSSSSSSK...KSSSSSSK..........","...........KSSSSSSK...KSSSSSSK..........","...........KSSSSSK.....KSSSSSSK.........","..........KSSSSSSK.....KSSSSSSK.........","..........KSSSSSK......KSSSSSSK.........","..........KSSSSSK.......KSSSSSK.........","..........KSSSSSK.......KSSSSSSK........","..........KSSSSK.........KSSSSSK........","..........KSSSSK.........KSSSSSK........",".........KSSSSSK.........KSSSSSSK.......",".........KSSSSSK..........KSSSSSK.......","........KBBBBBBK..........KBBBBBBK......","........KBBBBBBK..........KBBBBBBK......","........KBBBBBBBK.........KBBBBBBBK.....","........KBBBBBBBK.........KBBBBBBBK....."]};
@@ -1172,6 +1261,160 @@ function chooseOffer(to,i){
   closeLadder();toast('Contrato assinado: '+o.name+' (+'+fmtMoney(o.bonus)+')');
   renderStages();renderFicha();nextFight();
 }
+/* ===== MATCHMAKING, RANKING NAO-LINEAR E ECOSSISTEMA ===== */
+function stepUp(streak){
+  var r=Math.random(),s;
+  if(r<0.40)s=1;else if(r<0.70)s=2;else if(r<0.88)s=3;else if(r<0.96)s=4;else s=5;
+  if(streak>=3)s+=rnd(0,2);
+  return s;
+}
+function climbToSmart(ref,dominant){
+  RANK=RANK.filter(notYou);
+  var idx=RANK.indexOf(ref);if(idx<0)idx=RANK.length;
+  var jump=dominant?rnd(0,2):rnd(0,1);
+  idx=Math.max(0,idx-jump);
+  RANK.splice(idx,0,{you:true});
+  DIVSTATE[curDivName].rank=RANK.slice(0,15);RANK=DIVSTATE[curDivName].rank;
+}
+function lossDrop(ref,kind,close){
+  var pi=playerIdx();if(pi<0)return false;
+  var oi=RANK.indexOf(ref),moved=false;
+  if(oi>pi){RANK.splice(oi,1);RANK.splice(pi,0,ref);moved=true;pi=playerIdx();}
+  var drop=close?0:((kind==='ko'||kind==='sub')?rnd(2,4):rnd(1,2));
+  if(drop>0&&pi>=0){var np=Math.min(RANK.length-1,pi+drop);var me=RANK.splice(pi,1)[0];RANK.splice(np,0,me);moved=true;}
+  return moved;
+}
+function npcBout(a,b){return (a.ovr*(0.7+Math.random()*0.6))>=(b.ovr*(0.7+Math.random()*0.6))?a:b;}
+function shuffleDivision(name,rounds,champTurn){
+  if(!DIVSTATE[name])genDivision(name);
+  var R=DIVSTATE[name].rank;
+  var pIdx=(name===curDivName)?playerIdx():-1;
+  for(var n=0;n<rounds;n++){
+    var i=Math.floor(Math.random()*R.length);
+    var j=Math.min(R.length-1,i+1+Math.floor(Math.random()*3));
+    if(i===j)continue;
+    if(pIdx>=0 && i<=pIdx && pIdx<=j)continue;
+    var hi=R[i],lo=R[j];
+    if(!hi||!lo||hi.you||lo.you||hi.ovr==null||lo.ovr==null)continue;
+    if(npcBout(hi,lo)===lo){lo.rec[0]++;hi.rec[1]++;R.splice(j,1);R.splice(i,0,lo);}
+    else{hi.rec[0]++;lo.rec[1]++;}
+  }
+  if(champTurn && !(F.champion&&name===curDivName) && Math.random()<0.16){
+    var ch=DIVSTATE[name].champ,c1=R[0];
+    if(ch&&c1&&!c1.you&&c1.ovr!=null){
+      if(npcBout(ch,c1)===c1){c1.rec[0]++;ch.rec[1]++;DIVSTATE[name].champ=c1;R.splice(0,1,ch);}
+      else{ch.rec[0]++;c1.rec[1]++;}
+    }
+  }
+}
+function simEcosystem(){
+  shuffleDivision(curDivName,3,true);
+  var others=[];for(var i=0;i<DIVS.length;i++)if(DIVS[i].name!==curDivName)others.push(DIVS[i].name);
+  for(var k=0;k<2;k++)shuffleDivision(others[Math.floor(Math.random()*others.length)],2,true);
+}
+/* ===== FASE 1: DNA, IDADE, DECLÍNIO E APOSENTADORIA ===== */
+function advanceTime(kind,won){
+  F.fightCount=(F.fightCount||0)+1;
+  var w=1; if(kind==='ko'||kind==='sub'){w+=won?1:3;} else if(kind==='dec'){w+=1;}
+  F.wear=(F.wear||0)+w;
+  if(F.fightCount%3===0){F.age=(F.age||22)+1;applyAging();}
+  if(F.ovr>(F.bestOvr||0))F.bestOvr=F.ovr;
+}
+function applyAging(){
+  var past=(F.age||22)-(F.primePeak||30);
+  if(past<=0)return;
+  var durFactor=1.4-(F.durability||70)/140;
+  var wearFactor=1+(F.wear||0)/120;
+  var dec=Math.max(1,Math.round(past*0.6*durFactor*wearFactor));
+  ['poder','velocidade','cardio','queixo'].forEach(function(k){if(F.attrs[k]!=null)F.attrs[k]=Math.max(40,F.attrs[k]-dec);});
+  ['precisao','chao','defesa','fightIQ'].forEach(function(k){if(F.attrs[k]!=null&&Math.random()<0.5)F.attrs[k]=Math.max(45,F.attrs[k]-1);});
+  if(F.attrs.agressao!=null)F.attrs.agressao=Math.max(45,F.attrs.agressao-Math.round(dec/2));
+  recalcOvr();
+}
+function checkRetire(){
+  if(F.retired)return false;
+  var soft=34+Math.round((F.durability||70)/25);
+  var over=(F.age||22)-soft;
+  if(over>0){
+    var p=Math.min(0.9,over*0.12+(F.wear||0)/300);
+    if(F.age>=44||F.wear>=110||Math.random()<p){F.retired=true;F.retireCause=(F.wear>=110?'desgaste':'idade');return true;}
+  }
+  return false;
+}
+function retireNow(){F.retired=true;F.retireCause='escolha';closeLadder();showRetirement();}
+function showRetirement(){
+  var L=legacyScore(),tier=goatTier(L),p4p=p4pRank(L),divs=F.divsEver?Object.keys(F.divsEver).length:0;
+  var ctxt={idade:'Aposentou pela idade',desgaste:'O corpo não aguentou mais o desgaste',escolha:'Pendurou as luvas no auge',lesao:'Encerrou a carreira por lesão'}[F.retireCause||'idade'];
+  document.getElementById("fight-area").innerHTML=
+   '<div class="result">'+
+     '<div class="banner">FIM DA CARREIRA</div>'+
+     '<div class="method '+(tier==='GOAT DO UFC'?'sub':(L>=460?'ko':'dec'))+' pop" style="font-size:40px">'+tier+'</div>'+
+     '<div class="rd">LEGADO '+L+' PTS · P4P '+(p4p?'#'+p4p:'—')+'</div>'+
+     '<div class="story">'+F.name.toUpperCase()+' "'+F.nick+'" — '+ctxt+' aos '+(F.age||30)+' anos.<br>Cartel final <b>'+F.w+'-'+F.l+'-'+F.d+'</b> · Melhor OVR <b>'+(F.bestOvr||F.ovr)+'</b></div>'+
+     gstat('Títulos conquistados',(F.titleWins||0))+gstat('Defesas de título',(F.titleDef||0))+gstat('Divisões que foi campeão',divs)+gstat('Nocautes/finalizações',(F.finishes||0))+gstat('Maior sequência',(F.bestStreak||0)+' vit.')+gstat('Ganhos na carreira',fmtMoney(F.careerEarn||0))+
+     '<button class="btn gold" onclick="exportCard()">📲 BAIXAR CARD</button>'+
+     '<button class="btn" onclick="location.reload()">🥊 NOVA CARREIRA ▸</button>'+
+   '</div>';
+}
+/* ===== FASE 2: LESÕES, TKO, NO CONTEST E RECUPERAÇÃO ===== */
+function rollInjury(kind,won,round){
+  if(F.retired)return;
+  var risk=0.05;
+  if(!won && (kind==='ko'||kind==='tko'))risk+=0.28;
+  if(kind==='sub'&&!won)risk+=0.05;
+  if(round>=3 && kind==='dec')risk+=0.06;
+  risk+=(100-(F.durability||70))/400;
+  risk+=(F.wear||0)/500+Math.max(0,(F.age||25)-32)*0.015;
+  if(F.reinjuryRisk)risk+=0.12;
+  F.reinjuryRisk=false;
+  if(hasTrait('vidro'))risk+=0.1;if(hasTrait('ferro'))risk*=0.5;
+  if(kind==='nc')risk*=0.5;
+  if(Math.random()>=risk)return;
+  var tipo=pick(['corte profundo','mão fraturada','joelho estourado','ombro deslocado','costela trincada','nariz quebrado','ligamento rompido']);
+  var rr=Math.random(),low=(F.durability||70)<70,oldw=((F.wear||0)>70||(F.age||25)>34);
+  var cataP=0.025+(low?0.03:0)+(oldw?0.05:0);
+  var sev; if(rr<cataP)sev='cata';else if(rr<cataP+0.16)sev='grave';else if(rr<cataP+0.48)sev='moderada';else sev='leve';
+  if(sev==='cata'){F.retired=true;F.retireCause='lesao';return;}
+  if(sev==='leve'){F.money=Math.max(0,(F.money||0)-5000);F.wear=(F.wear||0)+2;F._leveNote=true;return;}
+  F.injuryPending={sev:sev,tipo:tipo,meses:(sev==='grave'?rnd(6,12):rnd(3,6)),cost:(sev==='grave'?150000:40000),perm:(sev==='grave'?rnd(2,4):0)};
+}
+function hurtAttrs(pts){var ks=['poder','velocidade','cardio','queixo','chao','precisao','defesa','agressao'];for(var i=0;i<pts;i++){var k=ks[Math.floor(Math.random()*ks.length)];if(F.attrs[k]!=null)F.attrs[k]=Math.max(40,F.attrs[k]-1);}recalcOvr();}
+function openInjury(){
+  var inj=F.injuryPending;if(!inj){closeLadder();return;}
+  var full=inj.cost,early=Math.round(inj.cost*0.4),canFull=(F.money||0)>=full;
+  var h='<div class="ladder-h">🏥 SALA DE RECUPERAÇÃO <button class="lx" onclick="closeLadder()">✕</button></div>';
+  h+='<div style="padding:12px 16px;color:var(--dim);font-family:Oswald;font-size:12px">Você sofreu: <b style="color:#fff">'+inj.tipo+'</b> (lesão '+inj.sev+'). Escolha a recuperação:</div>';
+  h+='<div class="offer"><div class="of-top"><b>Curar 100%</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(full)+'</span></div><div class="of-terms">Layoff ~'+inj.meses+' meses · sem sequela'+(inj.perm?' (lesão grave ainda tira ~'+inj.perm+' de atributo)':'')+'</div><div class="of-note">Volta inteiro, mas perde mais tempo (envelhece mais).</div>'+(canFull?'<button class="btn gold sm" onclick="treatInjury(\'full\')">TRATAR ▸</button>':'<div class="of-note" style="color:var(--red2)">Sem grana pro tratamento completo</div>')+'</div>';
+  h+='<div class="offer"><div class="of-top"><b>Voltar cedo</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(early)+'</span></div><div class="of-terms">Layoff curto · sequela nos atributos + risco de reagravar</div><div class="of-note">Volta rápido, porém mais fraco e com chance maior de nova lesão.</div><button class="btn sm" onclick="treatInjury(\'early\')">VOLTAR CEDO ▸</button></div>';
+  showOverlay(h);
+}
+function treatInjury(mode){
+  var inj=F.injuryPending;if(!inj)return;
+  if(mode==='full'){F.money=Math.max(0,(F.money||0)-inj.cost);F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/6));if(inj.perm)hurtAttrs(inj.perm);}
+  else{F.money=Math.max(0,(F.money||0)-Math.round(inj.cost*0.4));F.age=(F.age||25)+Math.max(0,Math.round(inj.meses/12));hurtAttrs((inj.perm||0)+rnd(1,3));F.reinjuryRisk=true;}
+  F.wear=(F.wear||0)+3;F.injuryPending=null;applyAging();
+  closeLadder();renderStages();renderFicha();
+  if(checkRetire()){showRetirement();return;}
+  nextFight();
+}
+/* ===== FASE 4: ATRIBUTOS NOVOS + TRAÇOS ESPECIAIS ===== */
+var TRAITS=[
+ {id:'granito',name:'Queixo de Granito',good:1,desc:'Muito resistente a nocaute'},
+ {id:'nocauteador',name:'Nocauteador',good:1,desc:'Poder de acabar a luta do nada'},
+ {id:'maratonista',name:'Maratonista',good:1,desc:'Cardio infinito, forte no fim'},
+ {id:'finalizador',name:'Finalizador',good:1,desc:'Caça finalizações no chão'},
+ {id:'ferro',name:'Corpo de Ferro',good:1,desc:'Raramente se machuca'},
+ {id:'queridinho',name:'Queridinho da Torcida',good:1,desc:'Vende luta fácil (+carisma)'},
+ {id:'explosivo',name:'Explosivo',good:0,desc:'Voa no início, mas cansa'},
+ {id:'sangrador',name:'Sangrador',good:-1,desc:'Corta com facilidade'},
+ {id:'vidro',name:'Corpo de Vidro',good:-1,desc:'Lesiona com facilidade'},
+ {id:'lento',name:'Pé de Chumbo',good:-1,desc:'Reflexos mais lentos'}
+];
+function rollTraits(){var pool=TRAITS.slice(),out=[],nt=rnd(1,3);for(var i=0;i<nt&&pool.length;i++){var j=Math.floor(Math.random()*pool.length);out.push(pool[j].id);pool.splice(j,1);}return out;}
+function hasTrait(id){return F.traits&&F.traits.indexOf(id)>=0;}
+function traitName(id){for(var i=0;i<TRAITS.length;i++)if(TRAITS[i].id===id)return TRAITS[i];return null;}
+function heartMult(f){return f.hp<35?1+Math.max(0,((f.a.coracao||55)-55))/160:1;}
+function yTraitOut(r){var m=1;if(hasTrait('explosivo')){if(r<=1)m*=1.2;if(r>=3)m*=0.85;}if(hasTrait('lento'))m*=0.9;return m;}
 function shareCard(){
   var txt="🥊 "+F.name+" \""+F.nick+"\" — "+F.state+"\n⭐ OVR "+F.ovr+" • "+F.weight+" • Cartel "+F.w+"-"+F.l+"-"+F.d+(F.champion?" • 🏆 CAMPEÃO MUNDIAL":"")+"\nJoga SANGUE NO OCTÓGONO!";
   if(navigator.share){navigator.share({text:txt}).catch(function(){});}
