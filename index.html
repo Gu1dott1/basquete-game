@@ -571,16 +571,27 @@ var DIVS=[
  {name:"Meio-pesado",lbs:205,base:80},{name:"Pesado",lbs:265,base:81}
 ];
 var REAL_CHAMPS={"Mosca":"Joshua Van","Galo":"Petr Yan","Pena":"A. Volkanovski","Leve":"Justin Gaethje","Meio-médio":"Islam Makhachev","Médio":"Khamzat Chimaev","Meio-pesado":"Alex Pereira","Pesado":"Tom Aspinall"};
+var DIVROSTER={
+ "Mosca":{champ:"Joshua Van",list:["Alexandre Pantoja","Manel Kape","Tatsuro Taira","Brandon Royval","Kyoji Horiguchi","Lone'er Kavanagh","Amir Albazi","Asu Almabayev","Brandon Moreno","Alex Perez","Tim Elliott","Steve Erceg","Charles Johnson","Tagir Ulanbekov","Bruno Silva"]},
+ "Galo":{champ:"Petr Yan",list:["Merab Dvalishvili","Umar Nurmagomedov","Sean O'Malley","Cory Sandhagen","Song Yadong","Aiemann Zahabi","Deiveson Figueiredo","Mario Bautista","David Martinez","Marlon Vera","Payton Talbott","Vinicius Oliveira","Raul Rosas Jr.","Raoni Barcelos","Farid Basharat"]},
+ "Pena":{champ:"Alexander Volkanovski",list:["Movsar Evloev","Diego Lopes","Lerone Murphy","Aljamain Sterling","Yair Rodriguez","Jean Silva","Arnold Allen","Youssef Zalal","Steve Garcia","Kevin Vallejos","Brian Ortega","Melquizael Costa","Aaron Pico","David Onama","Patricio Pitbull"]},
+ "Leve":{champ:"Ilia Topuria",list:["Justin Gaethje","Arman Tsarukyan","Charles Oliveira","Max Holloway","Benoit Saint Denis","Paddy Pimblett","Mateusz Gamrot","Dan Hooker","Renato Moicano","Mauricio Ruffy","Rafael Fiziev","Beneil Dariush","Michael Chandler","Manuel Torres","Fares Ziam"]},
+ "Meio-médio":{champ:"Islam Makhachev",list:["Jack Della Maddalena","Ian Machado Garry","Michael Morales","Belal Muhammad","Carlos Prates","Sean Brady","Kamaru Usman","Leon Edwards","Joaquin Buckley","Gabriel Bonfim","Mike Malott","Uros Medic","Geoff Neal","Daniel Rodriguez","Yaroslav Amosov"]},
+ "Médio":{champ:"Khamzat Chimaev",list:["Dricus du Plessis","Nassourdine Imavov","Sean Strickland","Brendan Allen","Caio Borralho","Joe Pyfer","Anthony Hernandez","Reinier de Ridder","Israel Adesanya","Robert Whittaker","Jared Cannonier","Gregory Rodrigues","Christian Leroy Duncan","Paulo Costa","Roman Dolidze"]},
+ "Meio-pesado":{champ:"Carlos Ulberg",list:["Magomed Ankalaev","Alex Pereira","Jiri Prochazka","Jan Blachowicz","Khalil Rountree Jr.","Jamahal Hill","Azamat Murzakanov","Dominick Reyes","Bogdan Guskov","Volkan Oezdemir","Aleksandar Rakic","Nikita Krylov","Johnny Walker","Alonzo Menifield","Zhang Mingyang"]},
+ "Pesado":{champ:"Tom Aspinall",list:["Ciryl Gane","Alexander Volkov","Sergei Pavlovich","Waldo Cortes-Acosta","Josh Hokit","Serghei Spivac","Curtis Blaydes","Rizvan Kuniev","Derrick Lewis","Ante Delija","Tyrell Fortune","Marcin Tybura","Tallison Teixeira","Shamil Gaziev","Mick Parkin"]}
+};
+var P4P_REAL=["Islam Makhachev","Ilia Topuria","Khamzat Chimaev","Alexander Volkanovski","Alex Pereira","Petr Yan","Tom Aspinall","Merab Dvalishvili","Alexandre Pantoja","Joshua Van","Charles Oliveira","Dricus du Plessis","Arman Tsarukyan","Magomed Ankalaev","Carlos Ulberg"];
 var CONTENDERS=[["Bruno 'Pitbull'","🐶"],["Kaio 'Machado'","🪓"],["Rei 'Tigre'","🐯"],["Léo 'Pedreira'","🧱"],["Zé 'Martelo'","🔨"],["Vini 'Serpente'","🐍"],["Caio 'Trovão'","⚡"],["Rael 'Rocha'","🪨"],["Dener 'Fúria'","🔥"],["Igor 'Osso'","💀"],["Théo 'Touro'","🐂"],["Juan 'Lâmina'","🗡️"],["Davi 'Muralha'","🛡️"],["Enzo 'Cobra'","🦎"],["Naldo 'Bomba'","💣"],["Gui 'Falcão'","🦅"],["Rick 'Búfalo'","🐃"],["Marlon 'Punho'","👊"]];
 var DIVSTATE={},RANK=[],CHAMP=null,curDivName="Pena";
 function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1));}
 function divIndex(n){for(var i=0;i<DIVS.length;i++)if(DIVS[i].name===n)return i;return 2;}
 function genDivision(name){
   var base=DIVS[divIndex(name)].base;
-  var p=CONTENDERS.slice();for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}
-  var champ={name:(REAL_CHAMPS[name]||p[0][0]),emo:"🏆",ovr:Math.min(99,base+9+rnd(0,3)),rec:[rnd(20,27),rnd(0,2),0],real:!!REAL_CHAMPS[name]};
+  var R=DIVROSTER[name];
+  var champ={name:R.champ,emo:"🏆",ovr:Math.min(99,base+9+rnd(0,3)),rec:[rnd(20,27),rnd(0,2),0],real:true};
   var rank=[];
-  for(var k=0;k<15;k++){var ov=Math.max(68,Math.min(93,Math.round(base+6-k*1.0+rnd(-2,2))));rank.push({name:p[k+1][0],emo:p[k+1][1],ovr:ov,rec:[rnd(8,19),rnd(1,7),rnd(0,2)]});}
+  for(var k=0;k<15;k++){var ov=Math.max(68,Math.min(93,Math.round(base+6-k*1.0+rnd(-1,1))));rank.push({name:R.list[k],emo:"🥊",ovr:ov,rec:[rnd(8,19),rnd(1,7),rnd(0,2)]});}
   DIVSTATE[name]={champ:champ,rank:rank};
 }
 function setDivision(name){
@@ -659,6 +670,8 @@ function openGoat(){
   h+=gstat('Cartel',F.w+'-'+F.l+'-'+F.d)+gstat('Nocautes/finalizações',(F.finishes||0))+gstat('Cinturões atuais',belts+(belts>=2?' — CHAMP-CHAMP!':''))+gstat('Divisões conquistadas',divs)+gstat('Defesas de título',(F.titleDef||0))+gstat('Títulos ganhos',(F.titleWins||0))+gstat('Maior sequência',(F.bestStreak||0)+' vit.');
   h+='<div class="goat-sec">RECORDES DO UFC REAL — SUAS METAS</div>';
   h+=gbench('Mais defesas de título','16 — A. Silva / Makhachev',(F.titleDef||0))+gbench('Mais vitórias','16 — Jon Jones',F.w)+gbench('Campeão em 2+ divisões','GSP · Conor · Pereira',belts>=2?'✔':(belts+'/2'));
+  h+='<div class="goat-sec">POUND-FOR-POUND — RANKING REAL (UFC)</div>';
+  for(var pi=0;pi<P4P_REAL.length;pi++){h+='<div class="lrow"><span class="lr">'+(pi+1)+'</span><span class="ln">'+P4P_REAL[pi].toUpperCase()+'</span><span class="lov" style="font-size:11px;color:var(--dim)">P4P</span></div>';}
   showOverlay(h);
 }
 
