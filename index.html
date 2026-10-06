@@ -348,6 +348,47 @@
   .trait{font-family:'Barlow Condensed';font-weight:700;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--dim)}
   .trait.g{border-color:#2f7d4a;color:#5fd48a;background:rgba(47,125,74,.12)}
   .trait.b{border-color:#8a2b2b;color:#ff6b6b;background:rgba(138,43,43,.12)}
+  /* ===== etapa 2: estilos, scouting, plano de jogo, luta ===== */
+  .trow .adv{font-weight:800;text-shadow:0 0 10px currentColor}
+  .trow .rv:not(.adv),.trow .bv:not(.adv){opacity:.72}
+  .stytag{display:inline-block;margin-top:5px;font-family:'Barlow Condensed';font-weight:800;font-size:9px;letter-spacing:1px;color:var(--gold2);background:rgba(255,190,18,.08);border:1px solid rgba(255,190,18,.3);border-radius:10px;padding:2px 7px}
+  .scout{margin-top:12px;background:var(--panel2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+  .scout-h,.gp-h,.rmini-h{font-family:'Barlow Condensed';font-weight:800;letter-spacing:2px;color:var(--gold);font-size:12px;padding:10px 12px 6px}
+  .scout-notes{padding:0 12px 10px;font-family:'Oswald';font-weight:300;font-size:13px;color:#dcdce3;line-height:1.5}
+  .scout-notes b{color:#fff;font-weight:600}
+  .scout-attrs summary,.fstats summary{cursor:pointer;font-family:'Barlow Condensed';font-weight:800;letter-spacing:1.5px;font-size:12px;color:var(--dim);padding:9px 12px;border-top:1px solid var(--line);list-style:none;text-transform:uppercase}
+  .scout-attrs summary::-webkit-details-marker,.fstats summary::-webkit-details-marker{display:none}
+  .scout-attrs summary::before,.fstats summary::before{content:'▸ ';color:var(--gold)}
+  .scout-attrs[open] summary::before,.fstats[open] summary::before{content:'▾ '}
+  .gp{margin-top:12px}
+  .gp-h{padding-left:2px}
+  .cbtn{position:relative}
+  .cbtn.sug{border-color:rgba(255,190,18,.55)}
+  .cbtn.cur{border-color:var(--red2);background:linear-gradient(180deg,rgba(226,9,28,.22),#140b0e);box-shadow:0 0 0 1px var(--red2) inset}
+  .cbtn .star{position:absolute;top:-8px;right:8px;font-style:normal;font-family:'Barlow Condensed';font-weight:800;font-size:8px;letter-spacing:1px;color:#231800;background:linear-gradient(180deg,var(--gold2),var(--gold));padding:2px 6px;border-radius:2px}
+  .planline{text-align:center;font-family:'Barlow Condensed';font-weight:800;font-size:13px;letter-spacing:.5px;color:#e8e8ee;margin:2px 0 8px}
+  .planline span{color:var(--dim);font-weight:600;margin:0 6px}
+  .fbtop{gap:6px}
+  .fbtop b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .fchips i{font-style:normal;font-size:12px;margin-left:2px}
+  .stbar{height:4px}
+  .ringtag{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:3;font-family:'Barlow Condensed';font-weight:800;font-size:11px;letter-spacing:1.5px;color:var(--gold2);background:rgba(0,0,0,.55);border-radius:10px;padding:0 10px;white-space:nowrap;line-height:22px}
+  .ringtag:empty{display:none}
+  .ring.grounded .fighter.you{transform:translate(34px,24px) rotate(-14deg) scale(.9)}
+  .ring.grounded .fighter.opp{transform:scaleX(-1) translate(34px,24px) rotate(-14deg) scale(.9)}
+  .fighter.you.kd{animation:kdY .9s ease}
+  .fighter.opp.kd{animation:kdO .9s ease}
+  @keyframes kdY{0%,100%{transform:none}30%,65%{transform:translateY(34px) rotate(-70deg);opacity:.75}}
+  @keyframes kdO{0%,100%{transform:scaleX(-1)}30%,65%{transform:scaleX(-1) translateY(34px) rotate(-70deg);opacity:.75}}
+  .rmini{background:var(--panel2);border:1px solid var(--line);border-radius:4px;margin:0 0 10px;overflow:hidden}
+  .rmini .trow>div{padding:5px 10px}
+  .fstats{margin:12px 0 4px;background:var(--panel2);border:1px solid var(--line);border-radius:5px;overflow:hidden;text-align:left}
+  .fstats summary{border-top:none;text-align:center}
+  .lsty{font-style:normal;margin-right:6px;font-size:12px}
+  .trn-top span small{display:block;font-family:'Oswald';font-weight:300;font-size:10px;letter-spacing:0;text-transform:none;color:var(--dim);margin-top:1px}
+  .trn-plus{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:.9}
+  .trn-plus small{font-family:'Barlow Condensed';font-weight:800;font-size:8px;letter-spacing:.5px;margin-top:1px}
+  .trn-hero .trn-cell b{font-size:30px}
   @media(min-width:880px){
     .app{max-width:1020px}
     #scr-create,#scr-continue{max-width:470px;margin-left:auto;margin-right:auto}
@@ -447,7 +488,7 @@ function buildChips(id,arr,field){
 
 function recalcOvr(){var s=0;ATTRS.forEach(function(a){s+=F.attrs[a.key]});F.ovr=Math.round(s/ATTRS.length);}
 
-function goCard(){F.w=0;F.l=0;F.d=0;F.belts={};F.divsEver={};F.hist=[];F.h2h={};F.streak=0;F.bestStreak=0;F.finishes=0;F.titleWins=0;F.titleDef=0;F.lastLossTo=null;F.money=1500;F.careerEarn=0;F.tp=0;F.campBonus=0;F.bought={};F.unrankedWins=0;F.tierIdx=-1;F.stage2="varzea";F.circuitWins=0;F.winMult=1;F.ppvDeal=false;F.pendingOffer=null;F.superFight=false;F.debutStrength=null;F.wear=0;F.fightCount=0;F.retired=false;F.retireCause=null;F.bestOvr=F.ovr||0;F.nc=0;F.injuryPending=null;F.reinjuryRisk=false;F.maxBelts=0;F.beltIdle={};F.contract={name:"Várzea",show:600,win:600,ppv:false};if(F.carisma==null)F.carisma=40;setDivision(F.weight);show("scr-game");renderStages();renderFicha();nextFight();}
+function goCard(){F.w=0;F.l=0;F.d=0;F.belts={};F.divsEver={};F.hist=[];F.h2h={};F.streak=0;F.bestStreak=0;F.finishes=0;F.titleWins=0;F.titleDef=0;F.lastLossTo=null;F.money=1500;F.careerEarn=0;F.tp=0;F.campBonus=0;F.bought={};F.unrankedWins=0;F.tierIdx=-1;F.stage2="varzea";F.circuitWins=0;F.winMult=1;F.ppvDeal=false;F.pendingOffer=null;F.superFight=false;F.debutStrength=null;F.wear=0;F.fightCount=0;F.retired=false;F.retireCause=null;F.bestOvr=F.ovr||0;F.nc=0;F.injuryPending=null;F.reinjuryRisk=false;F.maxBelts=0;F.beltIdle={};F.cs={};F.contract={name:"Várzea",show:600,win:600,ppv:false};if(F.carisma==null)F.carisma=40;setDivision(F.weight);show("scr-game");renderStages();renderFicha();nextFight();}
 function renderFicha(){
   var el=document.getElementById("ficha");
   var bars=ATTRS.map(function(a){
@@ -487,12 +528,14 @@ var CONTENDERS=[["Bruno 'Pitbull'","🐶"],["Kaio 'Machado'","🪓"],["Rei 'Tigr
 var DIVSTATE={},RANK=[],CHAMP=null,curDivName="Pena";
 function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1));}
 function divIndex(n){for(var i=0;i<DIVS.length;i++)if(DIVS[i].name===n)return i;return 2;}
+/* Escala do ranking: campeão ~84-87, #1 ~79 até #15 ~65. O OVR mostrado é o OVR real da luta. */
+function npcOvrForRank(k){return Math.round(79-k+rnd(-1,1));}
 function genDivision(name){
-  var base=DIVS[divIndex(name)].base;
   var R=DIVROSTER[name];
-  var champ={name:R.champ,emo:"🏆",ovr:Math.min(99,base+9+rnd(0,3)),rec:[rnd(20,27),rnd(0,2),0],real:true};
+  var cs=styleFor(R.champ),ca=genAttrs(84+rnd(0,3),cs,3);
+  var champ={name:R.champ,emo:"🏆",ovr:ovrOf(ca),rec:[rnd(20,27),rnd(0,2),0],real:true,sty:cs,a:ca};
   var rank=[];
-  for(var k=0;k<15;k++){var ov=Math.max(68,Math.min(93,Math.round(base+6-k*1.0+rnd(-1,1))));rank.push({name:R.list[k],emo:"🥊",ovr:ov,rec:[rnd(8,19),rnd(1,7),rnd(0,2)]});}
+  for(var k=0;k<15;k++){var sk=styleFor(R.list[k]),a=genAttrs(npcOvrForRank(k),sk,3);rank.push({name:R.list[k],emo:"🥊",ovr:ovrOf(a),rec:[rnd(8,19),rnd(1,7),rnd(0,2)],sty:sk,a:a});}
   DIVSTATE[name]={champ:champ,rank:rank};
 }
 function setDivision(name){
@@ -549,12 +592,13 @@ function p4pRank(L){return L<120?0:Math.max(1,Math.min(15,15-Math.floor((L-120)/
 function showOverlay(inner){var el=document.getElementById("ladder");if(!el)return;el.innerHTML='<div class="ladder-box">'+inner+'</div>';el.classList.remove("hidden");}
 function closeLadder(){var el=document.getElementById("ladder");if(el)el.classList.add("hidden");}
 function openLadder(){
-  var cN=F.champion?F.nick.toUpperCase()+' (VOCÊ)':CHAMP.name.toUpperCase();
+  ensureNPC(CHAMP);
+  var cN=F.champion?F.nick.toUpperCase()+' (VOCÊ)':'<i class="lsty" title="'+STY[CHAMP.sty].nome+'">'+STY[CHAMP.sty].ico+'</i>'+CHAMP.name.toUpperCase();
   var cO=F.champion?F.ovr:CHAMP.ovr,cR=F.champion?(F.w+'-'+F.l+'-'+F.d):rec(CHAMP);
   var h='<div class="ladder-h">RANKING — '+curDivName.toUpperCase()+' ('+DIVS[divIndex(curDivName)].lbs+' lb)<button class="lx" onclick="closeLadder()">✕</button></div>';
   h+='<div class="lrow champ"><span class="lr">🏆</span><span class="ln">'+cN+'</span><span class="lrec">'+cR+'</span><span class="lov">'+cO+'</span></div>';
-  for(var i=0;i<RANK.length;i++){var e=RANK[i],y=!!e.you;
-    h+='<div class="lrow'+(y?' me':'')+'"><span class="lr">'+(i+1)+'</span><span class="ln">'+(y?F.nick.toUpperCase()+' (VOCÊ)':e.name.toUpperCase())+'</span><span class="lrec">'+(y?(F.w+'-'+F.l+'-'+F.d):rec(e))+'</span><span class="lov">'+(y?F.ovr:e.ovr)+'</span></div>';}
+  for(var i=0;i<RANK.length;i++){var e=ensureNPC(RANK[i]),y=!!e.you;
+    h+='<div class="lrow'+(y?' me':'')+'"><span class="lr">'+(i+1)+'</span><span class="ln">'+(y?F.nick.toUpperCase()+' (VOCÊ)':'<i class="lsty" title="'+STY[e.sty].nome+'">'+STY[e.sty].ico+'</i>'+e.name.toUpperCase())+'</span><span class="lrec">'+(y?(F.w+'-'+F.l+'-'+F.d):rec(e))+'</span><span class="lov">'+(y?F.ovr:e.ovr)+'</span></div>';}
   if(!F.champion&&playerRank()>=16)h+='<div class="lrow me"><span class="lr">–</span><span class="ln">'+F.nick.toUpperCase()+' (VOCÊ)</span><span class="lrec">'+(F.w+'-'+F.l+'-'+F.d)+'</span><span class="lov">'+F.ovr+'</span></div>';
   showOverlay(h);
 }
@@ -605,6 +649,8 @@ function openGoat(){
   var h='<div class="ladder-h">LEGADO / GOAT <button class="lx" onclick="closeLadder()">✕</button></div>';
   h+='<div class="goat-hero"><div class="goat-tier">'+tier+'</div><div class="goat-score">'+L+'<small> pts de legado</small></div><div class="goat-p4p">POUND-FOR-POUND: '+(p4p?'#'+p4p:'fora do ranking')+'</div></div>';
   h+=gstat('Cartel',F.w+'-'+F.l+'-'+F.d)+gstat('Nocautes/finalizações',(F.finishes||0))+gstat('Cinturões atuais',belts?(heldBelts().join(' · ')+(belts>=2?' — CHAMP-CHAMP!':'')):'0')+gstat('Divisões conquistadas',divs)+gstat('Defesas de título',(F.titleDef||0))+gstat('Títulos ganhos',(F.titleWins||0))+gstat('Maior sequência',(F.bestStreak||0)+' vit.');
+  var cs=F.cs||{};
+  h+='<div class="goat-sec">NÚMEROS DA CARREIRA</div>'+gstat('Golpes significativos',(cs.ss||0)+' de '+(cs.sa||0))+gstat('Knockdowns aplicados',cs.kd||0)+gstat('Quedas',(cs.td||0)+' de '+(cs.tda||0))+gstat('Tempo de controle',fmtCtrl(cs.ctrl||0))+gstat('Tentativas de finalização',cs.sub||0);
   h+='<div class="goat-sec">RECORDES DO UFC REAL — SUAS METAS</div>';
   h+=gbench('Mais defesas de título','16 — A. Silva / Makhachev',(F.titleDef||0))+gbench('Mais vitórias','16 — Jon Jones',F.w)+gbench('Campeão em 2 divisões ao mesmo tempo','Conor · Cormier · Amanda Nunes',mb>=2?'✔':(mb+'/2'));
   h+='<div class="goat-sec">POUND-FOR-POUND — RANKING REAL (UFC)</div>';
@@ -631,7 +677,7 @@ function updateHUD(){
   document.getElementById("r-d").textContent=F.d;
   renderStages();
 }
-function rndStat(base){return Math.max(50,Math.min(99,base-6+Math.floor(Math.random()*12)));}
+function genOpp(name,emo,ov,rec){var sk=randStyle(),a=genAttrs(ov,sk,4);return {name:name,emo:emo,ovr:ovrOf(a),rec:rec,sty:sk,a:a};}
 function nextFight(){
   updateHUD();
   setContract();
@@ -641,8 +687,7 @@ function nextFight(){
     circuit=true;
     var pool=st2==='varzea'?VARZEA_NAMES:NAC_NAMES;
     var pl=pool[Math.floor(Math.random()*pool.length)];
-    var gap=st2==='varzea'?rnd(-5,1):rnd(-3,3);
-    opp={name:pl[0],emo:pl[1],ovr:Math.max(40,Math.min(99,F.ovr+gap)),rec:[rnd(2,9),rnd(0,5),0]};
+    opp=genOpp(pl[0],pl[1],clamp(F.ovr+(st2==='varzea'?rnd(-6,0):rnd(-3,3)),40,90),[rnd(2,9),rnd(0,5),0]);
     oppLabel=st2==='varzea'?'VÁRZEA':'NACIONAL';
   } else if(F.superFight){opp=CHAMP;titleFlag=true;oppLabel='CAMPEÃO';F.superFight=false;}
   else if(!F.champion && pr>=16){
@@ -651,7 +696,7 @@ function nextFight(){
     } else {
       prospect=true;
       var pc=CONTENDERS[Math.floor(Math.random()*CONTENDERS.length)];
-      opp={name:pc[0],emo:pc[1],ovr:Math.max(45,Math.min(90,F.ovr+rnd(-5,3))),rec:[rnd(3,10),rnd(0,4),0]};
+      opp=genOpp(pc[0],pc[1],clamp(F.ovr+rnd(-4,3),48,74),[rnd(3,10),rnd(0,4),0]);
       oppLabel='PROSPECTO';
     }
   } else if(F.champion){var i=Math.floor(Math.random()*Math.min(5,RANK.length));opp=RANK[i];titleFlag=true;oppLabel='#'+(i+1);}
@@ -663,12 +708,34 @@ function nextFight(){
     opp=RANK[ti];oppLabel='#'+(ti+1);
   }
   if(st2==='liga' && !titleFlag && !prospect && F.lastLossTo){var li=rankIndexByName(F.lastLossTo);if(li>=0 && Math.random()<0.35){opp=RANK[li];oppLabel='#'+(li+1);rematch=true;}F.lastLossTo=null;}
-  var _gap=circuit?0:(prospect?rnd(-8,0):(titleFlag?(F.champion?rnd(-2,8):rnd(3,11)):rnd(-2,7)));
-  var _mm=circuit?opp.ovr:Math.max(45,Math.min(99,Math.min(opp.ovr+2,F.ovr+_gap)));
-  currentOpp={name:opp.name,emo:opp.emo,ovr:_mm,title:titleFlag,ref:((prospect||circuit)?null:opp),label:oppLabel,prospect:prospect,circuit:circuit,rematch:rematch,rec:opp.rec.slice()};
+  ensureNPC(opp);
+  var oa=JSON.parse(JSON.stringify(opp.a)),oov=opp.ovr,peak=false;
+  /* desafiante ao seu cinturão chega no melhor camp da carreira */
+  if(titleFlag&&F.champion){var bump=rnd(BAL.titleCamp[0],BAL.titleCamp[1]);ATTRS.forEach(function(x){oa[x.key]=Math.min(99,oa[x.key]+bump);});oov=ovrOf(oa);peak=true;}
+  currentOpp={name:opp.name,emo:opp.emo,ovr:oov,sty:opp.sty,a:oa,peak:peak,title:titleFlag,ref:((prospect||circuit)?null:opp),label:oppLabel,prospect:prospect,circuit:circuit,rematch:rematch,rec:opp.rec.slice()};
+  currentOpp.coach=prefightCoach();currentOpp.plan=currentOpp.coach;
   PHASE='prefight';saveGame();
   renderPrefight();
 }
+function styTag(sk){var S=STY[sk];return S?'<div class="stytag">'+S.ico+' '+S.nome.toUpperCase()+'</div>':'';}
+function scoutNotes(){
+  var o=currentOpp,S=STY[o.sty]||STY.completo,Y=F.attrs,O=o.a,n=[];
+  n.push('<b>'+S.ico+' '+S.nome+':</b> '+S.blurb+'.');
+  if(o.peak)n.push('🔥 Fez o melhor camp da carreira pra tirar seu cinturão: chega mais forte que o normal.');
+  var best=null,worst=null;
+  ATTRS.forEach(function(x){var d=Y[x.key]-O[x.key];if(!best||d>best.d)best={l:x.label,d:d};if(!worst||d<worst.d)worst={l:x.label,d:d};});
+  if(best.d>=4)n.push('✅ Sua maior vantagem: <b>'+best.l+'</b> (+'+best.d+').');
+  if(worst.d<=-4)n.push('⚠️ Maior vantagem dele: <b>'+worst.l+'</b> (+'+(-worst.d)+').');
+  if(O.chao-Y.chao>=10)n.push(S.sub>=1.2?'🐍 Finalizador perigoso: não fique por baixo.':'🤼 Domina no chão: cuidado com as quedas.');
+  else if(Y.chao-O.chao>=10)n.push('🤼 Você é muito melhor no chão: a queda é uma arma.');
+  if(O.poder>=Y.queixo+10)n.push('💥 Mão pesada demais pro seu queixo.');
+  if(O.queixo<=Y.poder-10)n.push('🎯 Queixo dele é alvo: dá pra nocautear.');
+  if(O.cardio<=Y.cardio-8)n.push('🫁 Gás fraco: a luta longa favorece você.');
+  else if(Y.cardio<=O.cardio-8)n.push('🫁 Ele tem mais gás: não deixe a luta arrastar.');
+  n.push('🧠 Plano provável dele: <b>'+planLabel(likelyPlan({a:O,sk:o.sty},{a:Y,sk:PLAYER_STY[F.style]}))+'</b>.');
+  return n.map(function(x){return '<div>'+x+'</div>';}).join('');
+}
+function choosePre(k){currentOpp.plan=k;saveGame();markPlan(k);}
 function renderPrefight(){
   var o=currentOpp,st2=F.stage2||'liga',pr=playerRank();
   var myLabel=F.champion?'🏆 CAMPEÃO':(st2!=='liga'?st2.toUpperCase():(pr>=16?'S/ RANKING':'#'+pr));
@@ -678,132 +745,356 @@ function renderPrefight(){
   var head=o.circuit
     ?('<div class="divlabel">CIRCUITO '+(st2==='varzea'?'DE VÁRZEA':'NACIONAL')+' · '+(F.circuitWins||0)+'/3'+sub+'</div>')
     :(o.title
-    ?('<div class="titlefight">🏆 '+(F.champion?'DEFESA DE CINTURÃO':'DISPUTA DE CINTURÃO')+' — '+F.weight.toUpperCase()+sub+'</div>')
+    ?('<div class="titlefight">🏆 '+(F.champion?'DEFESA DE CINTURÃO':'DISPUTA DE CINTURÃO')+' — '+F.weight.toUpperCase()+' · 5 ROUNDS'+sub+'</div>')
     :(o.prospect?('<div class="divlabel">CARD PRELIMINAR · '+F.weight.toUpperCase()+' · '+(F.unrankedWins||0)+'/2'+sub+'</div>')
     :('<div class="divlabel">DIVISÃO '+F.weight.toUpperCase()+sub+'</div>')));
+  var rows='';ATTRS.forEach(function(x){rows+=cmpRow(x.label,F.attrs[x.key],o.a[x.key]);});
   document.getElementById("fight-area").innerHTML= head+
     '<div class="tape">'+
-      '<div class="corner redc"><div class="tag">CORNER VERMELHO</div><div class="emo">'+fighterSVG('red')+'</div><div class="nm">'+F.nick.toUpperCase()+'</div><div class="ov">'+F.ovr+'</div><div class="ovl">'+myLabel+' • '+F.w+'-'+F.l+'-'+F.d+'</div></div>'+
+      '<div class="corner redc"><div class="tag">CORNER VERMELHO</div><div class="emo">'+fighterSVG('red')+'</div><div class="nm">'+F.nick.toUpperCase()+'</div>'+styTag(PLAYER_STY[F.style])+'<div class="ov">'+F.ovr+'</div><div class="ovl">'+myLabel+' • '+F.w+'-'+F.l+'-'+F.d+'</div></div>'+
       '<div class="mid"><span>VS</span></div>'+
-      '<div class="corner bluec"><div class="tag">CORNER AZUL</div><div class="emo">'+fighterSVG('blue')+'</div><div class="nm">'+o.name.toUpperCase()+'</div><div class="ov">'+o.ovr+'</div><div class="ovl">'+o.label+' • '+rec(o)+'</div></div>'+
+      '<div class="corner bluec"><div class="tag">CORNER AZUL</div><div class="emo">'+fighterSVG('blue')+'</div><div class="nm">'+o.name.toUpperCase()+'</div>'+styTag(o.sty)+'<div class="ov">'+o.ovr+'</div><div class="ovl">'+o.label+' • '+rec(o)+'</div></div>'+
     '</div>'+
-    '<button class="btn" onclick="simulateFight()">SIMULAR LUTA 🥊</button>';
+    '<div class="scout"><div class="scout-h">📋 RELATÓRIO PRÉ-LUTA</div><div class="scout-notes">'+scoutNotes()+'</div>'+
+      '<details class="scout-attrs"><summary>Comparar atributos</summary><div class="tape-stats">'+rows+'</div></details></div>'+
+    '<div class="gp"><div class="gp-h">🧠 PLANO DE JOGO PRO ROUND 1</div><div class="corner-actions">'+planButtons('choosePre',o.coach,o.plan)+'</div></div>'+
+    '<button class="btn" onclick="simulateFight()">COMEÇAR LUTA 🥊</button>';
 }
 
-/* ---------- MOTOR DE SIMULAÇÃO (o jogador NÃO controla) ---------- */
-function oInit(){var v=currentOpp.ovr;return {poder:rndStat(v),velocidade:rndStat(v),precisao:rndStat(v),defesa:rndStat(v),chao:rndStat(v),cardio:rndStat(v),queixo:rndStat(v),fightIQ:rndStat(v),agressao:rndStat(v),coracao:rndStat(v)};}
+/* ===================== ESTILOS DE LUTA =====================
+   prof = forma do perfil de atributos (desvio em relação à média; o OVR é preservado na geração)
+   td/tdd = ataque/defesa de queda · sub = finalização · gnp = ground-and-pound · guard = finaliza por baixo
+   kick = tendência a chutar a perna · shoot = tendência a buscar a queda · plans = planos preferidos da IA */
+var STY={
+ wrestler:{nome:'Wrestler',ico:'🤼',blurb:'busca a queda o tempo todo e controla por cima',
+   prof:{poder:0,velocidade:-2,precisao:-6,defesa:0,chao:11,cardio:6,queixo:2,fightIQ:2,agressao:2,coracao:2},
+   td:1.2,tdd:1.25,sub:0.9,gnp:1.15,guard:0.3,kick:0.04,shoot:0.36,plans:{chao:3,pressao:1.3,equilibrado:1},
+   tec:['um direto de direita','um overhand','um cruzado curto','um jab'],subs:['uma guilhotina','um mata-leão','um katagatame','um braço-triângulo']},
+ jiujitsu:{nome:'Jiu-jitsu',ico:'🥋',blurb:'quer a luta no chão e finaliza de qualquer posição',
+   prof:{poder:-4,velocidade:-2,precisao:-4,defesa:-2,chao:13,cardio:2,queixo:0,fightIQ:4,agressao:-2,coracao:2},
+   td:1.0,tdd:1.0,sub:1.4,gnp:0.9,guard:1.5,kick:0.06,shoot:0.26,plans:{chao:3,equilibrado:1.2,contra:0.8},
+   tec:['um jab','um direto','um chute frontal'],subs:['um mata-leão','um triângulo','um armlock','uma kimura','uma guilhotina',"um estrangulamento D'Arce",'uma omoplata']},
+ muaythai:{nome:'Muay Thai',ico:'🦵',blurb:'chuta a perna e castiga com joelhadas e cotoveladas',
+   prof:{poder:4,velocidade:0,precisao:2,defesa:0,chao:-7,cardio:4,queixo:2,fightIQ:-2,agressao:4,coracao:2},
+   td:0.85,tdd:1.15,sub:0.8,gnp:1.0,guard:0.4,kick:0.3,shoot:0.05,cutx:1.6,kdx:1.1,plans:{perna:2.6,pressao:1.4,equilibrado:1},
+   tec:['uma joelhada no clinch','uma cotovelada','um chute alto','um direto de direita','um chute no corpo'],subs:['uma guilhotina','um mata-leão']},
+ boxe:{nome:'Boxe',ico:'🥊',blurb:'mãos rápidas e combinações precisas',
+   prof:{poder:4,velocidade:5,precisao:7,defesa:4,chao:-10,cardio:0,queixo:2,fightIQ:0,agressao:0,coracao:0},
+   td:0.75,tdd:1.0,sub:0.6,gnp:0.95,guard:0.3,kick:0.03,shoot:0.03,kdx:1.1,plans:{pressao:1.5,equilibrado:1.4,contra:1,distancia:1},
+   tec:['um jab-direto','um cruzado de esquerda','um uppercut','um gancho no fígado','um overhand','uma sequência de quatro golpes'],subs:['uma guilhotina']},
+ trocador:{nome:'Trocador',ico:'💥',blurb:'vem pra trocação franca, com mão pesada e muita pressão',
+   prof:{poder:10,velocidade:-1,precisao:-3,defesa:-6,chao:-5,cardio:-2,queixo:8,fightIQ:-4,agressao:9,coracao:8},
+   td:0.85,tdd:1.0,sub:0.7,gnp:1.1,guard:0.3,kick:0.1,shoot:0.06,kdx:1.3,plans:{pressao:2.5,equilibrado:1.2},
+   tec:['um overhand pesado','um cruzado selvagem','uma sequência de ganchos','um direto','um uppercut'],subs:['uma guilhotina']},
+ kickboxer:{nome:'Kickboxer',ico:'⚡',blurb:'técnico, luta na distância e chuta de todo ângulo',
+   prof:{poder:0,velocidade:6,precisao:6,defesa:4,chao:-8,cardio:0,queixo:-2,fightIQ:2,agressao:-2,coracao:-2},
+   td:0.8,tdd:1.1,sub:0.7,gnp:0.9,guard:0.4,kick:0.24,shoot:0.04,plans:{distancia:2,perna:1.5,equilibrado:1,contra:1},
+   tec:['um chute alto','um chute rodado','um jab','um direto','uma joelhada voadora','um chute no corpo'],subs:['uma guilhotina']},
+ contra:{nome:'Contra-golpeador',ico:'🎯',blurb:'espera você errar pra contra-atacar',
+   prof:{poder:2,velocidade:6,precisao:6,defesa:8,chao:-5,cardio:0,queixo:-2,fightIQ:6,agressao:-12,coracao:-2},
+   td:0.8,tdd:1.1,sub:0.7,gnp:0.9,guard:0.4,kick:0.12,shoot:0.04,plans:{contra:3.5,distancia:1.2,equilibrado:1},
+   tec:['um contra de direita','um cruzado no contra-ataque','um jab','um uppercut'],subs:['uma guilhotina']},
+ completo:{nome:'Completo',ico:'⭐',blurb:'bom em tudo, sem ponto fraco claro',
+   prof:{poder:0,velocidade:0,precisao:0,defesa:0,chao:0,cardio:2,queixo:0,fightIQ:3,agressao:0,coracao:0},
+   td:1.05,tdd:1.1,sub:1.0,gnp:1.0,guard:0.7,kick:0.12,shoot:0.14,plans:{equilibrado:2,pressao:1,chao:1,distancia:1,perna:1,contra:1},
+   tec:['um jab-direto','um cruzado','um chute alto','uma joelhada','um overhand'],subs:['um mata-leão','uma guilhotina','um armlock','um triângulo']}
+};
+var STY_KEYS=['wrestler','jiujitsu','muaythai','boxe','trocador','kickboxer','contra','completo'];
+var PLAYER_STY={"Jiu-jitsu":'jiujitsu',"Muay Thai":'muaythai',"Boxe":'boxe',"Wrestling":'wrestler',"Trocador":'trocador'};
+/* Estilo dos nomes conhecidos do ranking; quem não está aqui ganha um estilo fixo sorteado pelo nome. */
+var REAL_STY={
+ "Joshua Van":'boxe',"Alexandre Pantoja":'jiujitsu',"Manel Kape":'kickboxer',"Tatsuro Taira":'jiujitsu',"Brandon Royval":'jiujitsu',"Kyoji Horiguchi":'kickboxer',"Amir Albazi":'jiujitsu',"Brandon Moreno":'completo',"Alex Perez":'wrestler',"Tim Elliott":'wrestler',"Tagir Ulanbekov":'wrestler',"Asu Almabayev":'wrestler',
+ "Petr Yan":'boxe',"Merab Dvalishvili":'wrestler',"Umar Nurmagomedov":'wrestler',"Sean O'Malley":'contra',"Cory Sandhagen":'kickboxer',"Song Yadong":'boxe',"Deiveson Figueiredo":'trocador',"Mario Bautista":'completo',"Marlon Vera":'muaythai',"Payton Talbott":'kickboxer',"Raul Rosas Jr.":'wrestler',
+ "Alexander Volkanovski":'completo',"Movsar Evloev":'wrestler',"Diego Lopes":'jiujitsu',"Lerone Murphy":'contra',"Aljamain Sterling":'jiujitsu',"Yair Rodriguez":'kickboxer',"Jean Silva":'trocador',"Arnold Allen":'boxe',"Brian Ortega":'jiujitsu',"Patricio Pitbull":'completo',"Aaron Pico":'wrestler',
+ "Ilia Topuria":'boxe',"Justin Gaethje":'trocador',"Arman Tsarukyan":'wrestler',"Charles Oliveira":'jiujitsu',"Max Holloway":'boxe',"Benoit Saint Denis":'trocador',"Paddy Pimblett":'jiujitsu',"Mateusz Gamrot":'wrestler',"Dan Hooker":'kickboxer',"Renato Moicano":'jiujitsu',"Rafael Fiziev":'muaythai',"Beneil Dariush":'jiujitsu',"Michael Chandler":'trocador',
+ "Islam Makhachev":'wrestler',"Jack Della Maddalena":'boxe',"Ian Machado Garry":'contra',"Belal Muhammad":'wrestler',"Carlos Prates":'muaythai',"Sean Brady":'jiujitsu',"Kamaru Usman":'wrestler',"Leon Edwards":'contra',"Joaquin Buckley":'trocador',"Gabriel Bonfim":'jiujitsu',"Geoff Neal":'boxe',"Yaroslav Amosov":'wrestler',
+ "Khamzat Chimaev":'wrestler',"Dricus du Plessis":'trocador',"Nassourdine Imavov":'kickboxer',"Sean Strickland":'contra',"Brendan Allen":'jiujitsu',"Caio Borralho":'completo',"Anthony Hernandez":'wrestler',"Reinier de Ridder":'jiujitsu',"Israel Adesanya":'contra',"Robert Whittaker":'completo',"Jared Cannonier":'boxe',"Gregory Rodrigues":'trocador',"Paulo Costa":'trocador',"Roman Dolidze":'wrestler',
+ "Carlos Ulberg":'kickboxer',"Magomed Ankalaev":'completo',"Alex Pereira":'muaythai',"Jiri Prochazka":'trocador',"Jan Blachowicz":'completo',"Khalil Rountree Jr.":'muaythai',"Jamahal Hill":'boxe',"Dominick Reyes":'kickboxer',"Volkan Oezdemir":'boxe',"Aleksandar Rakic":'kickboxer',"Nikita Krylov":'jiujitsu',"Johnny Walker":'trocador',
+ "Tom Aspinall":'completo',"Ciryl Gane":'kickboxer',"Alexander Volkov":'kickboxer',"Sergei Pavlovich":'trocador',"Serghei Spivac":'wrestler',"Curtis Blaydes":'wrestler',"Derrick Lewis":'trocador',"Marcin Tybura":'completo'
+};
+function hashStr(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function styleFor(name){return REAL_STY[name]||STY_KEYS[hashStr(name||'?')%STY_KEYS.length];}
+function randStyle(){return STY_KEYS[Math.floor(Math.random()*STY_KEYS.length)];}
+function ovrOf(a){var s=0;ATTRS.forEach(function(x){s+=a[x.key];});return Math.round(s/ATTRS.length);}
+/* Gera atributos com a forma do estilo e média = ovr. */
+function genAttrs(ovr,sk,spread){
+  var P=(STY[sk]||STY.completo).prof,a={},sum=0;
+  ATTRS.forEach(function(x){var v=ovr+(P[x.key]||0)+(spread?rnd(-spread,spread):0);a[x.key]=v;sum+=v;});
+  var shift=ovr-sum/ATTRS.length;
+  ATTRS.forEach(function(x){a[x.key]=Math.max(30,Math.min(99,Math.round(a[x.key]+shift)));});
+  return a;
+}
+/* Garante estilo e atributos num lutador do ranking (saves antigos não tinham). */
+function ensureNPC(e){if(!e||e.you)return e;if(!e.sty)e.sty=styleFor(e.name);if(!e.a){e.a=genAttrs(e.ovr,e.sty,3);e.ovr=ovrOf(e.a);}return e;}
+
+/* ===================== PLANOS DE JOGO =====================
+   init = iniciativa · acc/def = chance de acertar/de ser atingido · drain = gasto de gás
+   shoot/kick = tendência de queda/chute na perna · tdd = defesa de queda · ctr = contra-golpe
+   exp = exposição ao contra · hold/up = segurar por cima/levantar por baixo · dmg = dano dos golpes
+   Pedra-papel-tesoura: Pressionar > Distância · Contra > Pressionar · Chão > Contra e Perna ·
+   Distância > Chão · Perna > Contra e Pressionar. */
+var PLANS={
+ equilibrado:{nome:'Equilibrado',ico:'⚖️',desc:'Sem riscos extras',init:1,acc:0,def:0,drain:1,shoot:1,kick:1,tdd:1,ctr:1,exp:1,hold:0,up:0,dmg:1},
+ pressao:{nome:'Pressionar',ico:'🔥',desc:'Volume e pressão. Gasta gás e se expõe ao contra',init:1.5,acc:0.03,def:-0.04,drain:1.4,shoot:1,kick:0.7,tdd:0.9,ctr:0.6,exp:1.6,hold:0,up:0,dmg:1.05},
+ contra:{nome:'Contra-atacar',ico:'🎯',desc:'Espera o erro dele. Perde round se ele não vier',init:0.55,acc:0,def:0.08,drain:0.85,shoot:0.6,kick:0.7,tdd:0.92,ctr:2.6,exp:0.8,hold:0,up:0.03,dmg:1.1,tddx:0.85},
+ chao:{nome:'Levar pro chão',ico:'🤼',desc:'Quedas e controle. Arriscado contra bom de chão',init:1.05,acc:-0.02,def:0,drain:1.12,shoot:2.6,kick:0.4,tdd:1,ctr:0.8,exp:1,hold:0.08,up:0,dmg:0.95},
+ distancia:{nome:'Manter distância',ico:'🛡️',desc:'Jab e footwork, evita a queda. Sofre contra pressão',init:0.9,acc:0.01,def:0.04,drain:0.95,shoot:0.4,kick:1.1,tdd:1.22,ctr:1,exp:0.9,hold:0,up:0.08,dmg:0.82},
+ perna:{nome:'Chutar a perna',ico:'🦵',desc:'Mina a base e a mobilidade. O chute pode ser agarrado',init:1.05,acc:0,def:0,drain:1.05,shoot:0.6,kick:3,tdd:0.95,ctr:0.8,exp:1,hold:0,up:0,dmg:1}
+};
+var PLAN_KEYS=['equilibrado','pressao','contra','chao','distancia','perna'];
+/* quem bate quem (usado pela IA pra se adaptar ao seu plano do round anterior) */
+var PLAN_BEATS={pressao:['distancia','equilibrado'],contra:['pressao'],chao:['contra','perna'],distancia:['chao'],perna:['contra','pressao'],equilibrado:[]};
+function edge(A,D){var e=(PLAN_BEATS[A.plan].indexOf(D.plan)>=0?1:0)-(PLAN_BEATS[D.plan].indexOf(A.plan)>=0?1:0);return e>0?e*eff(A):e*(2-eff(A));}
+function plansThatBeat(x){var out=[];for(var k in PLAN_BEATS)if(PLAN_BEATS[k].indexOf(x)>=0)out.push(k);return out;}
+
+/* ===================== MOTOR DE LUTA =====================
+   Cada round tem BEATS trechos (~37s). Em pé, quem toma a iniciativa escolhe entre combinação, chute na
+   perna ou queda; no chão, quem está por cima bate ou caça a finalização e quem está por baixo tenta levantar
+   (ou finalizar da guarda). Onde cada atributo pesa:
+   Poder: dano e knockdown · Velocidade: acertar, esquivar, escapar · Precisão: acertar e knockdown limpo
+   Defesa: não ser atingido · Chão: quedas, controle, finalização · Cardio: gás · Queixo: aguentar o golpe
+   Fight IQ: executar o plano, defender finalização, ler o contra · Agressão: volume e "matar" a luta
+   Coração: aguentar machucado e reagir. */
+var BAL={
+  beats:8, beatSec:37.5,
+  drain:3.2, fatigue:8, recBase:4, recCardio:0.12, hpRec:3,
+  land:0.48, kd:1.3, foul:0.0006,
+  judgeNoise:5.5, judge108:30, coachPre:24, coachCorner:20,
+  tpWin:9, tpFinish:3, tpTitle:5, tpLoss:4, tpDraw:6, campTp:3,
+  growYoung:[3,5], growPrime:2, titleCamp:[2,5]
+};
+function clamp(v,a,b){return v<a?a:(v>b?b:v);}
 function R(lo,hi){return lo+Math.random()*(hi-lo);}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
-function striking(f){return (f.a.poder*0.45+f.a.precisao*0.3+(f.a.velocidade||55)*0.15+(f.a.agressao||55)*0.1)*(0.55+0.45*f.st/100)*(1+f.mo*0.04);}
-/* Agressão: "killer instinct" — cresce pra cima de quem já está machucado. */
-function killer(f,opp){return opp.hp<40?1+((f.a.agressao||55)-55)/250:1;}
-/* Fight IQ: lê a luta — menos contra-golpe tomado, defende melhor finalização e sai mais rápido de baixo. */
-function iqF(f,k){return ((f.a.fightIQ||55)-55)/k;}
-function grappling(f){return f.a.chao*(0.6+0.4*f.st/100)*(1+f.mo*0.03);}
-function drainF(f,r){var d=(5+r*1.6)*(1.2-f.a.cardio/150);f.st=Math.max(0,f.st-Math.max(1,d));}
-
-var simTimer=null;
-
-
-
-/* ---------- REVELAÇÃO (o jogador só assiste) ---------- */
-function simulateFight(){
-  PHASE='fight';saveGame();
-  gfStart();
-  document.getElementById("fight-area").innerHTML=
-    '<div class="fstage">'+
-      '<div class="round-ind"><span id="ri">ROUND 1</span> <small id="risub">de '+GF.rounds+'</small></div>'+
-      '<div class="fbars">'+fbar('you',F.nick.toUpperCase(),'red')+fbar('opp',currentOpp.name.toUpperCase(),'blue')+'</div>'+
-      '<div class="ring"><div id="figy" class="fighter you">'+fighterSVG('red')+'</div><div id="figo" class="fighter opp">'+fighterSVG('blue')+'</div><div id="fx"></div></div>'+
-      '<div id="corner"></div>'+
-      '<div class="pbp" id="pbp"></div>'+
-      '<button class="btn ghost sm" onclick="skipSim()">Pular para o resultado &#9656;</button>'+
-    '</div>';
-  updateBarsRaw(100,100);
-  pbp('🔔 E COMEÇA A LUTA!');
-  simTimer=setTimeout(function(){runRound('balanced');},700);
+function wpick(w){var t=0,k;for(k in w)t+=w[k];var x=Math.random()*t;for(k in w){x-=w[k];if(x<=0)return k;}return k;}
+function newStats(){return {ss:0,sa:0,td:0,tda:0,sub:0,ctrl:0,kd:0,legk:0,dmg:0};}
+function addStats(t,s){for(var k in s)t[k]=(t[k]||0)+s[k];}
+function mkFighter(d){return {name:d.name,a:d.a,sk:d.sty,tr:d.tr||[],dur:d.dur||75,isY:!!d.isY,hp:100,st:100,stMax:100,mo:0,cut:0,leg:0,kdR:0,rocked:0,plan:'equilibrado',lastPlan:null,s:newStats(),r:newStats()};}
+function newFight(Ydef,Odef,rounds){return {Y:mkFighter(Ydef),O:mkFighter(Odef),rounds:rounds,round:0,rWinY:0,rWinO:0,cards:[],rs:[],result:null,revealed:false,pos:'pe',topK:null,ev:[],beat:0,quiet:false};}
+function Sf(f){return STY[f.sk]||STY.completo;}
+function hasT(f,id){return f.tr&&f.tr.indexOf(id)>=0;}
+function other(f){return f===GF.Y?GF.O:GF.Y;}
+function who(f){return f===GF.Y?'you':'opp';}
+function topF(){return GF.topK?GF[GF.topK]:null;}
+/* Fight IQ escala o plano: aproveita mais o lado bom e sofre menos o lado ruim. */
+function eff(f){return 0.85+((f.a.fightIQ||55)-40)/200;}
+var PLAN_GOOD={acc:1,def:1,ctr:1,tdd:1,hold:1,up:1,dmg:1,drain:-1,exp:-1};
+var PLAN_ADD={acc:1,def:1,hold:1,up:1};
+function pm(f,k){var v=PLANS[f.plan][k],base=PLAN_ADD[k]?0:1,d=v-base;if(!d||!PLAN_GOOD[k])return v;var good=(d>0)===(PLAN_GOOD[k]>0),e=eff(f);return base+d*(good?e:2-e);}
+function sf(f){return (0.5+0.5*f.st/100)*(f.st<25?0.92:1);}
+function mob(f){return 1-Math.min(0.35,f.leg/260);}
+function heart(f){var low=f.hp<50||f.kdR>0||(f===GF.Y?GF.rWinO>GF.rWinY:GF.rWinY>GF.rWinO);return low?1+((f.a.coracao||55)-55)/80:1;}
+function killer(f,o){return (o.hp<40||o.rocked>0)?1+((f.a.agressao||55)-55)/220:1;}
+function chinRes(d){var m=1-((d.a.queixo||60)-60)/170;if(hasT(d,'granito'))m*=0.85;return m;}
+function traitOut(f){var m=1;if(hasT(f,'explosivo')){if(GF.round<=1)m*=1.15;else if(GF.round>=3)m*=0.9;}if(hasT(f,'lento'))m*=0.93;return m;}
+function fmtClock(s){s=Math.max(1,Math.min(299,Math.round(s)));return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);}
+function snap(txt,o){
+  if(GF.quiet)return;o=o||{};var Y=GF.Y,O=GF.O;
+  GF.ev.push({type:'x',txt:txt,y:Math.round(Y.hp),o:Math.round(O.hp),ys:Math.round(Y.st),os:Math.round(O.st),yl:Math.round(Y.leg),ol:Math.round(O.leg),yc:Y.cut,oc:O.cut,yr:Y.rocked>0,or:O.rocked>0,hit:o.hit||null,dmg:o.dmg||0,kd:o.kd||null,pos:GF.pos,top:GF.topK?(GF.topK==='Y'?'you':'opp'):null,gp:GF.gp||0,r:GF.round});
 }
-var GF=null;
-function gfStart(){
-  GF={Y:{name:F.nick,a:JSON.parse(JSON.stringify(F.attrs)),hp:100,st:100,mo:0,cut:0,dur:(F.durability||70)},
-      O:{name:currentOpp.name,a:oInit(),hp:100,st:100,mo:0,cut:0,dur:rnd(55,92)},
-      rounds:currentOpp.title?5:3,round:0,rWinY:0,rWinO:0,cards:[],result:null,plan:'balanced'};
+function say(key,A,D,t){var s=pick(NAR[key]);return s.replace(/\{A\}/g,A?A.name:'').replace(/\{D\}/g,D?D.name:'').replace(/\{t\}/g,t||'');}
+function finish(kind,winner,extra){
+  if(GF.result)return;
+  var r={kind:kind,won:kind==='nc'?null:(winner===GF.Y),round:GF.round,time:fmtClock((GF.beat+R(0.15,0.95))*BAL.beatSec)};
+  for(var k in extra)r[k]=extra[k];
+  GF.result=r;
 }
-function planMods(plan){
-  if(plan==='pressao')return {yStrike:1.18,dmgTaken:1.12,drain:1.35,groundBias:0,finish:1.18};
-  if(plan==='contra') return {yStrike:1.05,dmgTaken:0.68,drain:0.8,groundBias:-0.05,finish:0.85};
-  if(plan==='chao')   return {yStrike:0.95,dmgTaken:0.95,drain:1.1,groundBias:0.32,finish:1.05};
-  if(plan==='boxear') return {yStrike:1.08,dmgTaken:0.8,drain:0.95,groundBias:-0.28,finish:0.95};
-  return {yStrike:1,dmgTaken:1,drain:1,groundBias:0,finish:1};
+function drain(f,mult){var d=BAL.drain*mult*(1.4-(f.a.cardio||60)/120)*pm(f,'drain');if(hasT(f,'maratonista'))d*=0.7;if(hasT(f,'explosivo')&&GF.round>=3)d*=1.3;f.st=Math.max(0,f.st-d);}
+function initW(f){var m=mob(f);return (35+(f.a.agressao||55)*0.65)*PLANS[f.plan].init*(f.rocked>0?0.45:1)*(0.6+0.4*f.st/100)*m*(f.plan==='pressao'?m*m:1)*(hasT(f,'explosivo')&&GF.round<=1?1.15:1);}
+/* Volume: jabs e golpes de ponto que não machucam, mas contam pros juízes. Agressão = mais volume. */
+function volume(f,o){var n=Math.round(R(2,6)*((f.a.agressao||55)/70)*Math.sqrt(PLANS[f.plan].init)*(0.5+0.5*f.st/100));if(n<=0)return;f.r.sa+=n;f.r.ss+=Math.round(n*clamp(0.42+((f.a.precisao||60)-(o.a.defesa||60))/200,0.15,0.7));}
+function dealDmg(A,D,dmg){D.hp-=dmg;A.r.dmg+=dmg;if(D.hp<=0&&!GF.result){D.hp=0;finish('tko',A,{});return true;}return false;}
+function cutCheck(A,D,dmg){
+  if(dmg<6||GF.result)return;
+  var p=0.025+(100-(D.dur||70))/1500;p*=(Sf(A).cutx||1);if(hasT(D,'sangrador'))p*=2.2;if(hasT(D,'granito'))p*=0.6;
+  if(Math.random()>=p)return;
+  D.cut++;
+  if(D.cut>=3){snap(say('doc',A,D),{hit:who(D)});finish('tko',A,{cut:true});return;}
+  snap(say(D.cut>=2?'cutBad':'cut',A,D),{hit:who(D)});
 }
-function gfRound(plan){
-  GF.round++;GF.plan=plan;
-  var r=GF.round,Y=GF.Y,O=GF.O,m=planMods(plan);
-  var ev=[],dr={y:0,o:0};
-  function snap(txt,hit,dmg){ev.push({type:'x',txt:txt,y:Math.round(Y.hp),o:Math.round(O.hp),hit:hit||null,dmg:dmg||0,r:r});}
-  function strikeEx2(){
-    var yr=striking(Y)*m.yStrike*R(0.6,1.45)*heartMult(Y)*killer(Y,O)*yTraitOut(r), or_=striking(O)*R(0.6,1.45)*heartMult(O)*killer(O,Y);
-    var win=yr>=or_?Y:O, los=yr>=or_?O:Y, hit=win===Y?'opp':'you';
-    var d=Math.round(Math.min(28,4+Math.abs(yr-or_)/8+R(0,5)));
-    d=Math.max(1,Math.round(d*(1-(((los.a.queixo||70)-60)/220))));
-    d=Math.max(1,Math.round(d*(1-(((los.a.defesa||55)-55)/300))));
-    if(los===Y){d=Math.max(1,Math.round(d*m.dmgTaken));if(hasTrait('granito'))d=Math.max(1,Math.round(d*0.72));}
-    los.hp-=d;win.mo=Math.min(5,win.mo+1);los.mo=Math.max(-2,los.mo-1);dr[win===Y?'y':'o']+=d;
-    snap(pick([win.name+' encaixa a direita e balança '+los.name+'!',win.name+' conecta uma boa combinação.','Troca franca — '+win.name+' leva a melhor.',win.name+' acerta um cruzado pesado ('+d+').',los.name+' tenta responder, mas '+win.name+' domina.']),hit,d);
-    var _cutp=0.045+(100-(los.dur||70))/600;if(los===Y&&hasTrait('sangrador'))_cutp*=2.2;if(los===Y&&hasTrait('granito'))_cutp*=0.6;
-    if(d>=9 && Math.random()<_cutp){los.cut=(los.cut||0)+1;snap('🩸 '+los.name+(los.cut>=2?' abriu um corte feio!':' começou a sangrar.'),hit,0);if(los.cut>=3){GF.result={kind:'tko',won:(los===O),round:r,cut:true};snap('🩸 O médico interrompe — '+los.name+' não continua. TKO por corte!',null,0);return true;}}
-    if(los.hp<=0){GF.result={kind:(Math.random()<0.42?'tko':'ko'),won:(win===Y),round:r};return true;}
-    var flash=(los.a.poder/100)*0.008*(1-iqF(win,180));if(los===Y)flash*=m.finish;if(win===Y&&hasTrait('nocauteador'))flash*=2.2;if(los===Y&&hasTrait('granito'))flash*=0.4;
-    if(Math.random()<flash*(1-(((win.a.queixo||70)-60)/200))){win.hp-=999;snap('💥 DO NADA! '+los.name+' solta uma bomba e '+win.name+' apaga!','',0);GF.result={kind:(Math.random()<0.42?'tko':'ko'),won:(los===Y),round:r};return true;}
-    return false;
-  }
-  function groundSeq2(top,bot){
-    var control=1+Math.floor(R(0,2.4));
-    for(var c=0;c<control;c++){
-      var d=Math.round(Math.max(1,(top.a.poder/100)*R(1.5,5)));
-      d=Math.max(1,Math.round(d*(1-(((bot.a.queixo||70)-60)/240))));
-      d=Math.max(1,Math.round(d*(1-(((bot.a.defesa||55)-55)/340))));if(bot===Y){d=Math.max(1,Math.round(d*m.dmgTaken));if(hasTrait('granito'))d=Math.max(1,Math.round(d*0.78));}
-      bot.hp-=d;dr[top===Y?'y':'o']+=d;
-      var subP=((top.a.chao/950)+(1-bot.st/100)*0.09+(1-bot.hp/100)*0.13)*(1-iqF(bot,200));if(top===Y){subP*=m.finish;if(hasTrait('finalizador'))subP*=1.5;}
-      if(Math.random()<subP){snap('🐍 '+top.name+' encaixa o mata-leão... BATEU!',top===Y?'opp':'you',d);GF.result={kind:'sub',won:(top===Y),round:r};return true;}
-      snap(pick([top.name+' martela no chão ('+d+').',top.name+' passa a guarda e busca a finalização.',top.name+' controla '+bot.name+' contra a grade.']),top===Y?'opp':'you',d);
-      if(bot.hp<=0){GF.result={kind:'tko',won:(top===Y),round:r};return true;}
-      if(Math.random()<0.35+iqF(bot,300)){snap(bot.name+' volta pra luta em pé.',null,0);return false;}
+function knockdownCheck(A,D,dmg,isCounter,tec){
+  var p=(dmg/100)*Math.pow((A.a.poder||60)/70,1.3)*(0.7+(A.a.precisao||60)/230)*(1.5-(D.a.queixo||60)/100)*(D.hp<40?1.7:1)*(D.rocked>0?1.8:1)*(isCounter?1.35:1)*BAL.kd;
+  p*=(Sf(A).kdx||1);if(hasT(A,'nocauteador'))p*=1.8;if(hasT(D,'granito'))p*=0.45;
+  if(Math.random()>=p)return 0;
+  A.r.kd++;D.kdR++;D.rocked=2;D.mo=Math.max(-3,D.mo-2);
+  var extra=rnd(4,9);
+  /* nocaute na hora: golpe muito forte ou queixo já mexido */
+  var flash=clamp(0.18+(dmg-10)/40+(D.kdR-1)*0.2-((D.a.queixo||60)-60)/200,0.05,0.6);
+  if(Math.random()<flash){snap(say('ko',A,D,tec),{hit:who(D),dmg:Math.round(dmg),kd:who(D)});D.hp=Math.max(0,D.hp-extra);finish('ko',A,{});return 2;}
+  snap(say('kd',A,D,tec),{hit:who(D),dmg:Math.round(dmg),kd:who(D)});
+  if(dealDmg(A,D,extra+dmg))return 2;
+  var fp=0.28+((A.a.agressao||55)-55)/220+((A.a.poder||60)-(D.a.queixo||60))/260-((D.a.coracao||55)-55)/130+(D.kdR-1)*0.18+(D.hp<30?0.15:0);
+  if(Math.random()<clamp(fp,0.06,0.85)||D.kdR>=3){snap(say('tkoKd',A,D),{hit:who(D)});finish('tko',A,{});return 2;}
+  snap(say('kdSurv',A,D));
+  return 1;
+}
+function strike(A,D,isCounter){
+  if(GF.result)return;
+  var tec=pick(Sf(A).tec);
+  var off=((A.a.precisao||60)*0.48+(A.a.velocidade||60)*0.25+(A.a.fightIQ||55)*0.15+(A.a.poder||60)*0.12)*sf(A)*mob(A)*(1+A.mo*0.025)*traitOut(A);
+  var def=((D.a.defesa||60)*0.47+(D.a.velocidade||60)*0.26+(D.a.fightIQ||55)*0.27)*sf(D)*mob(D)*Math.sqrt(heart(D));
+  var dDef=pm(D,'def');if(D.plan==='distancia'&&A.plan==='pressao')dDef=-0.02;
+  var land=clamp(BAL.land+(off-def)/90+pm(A,'acc')-dDef+0.045*edge(A,D)+(isCounter?0.1:0)+(D.rocked>0?0.15:0),0.12,0.88);
+  var n=rnd(4,9);A.r.sa+=n;
+  var landed=Math.random()<land;
+  if(landed){
+    var hits=Math.max(1,Math.round(n*R(0.4,0.7)));A.r.ss+=hits;
+    var dmg=(3.5+(A.a.poder||60)*0.07)*R(0.55,1.45)*pm(A,'dmg')*(isCounter?1.15:1)*heart(A)*killer(A,D)*traitOut(A)*chinRes(D);
+    A.mo=Math.min(4,A.mo+1);D.mo=Math.max(-3,D.mo-1);
+    var kd=knockdownCheck(A,D,dmg,isCounter,tec);
+    if(kd===2)return;
+    if(kd===0){
+      if(isCounter)snap(say('counter',A,D,tec),{hit:who(D),dmg:Math.round(dmg)});
+      else snap(say(dmg>=12?'heavy':'land',A,D,tec),{hit:who(D),dmg:Math.round(dmg)});
+      if(dealDmg(A,D,dmg))return;
     }
-    return false;
+    if(dmg>=13&&!D.rocked&&Math.random()<0.35){D.rocked=1;snap(say('rocked',A,D));}
+    cutCheck(A,D,dmg);
+  } else {A.r.ss+=Math.round(n*R(0.05,0.25));if(!GF.quiet&&Math.random()<0.45)snap(say('miss',A,D,tec));}
+  if(!isCounter&&!GF.result){
+    var cp=0.05*(landed?0.6:1.6)*(1-0.35*edge(A,D))*pm(D,'ctr')*pm(A,'exp')*(1+(((D.a.velocidade||60)+(D.a.precisao||60)+(D.a.fightIQ||55))/3-((A.a.defesa||60)+(A.a.fightIQ||55))/2)/120)*(1+((A.a.agressao||55)-55)/300)*(D.rocked>0?0.3:1);
+    if(Math.random()<cp)strike(D,A,true);
   }
-  ev.push({type:'round',txt:'ROUND '+r,y:Math.round(Y.hp),o:Math.round(O.hp),r:r});
-  var exch=4+Math.floor(Math.random()*2);
-  for(var e=0;e<exch;e++){
-    drainF(Y,r);if(m.drain!==1)Y.st=Math.max(0,Y.st-(m.drain-1)*4);if(hasTrait('maratonista'))Y.st=Math.min(100,Y.st+2.5);if(hasTrait('explosivo')&&r>=3)Y.st=Math.max(0,Y.st-3);drainF(O,r);
-    if(Math.random()<0.006){var vic=Math.random()<0.5?Y:O;if(Math.random()<0.4){snap('⚠️ Dedo no olho acidental em '+vic.name+'! Luta encerrada — SEM RESULTADO.',null,0);GF.result={kind:'nc',won:null,round:r};break;}else snap('⚠️ Falta acidental! Pausa pra '+vic.name+'.',null,0);}
-    var gTend=(Y.a.chao+O.a.chao),sTend=(Y.a.poder+Y.a.precisao+O.a.poder+O.a.precisao)/2;
-    var goGround=Math.random()<((gTend/(gTend+sTend))*0.55+m.groundBias);
-    if(goGround){
-      var tk=grappling(Y)*R(0.6,1.4)>=grappling(O)*R(0.6,1.4)?Y:O;var bot=tk===Y?O:Y;
-      var tkP=0.45+(tk.a.chao-bot.a.chao)/240+iqF(tk,400)-iqF(bot,400);if(plan==='chao'&&tk===Y)tkP+=0.12;if(plan==='boxear'&&tk===O)tkP-=0.15;
-      if(Math.random()<tkP){snap('🤼 '+tk.name+' finca a queda e leva '+bot.name+' pro chão!',null,0);groundSeq2(tk,bot);}
-      else snap('🛡️ '+bot.name+' defende a queda de '+tk.name+'.',null,0);
-    } else { strikeEx2(); }
-    if(GF.result)break;
-  }
-  if(!GF.result){
-    if(dr.y>dr.o)GF.rWinY++;else if(dr.o>dr.y)GF.rWinO++;
-    GF.cards.push(judgeRound(dr.y-dr.o,Y.hp>=O.hp));
-  }
-  return ev;
 }
-/* Cada juiz vê o round com um pouco de ruído: round apertado pode ir pra qualquer lado.
-   Calibrado em 4000 lutas: ~0,5% empates, ~15% decisões divididas, ~4% de rounds 10-8. */
+function legKick(A,D){
+  A.r.sa++;
+  var catchP=clamp(0.03+((D.a.chao||50)-(A.a.chao||50))/500+(D.plan==='chao'?0.08:0)+(Sf(D).td-1)*0.15,0,0.25);
+  if(Math.random()<catchP){snap(say('catchK',A,D));takedown(D,A,0.15);return;}
+  var land=clamp(0.62+(((A.a.precisao||60)*0.5+(A.a.velocidade||60)*0.3+(A.a.fightIQ||55)*0.2)-((D.a.defesa||60)*0.4+(D.a.fightIQ||55)*0.4+(D.a.velocidade||60)*0.2))/110,0.2,0.9);
+  if(Math.random()<land){
+    A.r.ss++;A.r.legk++;
+    var ld=(4+(A.a.poder||60)*0.09)*R(0.6,1.4)*(D.plan==='pressao'?1.4:1);
+    D.leg=Math.min(100,D.leg+ld);
+    var hurt=D.leg>=50&&D.leg-ld<50;
+    snap(say(hurt?'legHurt':'leg',A,D),{hit:who(D),dmg:Math.round(ld*0.35)});
+    if(dealDmg(A,D,ld*0.35))return;
+    if(D.leg>=85&&Math.random()<0.22){snap(say('legTko',A,D),{hit:who(D)});finish('tko',A,{legs:true});return;}
+  } else if(!GF.quiet&&Math.random()<0.4)snap(say('legMiss',A,D));
+  if(!GF.result&&Math.random()<0.06*pm(D,'ctr')*0.4)strike(D,A,true);
+}
+function takedown(A,D,bonus){
+  if(GF.result)return;
+  A.r.tda++;A.st=Math.max(0,A.st-2.5*(1.2-(A.a.cardio||60)/150));
+  var off=((A.a.chao||50)*0.6+(A.a.velocidade||60)*0.15+(A.a.poder||60)*0.1+(A.a.cardio||60)*0.15)*sf(A);
+  var tdd=pm(D,'tdd')*(PLANS[D.plan].tddx||1);if(D.plan==='distancia'&&A.plan==='pressao')tdd=1+(tdd-1)*0.2;
+  var def=((D.a.chao||50)*0.55+(D.a.defesa||60)*0.15+(D.a.velocidade||60)*0.1+(D.a.fightIQ||55)*0.2)*sf(D)*mob(D);
+  var p=clamp(0.32+(off-def)/100+(Sf(A).td-1)*0.3-(Sf(D).tdd-1)*0.3-(tdd-1)*0.6+0.06*edge(A,D)+(bonus||0),0.05,0.85);
+  if(Math.random()<p){
+    A.r.td++;GF.pos='chao';GF.topK=(A===GF.Y?'Y':'O');A.mo=Math.min(4,A.mo+1);
+    var slam=(A.a.poder||60)>75&&Math.random()<0.12;
+    GF.gp=slam?1:(Math.random()<0.6?0:1);
+    snap(say(slam?'slam':'td',A,D),{hit:slam?who(D):null,dmg:slam?6:0});
+    if(slam)dealDmg(A,D,6);
+  } else {A.st=Math.max(0,A.st-2);D.mo=Math.min(4,D.mo+1);snap(say('tdx',A,D));if(Math.random()<0.22+((D.a.agressao||55)-55)/300)strike(D,A,true);}
+}
+function subAttempt(A,D,fromBottom){
+  if(GF.result)return;
+  A.r.sub++;
+  var gp=fromBottom?0:(GF.gp||0),subs=Sf(A).subs;
+  var tec=(gp===4&&subs.indexOf('um mata-leão')>=0&&Math.random()<0.65)?'um mata-leão':pick(subs);
+  var p=(fromBottom?1:GP_SUB[gp])*(0.14+((A.a.chao||50)-(D.a.chao||50))/200+(1-D.st/100)*0.12+(1-D.hp/100)*0.12)*Sf(A).sub*(fromBottom?0.6:1)*(1-((D.a.fightIQ||55)-55)/220)*(D.rocked>0?1.5:1);
+  if(hasT(A,'finalizador'))p*=1.5;
+  p=clamp(p,0.01,0.6);
+  snap(say('subTry',A,D,tec));
+  if(Math.random()<p){snap(say('subWin',A,D,tec),{hit:who(D)});finish('sub',A,{tec:tec.replace(/^(um|uma) /,'')});return;}
+  snap(say('subDef',A,D,tec));
+  if(fromBottom&&Math.random()<0.35){GF.topK=(A===GF.Y?'Y':'O');GF.gp=1;snap(say('sweep',A,D));}
+  else if(!fromBottom&&Math.random()<0.25){standUp();snap(say('esc',D,A));}
+}
+/* Posições no chão: guarda -> meia-guarda -> lateral -> montada/costas. Quanto mais avançada, mais dano e
+   finalização por cima, e mais difícil escapar por baixo. */
+var GP_LABEL=['guarda','meia-guarda','lateral','montada','costas'];
+var GP_GNP=[0.9,1.0,1.1,1.35,1.2],GP_SUB=[0.85,0.95,1.1,1.25,1.55],GP_ESC=[0.06,0.03,0,-0.06,-0.08];
+function gnp(T,B){
+  var n=rnd(3,7);T.r.sa+=n;
+  var land=clamp(0.55+((T.a.chao||50)+(T.a.poder||60)-(B.a.chao||50)-(B.a.defesa||60))/250,0.25,0.85);
+  T.r.ss+=Math.round(n*land);
+  var gp=GF.gp||0;
+  var dmg=(1.2+(T.a.poder||60)*0.055)*R(0.6,1.4)*Sf(T).gnp*GP_GNP[gp]*chinRes(B)*(1-((B.a.defesa||60)-55)/400)*heart(T)*killer(T,B);
+  snap(say('gnp'+gp,T,B),{hit:who(B),dmg:Math.round(dmg)});
+  if(dealDmg(T,B,dmg))return;
+  if(B.hp<14-((B.a.coracao||55)-55)/10&&Math.random()<0.5){snap(say('tkoGnp',T,B),{hit:who(B)});finish('tko',T,{});return;}
+  cutCheck(T,B,dmg);
+}
+function groundBeat(){
+  var T=topF(),B=other(T),gp=GF.gp||0;
+  drain(T,0.6);drain(B,1.3);
+  T.r.ctrl+=BAL.beatSec;
+  var esc=clamp(0.26+((B.a.chao||50)-(T.a.chao||50))/200+((B.a.velocidade||60)-55)/500+((B.a.fightIQ||55)-55)/400+(B.st-T.st)/300+pm(B,'up')-pm(T,'hold')+GP_ESC[gp],0.06,0.75);
+  var guardTry=gp<=1?0.05*Sf(B).guard*((B.a.chao||50)/Math.max(30,T.a.chao||50)):0;
+  var x=Math.random();
+  if(x<guardTry){subAttempt(B,T,true);return;}
+  if(x<guardTry+esc){standUp();T.r.ctrl-=BAL.beatSec*0.5;snap(say('esc',B,T));return;}
+  /* passagem de guarda */
+  if(gp<3&&Math.random()<clamp(0.28+((T.a.chao||50)-(B.a.chao||50))/150+pm(T,'hold'),0.08,0.65)){
+    GF.gp=gp<2?gp+1:(Math.random()<0.55?3:4);
+    gp=GF.gp;snap(say('pass'+gp,T,B),{hit:gp>=3?who(B):null});
+  }
+  var subTend=0.26*Sf(T).sub*(T.plan==='chao'?1.3:1)*(1+((T.a.chao||50)-(B.a.chao||50))/100)*GP_SUB[gp];
+  if(Math.random()<clamp(subTend,0.03,0.6))subAttempt(T,B,false);else gnp(T,B);
+}
+function standUp(){GF.pos='pe';GF.topK=null;GF.gp=0;}
+function standBeat(){
+  var Y=GF.Y,O=GF.O;drain(Y,1);drain(O,1);
+  if(Math.random()<BAL.foul){var v=Math.random()<0.5?Y:O;if(Math.random()<0.4){snap(say('nc',null,v));finish('nc',null,{});return;}snap(say('foul',null,v));return;}
+  volume(Y,O);volume(O,Y);
+  var wy=initW(Y),wo=initW(O),A=(Math.random()*(wy+wo)<wy)?Y:O,D=other(A);
+  var pS=Math.min(0.7,Sf(A).shoot*PLANS[A.plan].shoot*(0.55+(A.a.chao||50)/160));
+  var pK=Math.min(0.65,Sf(A).kick*PLANS[A.plan].kick);
+  var x=Math.random();
+  if(x<pS)takedown(A,D,0);else if(x<pS+pK)legKick(A,D);else strike(A,D,false);
+}
+/* pontuação do round pros juízes: golpes, dano, knockdowns, quedas, controle e ameaça de finalização */
+function impact(f){var s=f.r;return s.ss*0.25+s.dmg*0.4+s.kd*10+s.td*3.5+s.ctrl/30*1.5+s.sub*2.5;}
+function recover(f){f.stMax=Math.max(50,f.stMax-BAL.fatigue);f.st=Math.min(f.stMax,f.st+BAL.recBase+(f.a.cardio||60)*BAL.recCardio+((f.a.coracao||55)-55)*0.1);f.hp=Math.min(100,f.hp+BAL.hpRec);f.rocked=0;if(f.cut>0&&f.cut<3&&Math.random()<0.3)f.cut--;}
+function gfRound(planY){
+  GF.round++;GF.ev=[];var r=GF.round,Y=GF.Y,O=GF.O;
+  Y.lastPlan=GF.round>1?Y.plan:null;O.lastPlan=GF.round>1?O.plan:null;
+  Y.plan=planY||Y.plan||'equilibrado';O.plan=aiPlan(O,Y);
+  Y.r=newStats();O.r=newStats();Y.kdR=0;O.kdR=0;standUp();
+  if(!GF.quiet)GF.ev.push({type:'round',txt:'ROUND '+r,y:Math.round(Y.hp),o:Math.round(O.hp),ys:Math.round(Y.st),os:Math.round(O.st),r:r,yp:Y.plan,op:O.plan});
+  for(GF.beat=0;GF.beat<BAL.beats&&!GF.result;GF.beat++){
+    if(GF.pos==='chao')groundBeat();else standBeat();
+    if(Y.rocked>0)Y.rocked--;if(O.rocked>0)O.rocked--;
+    if(!GF.result&&!GF.quiet){var tf=Y.st<22?Y:(O.st<22?O:null);if(tf&&Math.random()<0.12)snap(say('tired',tf,other(tf)));}
+  }
+  addStats(Y.s,Y.r);addStats(O.s,O.r);
+  GF.rs.push({y:JSON.parse(JSON.stringify(Y.r)),o:JSON.parse(JSON.stringify(O.r))});
+  if(!GF.result){
+    var dy=impact(Y)-impact(O);
+    if(dy>0)GF.rWinY++;else if(dy<0)GF.rWinO++;
+    GF.cards.push(judgeRound(dy,Y.hp>=O.hp,Y.r.kd-O.r.kd));
+    if(r<GF.rounds){recover(Y);recover(O);}
+  }
+  return GF.ev;
+}
+/* ---------- IA do oponente: estilo + situação + adaptação ao seu plano anterior (Fight IQ) ---------- */
+function aiWeights(me,op,situ){
+  var w={},k,P=Sf(me).plans;for(k in PLANS)w[k]=0.3;for(k in P)w[k]+=P[k];
+  var dg=(me.a.chao||50)-(op.a.chao||50);
+  if(dg>10)w.chao*=1.6;else if(dg<-10){w.chao*=0.35;w.distancia*=1.5;w.perna*=0.6;}
+  if(situ){
+    var behind=(me===GF.Y)?(GF.rWinO>GF.rWinY):(GF.rWinY>GF.rWinO);
+    if(behind){w.pressao*=1.7;if(dg>0)w.chao*=1.4;}
+    if(me.hp<35&&me.sk!=='trocador'){w.contra*=1.5;w.distancia*=1.5;w.pressao*=0.6;}
+    if(op.hp<40)w.pressao*=2.2;
+    if(me.st<30){w.contra*=1.5;w.pressao*=0.5;w.chao*=0.8;}
+    if(op.lastPlan||(op.plan&&GF.round>1)){var c=plansThatBeat(op.lastPlan||op.plan),ad=Math.max(0,((me.a.fightIQ||55)-45)/35);c.forEach(function(x){w[x]*=1+ad;});}
+  }
+  return w;
+}
+function aiPlan(me,op){return wpick(aiWeights(me,op,GF.round>1));}
+function likelyPlan(me,op){var w=aiWeights(me,op,false),b=null;for(var k in w)if(b===null||w[k]>w[b])b=k;return b;}
+/* ---------- juízes ---------- */
 var JUDGES=['Juiz 1','Juiz 2','Juiz 3'];
 var DEC_TXT={unanime:'UNÂNIME',dividida:'DIVIDIDA',majoritaria:'MAJORITÁRIA'};
 var DRAW_TXT={unanime:'UNÂNIME',dividida:'DIVIDIDO',majoritaria:'MAJORITÁRIO'};
-function judgeRound(diff,yAhead){
+function judgeRound(diff,yAhead,kdDiff){
   var out=[];
   for(var j=0;j<3;j++){
-    var p=diff+R(-10,10),y=10,o=10;
+    var p=diff+R(-BAL.judgeNoise,BAL.judgeNoise),y=10,o=10;
     if(Math.abs(p)<0.5){if(yAhead)o=9;else y=9;}
-    else if(p>0)o=(p>40?8:9);else y=(-p>40?8:9);
+    else if(p>0)o=(p>BAL.judge108||kdDiff>=2?8:9);else y=(-p>BAL.judge108||kdDiff<=-2?8:9);
     out.push({y:y,o:o});
   }
   return out;
@@ -817,27 +1108,130 @@ function gfResolve(){
   var kind,won,type;
   if(dJ>=2||(yJ===1&&oJ===1)){kind='draw';won=null;type=(dJ===3?'unanime':(dJ===2?'majoritaria':'dividida'));}
   else{kind='dec';won=yJ>oJ;type=(Math.max(yJ,oJ)===3?'unanime':(dJ===1?'majoritaria':'dividida'));}
-  GF.result={kind:kind,won:won,round:GF.rounds,cards:GF.cards,totals:tot,decType:type,close:(type!=='unanime'||minMargin<=1)};
+  GF.result={kind:kind,won:won,round:GF.rounds,time:'5:00',cards:GF.cards,totals:tot,decType:type,close:(type!=='unanime'||minMargin<=1)};
 }
 function decLabel(res){return res.kind==='draw'?'EMPATE '+DRAW_TXT[res.decType]:'DECISÃO '+DEC_TXT[res.decType];}
 function howStr(res){
-  var r=res.round;
-  if(res.kind==='ko')return 'NOCAUTE · R'+r;
-  if(res.kind==='tko')return 'TKO'+(res.towel?' (TOALHA)':(res.cut?' (CORTE)':''))+' · R'+r;
-  if(res.kind==='sub')return 'FINALIZAÇÃO · R'+r;
+  var r=res.round,t=res.time?' '+res.time:'';
+  if(res.kind==='ko')return 'NOCAUTE · R'+r+t;
+  if(res.kind==='tko')return 'TKO'+(res.towel?' (TOALHA)':(res.cut?' (CORTE)':(res.legs?' (CHUTES)':'')))+' · R'+r+(res.towel?'':t);
+  if(res.kind==='sub')return 'FINALIZAÇÃO'+(res.tec?' ('+res.tec.toUpperCase()+')':'')+' · R'+r+t;
   if(res.kind==='dec'||res.kind==='draw')return decLabel(res);
   return 'SEM RESULTADO';
 }
-function runRound(plan){
-  var events=gfRound(plan);
-  playEvents(events,afterRound);
+/* ---------- treinador: simula o resto da luta com cada plano e recomenda o melhor ---------- */
+function cloneFight(g){var c=JSON.parse(JSON.stringify(g,function(k,v){return k==='ev'?[]:v;}));c.quiet=true;return c;}
+function coachEval(n){
+  var saved=GF,res={};
+  PLAN_KEYS.forEach(function(p){
+    var sc=0;
+    for(var i=0;i<n;i++){
+      GF=cloneFight(saved);var g=0;
+      while(!GF.result&&GF.round<GF.rounds&&g++<10)gfRound(p);
+      gfResolve();sc+=GF.result.won===true?1:(GF.result.won===null?0.5:0);
+    }
+    res[p]=sc/n;
+  });
+  GF=saved;return res;
 }
+function coachBest(n){var r=coachEval(n||16),b='equilibrado';for(var k in r)if(r[k]>r[b]+0.0001)b=k;return b;}
+
+/* ===================== NARRAÇÃO ===================== */
+var NAR={
+ land:['{A} acerta {t} em {D}.','{A} conecta {t}.','{A} encaixa {t} e sai.','{A} solta {t} — entrou.','{A} acha {t} no meio da guarda.'],
+ heavy:['{A} acerta {t} PESADO e {D} sente!','{A} encaixa {t} e balança {D}!','{A} solta {t} com tudo — {D} sentiu!'],
+ counter:['{D} avança e come {t} de {A} no contra-ataque!','Contra-golpe perfeito: {A} responde com {t}!','{A} espera o ataque e devolve {t}.'],
+ miss:['{D} esquiva da sequência de {A}.','{A} tenta {t}, mas {D} bloqueia.','{A} ataca no vazio — {D} sai bem.','Boa defesa de {D}: {A} não encontra o alvo.'],
+ leg:['{A} castiga a perna de {D} com um chute baixo.','Chute na panturrilha! {A} acerta {D}.','{A} chuta a coxa de {D} — estalou no ginásio.','{A} acerta mais um chute na base de {D}.'],
+ legHurt:['{A} acerta a perna de novo — {D} já está mancando!','A perna de {D} está roxa — ele sente cada chute de {A}.'],
+ legMiss:['{D} levanta a perna e bloqueia o chute de {A}.','{A} erra o chute baixo.'],
+ catchK:['{D} segura o chute de {A}...','{D} agarra a perna de {A} no chute!'],
+ td:['{A} entra num double-leg e derruba {D}!','{A} encaixa a queda de single-leg.','{A} cola {D} na grade e leva pro chão.','Queda limpa de {A}!'],
+ slam:['BATE-ESTACA! {A} levanta {D} e joga no chão!'],
+ tdx:['{D} defende a queda com um sprawl.','{A} busca a queda, mas {D} se segura na grade.','{D} afunda o quadril e anula a queda de {A}.','{A} mergulha nas pernas e {D} defende.'],
+ gnp0:['{A} solta socos de dentro da guarda.','{A} trabalha por cima, dentro da guarda de {D}.','{D} amarra {A} na guarda, mas apanha.'],
+ gnp1:['Cotoveladas de {A} na meia-guarda!','{A} acerta socos curtos na meia-guarda.','{A} pressiona {D} contra a grade na meia-guarda.'],
+ gnp2:['{A} castiga {D} da lateral.','Joelhadas no corpo! {A} bate da lateral.','{A} controla {D} contra a grade e bate.'],
+ gnp3:['{A} chove socos da montada!','{A} solta o ground-and-pound da montada e {D} só se cobre!'],
+ gnp4:['{A} bate pelas costas — {D} só se cobre.','Socos de {A} pelas costas de {D}!'],
+ pass1:['{A} passa pra meia-guarda.','{A} vence a guarda e cai na meia-guarda.'],
+ pass2:['{A} passa a guarda e estabiliza na lateral.','{A} chega nos cem quilos.'],
+ pass3:['{A} monta em {D}!','MONTADA de {A}! Perigo pra {D}.'],
+ pass4:['{A} pega as costas de {D}!','{A} cola nas costas de {D} e põe os ganchos!'],
+ esc:['{A} se levanta e a luta volta em pé.','{A} explode do chão e se solta.','{A} cria espaço e volta pra luta em pé.'],
+ sweep:['Raspagem de {A}! Agora ele está por cima.'],
+ subTry:['{A} busca {t}...','{A} ameaça {t}!','{A} encaixa meio {t} — perigo!'],
+ subDef:['{D} escapa de {t}.','{D} resiste a {t} e se solta!','{D} defende {t} com calma.'],
+ subWin:['🐍 {A} aperta {t} e {D} BATE!','🐍 Não tem saída: {A} encaixa {t} e {D} bate!'],
+ kd:['💥 {A} acerta {t} e {D} vai ao chão!','💥 KNOCKDOWN! {A} conecta {t} e derruba {D}!'],
+ kdSurv:['{D} sobrevive à pressão e se levanta!','{D} segura a onda e volta pra luta!'],
+ ko:['💥 APAGOU! {A} acerta {t} e {D} cai desacordado!','💥 {A} DESLIGA {D} com {t}! Acabou!'],
+ tkoKd:['{A} parte pra cima e o juiz interrompe!','{A} finaliza com socos no chão — o juiz para a luta!'],
+ tkoGnp:['O juiz entra! {D} não se defende mais — TKO!'],
+ rocked:['{D} está grogue!','As pernas de {D} tremem!'],
+ cut:['🩸 {D} abriu um corte.','🩸 Sangue no rosto de {D}.'],
+ cutBad:['🩸 O corte de {D} piorou — o médico olha de perto.'],
+ doc:['🩸 O médico interrompe — {D} não enxerga. TKO por corte!'],
+ tired:['{A} está com a boca aberta, sem gás.','{A} respira pesado — o cardio está acabando.'],
+ legTko:['{D} não consegue mais apoiar a perna — TKO por chutes na perna!'],
+ foul:['⚠️ Golpe baixo acidental em {D}. O juiz dá um tempo.'],
+ nc:['⚠️ Dedo no olho acidental em {D}! O médico encerra — SEM RESULTADO.']
+};
+
+/* ===================== LUTA NA TELA ===================== */
+var simTimer=null,GF=null;
+function fighterDefY(){return {name:F.nick,a:JSON.parse(JSON.stringify(F.attrs)),sty:PLAYER_STY[F.style]||'completo',tr:(F.traits||[]).slice(),dur:F.durability||70,isY:true};}
+function fighterDefO(o){o=o||currentOpp;return {name:o.name,a:JSON.parse(JSON.stringify(o.a)),sty:o.sty,tr:[],dur:o.dur||75};}
+function gfStart(){GF=newFight(fighterDefY(),fighterDefO(),currentOpp.title?5:3);}
+function prefightCoach(){var saved=GF;gfStart();var b=coachBest(BAL.coachPre);GF=saved;return b;}
+function planLabel(k){var p=PLANS[k];return p?p.ico+' '+p.nome:'—';}
+function fmtCtrl(s){s=Math.round(s||0);return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);}
+function planButtons(fn,best,cur){
+  return PLAN_KEYS.map(function(k){var p=PLANS[k];
+    return '<button class="cbtn'+(k===best?' sug':'')+(k===cur?' cur':'')+'" data-plan="'+k+'" onclick="'+fn+'(\''+k+'\')">'+
+      (k===best?'<i class="star">⭐ TREINADOR</i>':'')+'<b>'+p.ico+' '+p.nome+'</b><span>'+p.desc+'</span></button>';}).join('');
+}
+function markPlan(k){var bs=document.querySelectorAll?document.querySelectorAll('.cbtn[data-plan]'):[];for(var i=0;i<bs.length;i++){if(bs[i].getAttribute('data-plan')===k)bs[i].classList.add('cur');else bs[i].classList.remove('cur');}}
+/* linhas "você | atributo | ele" (o maior fica destacado) */
+function cmpRow(label,y,o,yTxt,oTxt){return '<div class="trow"><div class="rv'+(y>o?' adv':'')+'">'+(yTxt!=null?yTxt:y)+'</div><div class="lbl">'+label+'</div><div class="bv'+(o>y?' adv':'')+'">'+(oTxt!=null?oTxt:o)+'</div></div>';}
+function statsRows(y,o){
+  return cmpRow('Golpes sig.',y.ss,o.ss,y.ss+'/'+y.sa,o.ss+'/'+o.sa)+
+    (y.kd||o.kd?cmpRow('Knockdowns',y.kd,o.kd):'')+
+    cmpRow('Quedas',y.td,o.td,y.td+'/'+y.tda,o.td+'/'+o.tda)+
+    cmpRow('Controle',y.ctrl,o.ctrl,fmtCtrl(y.ctrl),fmtCtrl(o.ctrl))+
+    (y.sub||o.sub?cmpRow('Tent. finalização',y.sub,o.sub):'')+
+    (y.legk||o.legk?cmpRow('Chutes na perna',y.legk,o.legk):'');
+}
+function fightStatsHtml(st,open){
+  if(!st)return '';
+  return '<details class="fstats"'+(open?' open':'')+'><summary>📊 ESTATÍSTICAS DA LUTA</summary><div class="tape-stats">'+
+    cmpRow('',0,0,'<b>'+F.nick.toUpperCase()+'</b>','<b>'+(st.on||'').toUpperCase()+'</b>')+statsRows(st.y,st.o)+'</div></details>';
+}
+function simulateFight(plan){
+  plan=plan||currentOpp.plan||currentOpp.coach||'equilibrado';
+  PHASE='fight';saveGame();
+  gfStart();
+  document.getElementById("fight-area").innerHTML=
+    '<div class="fstage">'+
+      '<div class="round-ind"><span id="ri">ROUND 1</span> <small id="risub">de '+GF.rounds+'</small></div>'+
+      '<div class="fbars">'+fbar('you',F.nick.toUpperCase(),'red')+fbar('opp',currentOpp.name.toUpperCase(),'blue')+'</div>'+
+      '<div class="planline" id="planline">'+planLabel(plan)+'</div>'+
+      '<div class="ring" id="ring"><div id="figy" class="fighter you">'+fighterSVG('red')+'</div><div id="figo" class="fighter opp">'+fighterSVG('blue')+'</div><div class="ringtag" id="ringtag"></div><div id="fx"></div></div>'+
+      '<div id="corner"></div>'+
+      '<div class="pbp" id="pbp"></div>'+
+      '<button class="btn ghost sm" onclick="skipSim()">Pular para o resultado &#9656;</button>'+
+    '</div>';
+  updateBarsRaw(100,100,100,100);
+  pbp('🔔 E COMEÇA A LUTA!');
+  simTimer=setTimeout(function(){runRound(plan);},700);
+}
+function runRound(plan){var events=gfRound(plan);playEvents(events,afterRound);}
 function playEvents(events,cb){
   var i=0;
   function step(){
     if(i>=events.length){cb();return;}
     var e=events[i++];applyEvent(e);
-    var delay=e.type==='round'?700:(e.dmg>=18?900:580);
+    var delay=e.type==='round'?800:(e.kd?1150:(e.dmg>=12?850:520));
     simTimer=setTimeout(step,delay);
   }
   step();
@@ -845,76 +1239,99 @@ function playEvents(events,cb){
 function afterRound(){
   if(GF.result){revealFinishGF();return;}
   if(GF.round>=GF.rounds){gfResolve();revealFinishGF();return;}
+  var Y=GF.Y,O=GF.O;
+  updateBarsRaw(Y.hp,O.hp,Y.st,O.st);
+  setChips({yl:Y.leg,ol:O.leg,yc:Y.cut,oc:O.cut,yr:false,or:false,ys:Y.st,os:O.st});
+  setGround('pe');
   showCorner();
 }
 function revealFinishGF(){
   if(!GF||GF.revealed)return;GF.revealed=true;
   var res=GF.result;
-  if(res.kind==='ko'||res.kind==='tko'){var loser=res.won?'figo':'figy';var lf=document.getElementById(loser);if(lf)lf.classList.add('ko');}
-  updateBarsRaw(GF.Y.hp,GF.O.hp);
+  if((res.kind==='ko'||res.kind==='tko')&&!res.towel&&!res.cut){var lf=document.getElementById(res.won?'figo':'figy');if(lf)lf.classList.add('ko');}
+  updateBarsRaw(GF.Y.hp,GF.O.hp,GF.Y.st,GF.O.st);
   setTimeout(function(){
     if((res.kind==='dec'||res.kind==='draw')&&res.cards){playScorecard(res,function(){endFight(res);});}
     else endFight(res);
   },600);
 }
 function coachRead(){
-  var Y=GF.Y,O=GF.O;
-  if(Y.hp<30)return 'Você tá bem machucado! Segura a onda e escolhe com cuidado, senão eu paro a luta.';
-  if(O.hp<30)return 'Ele tá caindo aos pedaços — vai pra cima e finaliza esse cara!';
-  if(Y.st<28)return 'Você gastou demais, tá sem fôlego. Segura o ritmo e economiza.';
-  if(O.cut>0)return 'Ele abriu um corte! Pressiona que o médico pode parar a luta.';
-  if(GF.rWinO>GF.rWinY)return 'Tá perdendo no placar. Precisa arriscar mais nesse round.';
-  if(GF.rWinY>GF.rWinO)return 'Tá na frente! Mantém a inteligência e não facilita.';
-  return 'Luta equilibrada. Qual o plano pra esse round?';
+  var Y=GF.Y,O=GF.O,lr=GF.rs[GF.rs.length-1],ly=lr.y,lo=lr.o,m=[];
+  if(Y.hp<30)m.push('Você tá muito machucado! Mais um round assim e eu jogo a toalha.');
+  else if(O.hp<35)m.push('Ele tá caindo aos pedaços — dá pra acabar com isso!');
+  if(Y.st<30)m.push('Você tá sem gás, respira e escolhe bem onde gastar.');
+  else if(O.st<30)m.push('Ele tá morto de cansado.');
+  if(O.leg>=50)m.push('A perna dele tá destruída.');
+  if(Y.leg>=50)m.push('Tua perna tá machucada, cuidado com os chutes.');
+  if(ly.tda>=2&&ly.td===0)m.push('Ele tá defendendo todas as quedas.');
+  if(lo.td>=1&&lo.ctrl>=40)m.push('Ele te levou pro chão e controlou — cuidado com a grade.');
+  if(O.cut>0)m.push('Ele tá sangrando, o corte pode parar a luta.');
+  var d=GF.rWinY-GF.rWinO;
+  m.push(d>0?'Acho que tamo na frente ('+GF.rWinY+'-'+GF.rWinO+').':(d<0?'Acho que tamo atrás ('+GF.rWinY+'-'+GF.rWinO+') — precisa virar.':'Placar empatado, esse round decide.'));
+  m.push('Ele veio com <b>'+planLabel(O.plan)+'</b>.');
+  return m.slice(0,4).join(' ');
 }
 function showCorner(){
   var el=document.getElementById('corner');if(!el)return;
   el.className='corner-live';if(el.scrollIntoView){try{el.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}}
-  var hurt=GF.Y.hp<32;
-  var h='<div class="corner-read"><span class="cico">🗣️</span> <b>Treinador:</b> '+coachRead()+'</div>'+
-    '<div class="corner-actions">'+
-      '<button class="cbtn" onclick="pickPlan(\'pressao\')"><b>🔥 Pressionar</b><span>Mais dano, gasta fôlego</span></button>'+
-      '<button class="cbtn" onclick="pickPlan(\'contra\')"><b>🛡️ Segurar & contra</b><span>Apanha menos, recupera</span></button>'+
-      '<button class="cbtn" onclick="pickPlan(\'chao\')"><b>🤼 Levar pro chão</b><span>Busca queda/finalização</span></button>'+
-      '<button class="cbtn" onclick="pickPlan(\'boxear\')"><b>🥊 Boxear de fora</b><span>Distância, evita queda</span></button>'+
-    '</div>'+
-    (hurt?'<button class="btn ghost sm" style="border-color:var(--red);color:var(--red2)" onclick="throwTowel()">🏳️ Jogar a toalha (desistir)</button>':'');
+  var best=coachBest(BAL.coachCorner),lr=GF.rs[GF.rs.length-1];
+  var h='<div class="corner-read"><span class="cico">🗣️</span> <b>Treinador:</b> '+coachRead()+' Minha sugestão: <b>'+planLabel(best)+'</b>.</div>'+
+    '<div class="rmini"><div class="rmini-h">ROUND '+GF.round+'</div><div class="tape-stats">'+statsRows(lr.y,lr.o)+'</div></div>'+
+    '<div class="corner-actions">'+planButtons('pickPlan',best,GF.Y.plan)+'</div>'+
+    (GF.Y.hp<35?'<button class="btn ghost sm" style="border-color:var(--red);color:var(--red2)" onclick="throwTowel()">🏳️ Jogar a toalha (desistir)</button>':'');
   el.innerHTML=h;
 }
 function pickPlan(p){if(!GF||GF.revealed)return;var el=document.getElementById('corner');if(el){el.innerHTML='';el.className='';}runRound(p);}
 function throwTowel(){if(!GF||GF.revealed)return;GF.result={kind:'tko',won:false,round:GF.round,towel:true};var el=document.getElementById('corner');if(el)el.innerHTML='';pbp('🏳️ O córner jogou a toalha! '+F.nick+' não volta pro próximo round.');revealFinishGF();}
 function fbar(who,name,color){
-  return '<div><div class="fbtop"><b>'+name+'</b><span id="'+who+'hp-n">100</span></div>'+
-    '<div class="hpbar"><i id="'+who+'hp" class="'+color+'" style="width:100%"></i></div></div>';
+  return '<div><div class="fbtop"><b>'+name+'</b><span class="fchips" id="'+who+'chips"></span><span id="'+who+'hp-n" class="hpn">100</span></div>'+
+    '<div class="hpbar"><i id="'+who+'hp" class="'+color+'" style="width:100%"></i></div>'+
+    '<div class="stbar" title="Gás"><i id="'+who+'st" style="width:100%"></i></div></div>';
 }
-function updateBarsRaw(y,o){
+function updateBarsRaw(y,o,ys,os){
   var a=document.getElementById("youhp"),b=document.getElementById("opphp");
   if(a)a.style.width=Math.max(0,y)+'%';if(b)b.style.width=Math.max(0,o)+'%';
   var an=document.getElementById("youhp-n"),bn=document.getElementById("opphp-n");
   if(an)an.textContent=Math.max(0,Math.round(y));if(bn)bn.textContent=Math.max(0,Math.round(o));
+  if(ys!=null){var c=document.getElementById("youst"),d=document.getElementById("oppst");if(c)c.style.width=Math.max(0,ys)+'%';if(d)d.style.width=Math.max(0,os)+'%';}
+}
+function chipsHtml(leg,cut,rocked,st){return (rocked?'<i title="Grogue">😵</i>':'')+(cut>0?'<i title="Corte">'+(cut>=2?'🩸🩸':'🩸')+'</i>':'')+(leg>=40?'<i title="Perna machucada">🦵</i>':'')+(st<25?'<i title="Sem gás">🫁</i>':'');}
+function setChips(e){
+  var a=document.getElementById('youchips'),b=document.getElementById('oppchips');
+  if(a)a.innerHTML=chipsHtml(e.yl,e.yc,e.yr,e.ys);if(b)b.innerHTML=chipsHtml(e.ol,e.oc,e.or,e.os);
+}
+function setGround(pos,top,gp){
+  var ring=document.getElementById('ring'),tag=document.getElementById('ringtag');if(!ring)return;
+  if(pos==='chao'){ring.classList.add('grounded');if(tag)tag.textContent='🤼 '+(top==='you'?F.nick:currentOpp.name).toUpperCase()+' POR CIMA · '+GP_LABEL[gp||0].toUpperCase();}
+  else{ring.classList.remove('grounded');if(tag)tag.textContent='';}
 }
 function pbp(m){var el=document.getElementById("pbp");if(!el)return;var d=document.createElement("div");d.className="pline";d.textContent=m;el.insertBefore(d,el.firstChild);while(el.children.length>6)el.removeChild(el.lastChild);}
 function animate(who,type){var fig=document.getElementById(who==='you'?'figy':'figo');if(!fig)return;fig.classList.remove('lunge-you','lunge-opp','hit');void fig.offsetWidth;if(type==='atk'){fig.classList.add(who==='you'?'lunge-you':'lunge-opp');setFrame(who,'punch');setTimeout(function(){setFrame(who,'idle');},270);}if(type==='hit'){fig.classList.add('hit');setFrame(who,'hit');setTimeout(function(){setFrame(who,'idle');},270);}}
 function floatDmg(who,n){if(!n)return;var fx=document.getElementById('fx');if(!fx)return;var d=document.createElement('div');d.className='dmgnum '+(who==='you'?'l':'r');d.textContent='-'+n;fx.appendChild(d);setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},800);}
 function shakeApp(n){if(n>=16){var a=document.getElementById('app');a.classList.add('shake');setTimeout(function(){a.classList.remove('shake');},400);}}
-
 function applyEvent(e){
   if(e.type==='round'){
     var ri=document.getElementById('ri');if(ri)ri.textContent='ROUND '+e.r;
-    var rs=document.getElementById('risub');if(rs)rs.textContent=(currentOpp.title?'de 5':'de 3');
-    pbp('🔔 '+e.txt);updateBarsRaw(e.y,e.o);return;
+    var rs=document.getElementById('risub');if(rs)rs.textContent='de '+GF.rounds;
+    var pl=document.getElementById('planline');if(pl)pl.innerHTML=planLabel(e.yp)+' <span>vs</span> '+planLabel(e.op);
+    pbp('🔔 '+e.txt+' — ele vem com '+PLANS[e.op].nome.toLowerCase());updateBarsRaw(e.y,e.o,e.ys,e.os);setGround('pe');return;
   }
-  updateBarsRaw(e.y,e.o);
+  updateBarsRaw(e.y,e.o,e.ys,e.os);setChips(e);setGround(e.pos,e.top,e.gp);
   if(e.hit){var atk=e.hit==='opp'?'you':'opp';animate(atk,'atk');setTimeout(function(){animate(e.hit,'hit');},110);floatDmg(e.hit,e.dmg);shakeApp(e.dmg);}
+  if(e.kd){var kf=document.getElementById(e.kd==='you'?'figy':'figo');if(kf){kf.classList.add('kd');setTimeout(function(){kf.classList.remove('kd');},900);}}
   pbp(e.txt);
 }
 function skipSim(){
   if(simTimer)clearTimeout(simTimer);
   if(!GF||GF.revealed)return;
-  var el=document.getElementById('corner');if(el)el.innerHTML='';
-  var guard=0;while(!GF.result && GF.round<GF.rounds && guard<20){gfRound('balanced');guard++;}
-  gfResolve();updateBarsRaw(GF.Y.hp,GF.O.hp);revealFinishGF();
+  var el=document.getElementById('corner');if(el){el.innerHTML='';el.className='';}
+  var plan=GF.round===0?(currentOpp.plan||currentOpp.coach||'equilibrado'):GF.Y.plan;
+  GF.quiet=true;
+  var guard=0;while(!GF.result&&GF.round<GF.rounds&&guard<20){gfRound(plan);guard++;}
+  gfResolve();GF.quiet=false;
+  updateBarsRaw(GF.Y.hp,GF.O.hp,GF.Y.st,GF.O.st);revealFinishGF();
 }
+
 function endFight(r){
   var kind=r.kind,won=r.won,round=r.round,close=r.close;
   var o=currentOpp,method,cls,story,ko=false,detail='';
@@ -922,13 +1339,13 @@ function endFight(r){
   else if(kind==='draw'){F.d++;method='EMPATE';cls='dec';detail=DRAW_TXT[r.decType];story='Depois da distância completa, os juízes não separaram os dois. Empate '+DRAW_TXT[r.decType].toLowerCase()+'.';}
   else if(won){
     F.w++;
-    if(kind==='ko'){method='NOCAUTE';cls='ko';ko=true;detail='ROUND '+round;story=F.nick+' desligou '+o.name+' no round '+round+'! A arena explodiu.';}
-    else if(kind==='tko'){method='NOCAUTE TÉCNICO';cls='ko';ko=true;detail=(r.cut?'CORTE · ':'')+'ROUND '+round;story=r.cut?(F.nick+' abriu um corte feio em '+o.name+' e o médico parou a luta no round '+round+'.'):(F.nick+' castigou '+o.name+' até a luta ser parada no round '+round+'.');}
-    else if(kind==='sub'){method='FINALIZAÇÃO';cls='sub';detail='ROUND '+round;story=F.nick+' fez '+o.name+' bater no round '+round+'. Finalização limpa.';}
+    if(kind==='ko'){method='NOCAUTE';cls='ko';ko=true;detail='ROUND '+round+(r.time?' · '+r.time:'');story=F.nick+' desligou '+o.name+' no round '+round+'! A arena explodiu.';}
+    else if(kind==='tko'){method='NOCAUTE TÉCNICO';cls='ko';ko=true;detail=(r.cut?'CORTE · ':(r.legs?'CHUTES NA PERNA · ':''))+'ROUND '+round+(r.time?' · '+r.time:'');story=r.cut?(F.nick+' abriu um corte feio em '+o.name+' e o médico parou a luta no round '+round+'.'):(F.nick+' castigou '+o.name+' até a luta ser parada no round '+round+'.');}
+    else if(kind==='sub'){method='FINALIZAÇÃO';cls='sub';detail=(r.tec?r.tec.toUpperCase()+' · ':'')+'ROUND '+round+(r.time?' · '+r.time:'');story=F.nick+' fez '+o.name+' bater no round '+round+(r.tec?' com '+r.tec:'')+'. Finalização limpa.';}
     else{method='DECISÃO';cls='dec';detail=DEC_TXT[r.decType];story=F.nick+' levou a decisão '+DEC_TXT[r.decType].toLowerCase()+' numa guerra de '+round+' rounds.';}
   } else {
     F.l++;method='DERROTA';cls='loss';detail=howStr(r);
-    var how=(kind==='ko')?'foi nocauteado no round '+round:(kind==='tko')?(r.towel?'teve a toalha jogada pelo córner no round '+round:(r.cut?'foi parado por corte no round '+round:'foi parado (TKO) no round '+round)):(kind==='sub')?'bateu no round '+round:'perdeu por decisão '+DEC_TXT[r.decType].toLowerCase();
+    var how=(kind==='ko')?'foi nocauteado no round '+round:(kind==='tko')?(r.towel?'teve a toalha jogada pelo córner no round '+round:(r.cut?'foi parado por corte no round '+round:'foi parado (TKO) no round '+round)):(kind==='sub')?'bateu'+(r.tec?' ('+r.tec+')':'')+' no round '+round:'perdeu por decisão '+DEC_TXT[r.decType].toLowerCase();
     story='Zebra dura de engolir. '+F.nick+' '+how+' contra '+o.name+'. De volta pro camp.';
   }
   var wasChamp=F.champion, rankMsg='';
@@ -947,14 +1364,16 @@ function endFight(r){
     else {climbToSmart(currentOpp.ref,(kind==='ko'||kind==='sub'||kind==='tko'));rankMsg='Subiu para '+posStr()+' no ranking!';}
     F.streak=(F.streak||0)+1;if(F.streak>(F.bestStreak||0))F.bestStreak=F.streak;
     var fin=(kind==='ko'||kind==='sub'||kind==='tko');if(fin)F.finishes=(F.finishes||0)+1;
-    F.tp=(F.tp||0)+(fin?4:3)+(currentOpp.title?3:0)+(F.campBonus||0);
-    autoImprove();autoImprove();
     F.carisma=Math.min(99,(F.carisma||40)+(fin?2:1)+(currentOpp.title?1:0)+(hasTrait('queridinho')?1:0));
   } else if(kind!=='draw'){
     if(wasChamp){loseTitleTo(currentOpp.ref);rankMsg='Perdeu o cinturão dos '+curDivName.toUpperCase()+', mas segue como #1.';}
     else if(!currentOpp.prospect && !currentOpp.circuit){ if(lossDrop(currentOpp.ref,kind,close))rankMsg='Caiu para '+posStr()+' no ranking.'; }
     F.streak=0;
   } else { F.streak=0; }
+  var gainTp=fightTP(won,kind,currentOpp.title),grew=naturalGrowth();
+  F.tp=(F.tp||0)+gainTp;
+  var stats=GF?{y:GF.Y.s,o:GF.O.s,on:currentOpp.name}:null;
+  if(stats){F.cs=F.cs||{};['ss','sa','td','tda','kd','sub','ctrl','legk'].forEach(function(k){F.cs[k]=(F.cs[k]||0)+(stats.y[k]||0);});}
   var res=won?'V':(kind==='draw'?'E':(kind==='nc'?'NC':'D'));
   recordFight(currentOpp.name,currentOpp.ovr,currentOpp.emo,res,method,round,currentOpp.title,howStr(r));
   F.lastLossTo=(!won && kind==='dec' && close && currentOpp.ref && RANK.indexOf(currentOpp.ref)>=0)?currentOpp.ref.name:null;
@@ -969,7 +1388,8 @@ function endFight(r){
   else if(F._leveNote){story=story+' — Saiu com uma lesão leve.';F._leveNote=false;}
   if(rankMsg) story=story+' — '+rankMsg;
   if(lostBelts.length) story=story+' — ⚠️ Perdeu o cinturão dos '+lostBelts.join(' e dos ').toUpperCase()+' por inatividade.';
-  RESULTVIEW=LASTRES={method:method,cls:cls,round:round,detail:detail,story:story,win:won,champ:!!(F.champion&&won&&o.title)};
+  story=story+' — 🥋 +'+gainTp+' pontos de treino'+(grew?' e evoluiu '+grew+' pt'+(grew>1?'s':'')+' naturalmente':'')+'.';
+  RESULTVIEW=LASTRES={method:method,cls:cls,round:round,detail:detail,story:story,win:won,champ:!!(F.champion&&won&&o.title),stats:stats};
   PHASE='result';saveGame();
   renderFicha();updateHUD();
   setTimeout(function(){showResult(RESULTVIEW,ko);},ko?350:150);
@@ -977,7 +1397,7 @@ function endFight(r){
 function showResult(v,ko){
   var method=v.method,cls=v.cls,story=v.story,win=v.win;
   if(ko){var wf=document.createElement("div");wf.className="whiteflash";document.body.appendChild(wf);setTimeout(function(){if(wf.parentNode)wf.parentNode.removeChild(wf);},350);var app=document.getElementById("app");app.classList.add("shake");setTimeout(function(){app.classList.remove("shake");},450);}
-  var banner=(method==="SEM RESULTADO")?"SEM RESULTADO":(win?"RESULTADO OFICIAL":(method==="EMPATE"?"RESULTADO OFICIAL":"DERROTA"));
+  var banner=(method==="SEM RESULTADO")?"SEM RESULTADO":"RESULTADO OFICIAL";
   var champLine=v.champ?'<div class="champbanner">'+F.nick.toUpperCase()+' É O NOVO<br>CAMPEÃO MUNDIAL DOS '+F.weight.toUpperCase()+'!</div>':'';
   document.getElementById("fight-area").innerHTML=
     '<div class="result">'+
@@ -987,6 +1407,7 @@ function showResult(v,ko){
       champLine+
       '<div class="story">'+story+'</div>'+
       '<div class="cartel">CARTEL <b>'+F.w+'-'+F.l+'-'+F.d+((F.nc||0)>0?' ('+F.nc+'NC)':'')+'</b> &nbsp;•&nbsp; OVR <b>'+F.ovr+'</b></div>'+
+      fightStatsHtml(v.stats,false)+
       (F.lastEarn?'<div class="earn">GANHOS: '+fmtMoney(F.lastEarn.total)+'<small>show '+fmtMoney(F.lastEarn.show)+(F.lastEarn.win?' + win '+fmtMoney(F.lastEarn.win):'')+' + venum '+fmtMoney(F.lastEarn.venum)+(F.lastEarn.bonus?' + bônus $50k':'')+(F.lastEarn.ppv?' + PPV '+fmtMoney(F.lastEarn.ppv):'')+'</small><span class="wallet">Carteira: '+fmtMoney(F.money)+'</span></div>':'')+
       ((F.tp||0)>0?'<button class="btn gold" onclick="openTreino()">🥋 TREINAR (+'+F.tp+' pts)</button>':'')+
       '<button class="btn gold" onclick="exportCard()">⬇️ BAIXAR CARD (PNG)</button>'+
@@ -1065,7 +1486,7 @@ var CONTRACTS=[
  {name:"Campeão",show:500000,win:500000,ppv:true}
 ];
 var SHOP=[
- {id:'camp',name:'Camp de elite',desc:'+1 ponto de treino por vitória',cost:90000,max:3},
+ {id:'camp',name:'Camp de elite',desc:'+3 pontos de treino por luta',cost:90000,max:3},
  {id:'nutri',name:'Nutricionista',desc:'+6 Cardio',cost:60000,attr:'cardio',amt:6,max:2},
  {id:'chin',name:'Preparador de queixo',desc:'+6 Queixo',cost:60000,attr:'queixo',amt:6,max:2},
  {id:'box',name:'Técnico de boxe',desc:'+6 Poder',cost:70000,attr:'poder',amt:6,max:2},
@@ -1087,7 +1508,7 @@ function initFighterAttrs(){
   var b=STYLE_START[F.style]||STYLE_START["Trocador"];
   ATTRS.forEach(function(a,i){F.attrs[a.key]=b[i];});
   F.carisma=40;
-  F.potential=rnd(80,99);
+  F.potential=rnd(84,99);
   F.durability=rnd(58,99);
   F.primePeak=rnd(28,33);
   F.primeStart=F.primePeak-rnd(3,5);
@@ -1096,9 +1517,29 @@ function initFighterAttrs(){
   F.traits=rollTraits();
   recalcOvr();
 }
-function autoImprove(){
-  var cap=F.potential||99,lo=null;for(var i=0;i<ATTRS.length;i++){var k=ATTRS[i].key;if(F.attrs[k]<cap&&(lo===null||F.attrs[k]<F.attrs[lo]))lo=k;}
-  if(lo){F.attrs[lo]=Math.min(cap,F.attrs[lo]+1);recalcOvr();}
+/* Pontos de treino: toda luta ensina alguma coisa (vitória ensina mais). */
+function fightTP(won,kind,title){
+  var fin=(kind==='ko'||kind==='tko'||kind==='sub');
+  var t=won===true?BAL.tpWin+(fin?BAL.tpFinish:0):(kind==='draw'?BAL.tpDraw:(kind==='nc'?Math.round(BAL.tpLoss/2):BAL.tpLoss));
+  if(title)t+=BAL.tpTitle;
+  return t+(F.campBonus||0)*BAL.campTp;
+}
+/* Custo de +1 num atributo: fica mais caro quanto mais alto (retorno decrescente). */
+function tpCost(v){return v<70?1:(v<80?2:(v<88?3:4));}
+/* Evolução natural: jovem melhora sozinho (mais no estilo dele); no auge, quase nada. */
+var STY_GROW={wrestler:['chao','cardio','fightIQ'],jiujitsu:['chao','fightIQ','coracao'],muaythai:['poder','cardio','agressao'],boxe:['precisao','velocidade','defesa'],trocador:['poder','queixo','agressao']};
+function lowestAttr(){var lo=null;ATTRS.forEach(function(a){var k=a.key;if(F.attrs[k]<(F.potential||99)&&(lo===null||F.attrs[k]<F.attrs[lo]))lo=k;});return lo;}
+function naturalGrowth(){
+  var age=F.age||22,n=0,done=0;
+  if(age<(F.primeStart||26))n=Math.round(rnd(BAL.growYoung[0],BAL.growYoung[1])*(F.learnRate||1));
+  else if(age<=(F.primePeak||30))n=BAL.growPrime;
+  var focus=STY_GROW[PLAYER_STY[F.style]]||[];
+  for(var i=0;i<n;i++){
+    var k=(Math.random()<0.5&&focus.length)?pick(focus):lowestAttr();
+    if(k&&F.attrs[k]<(F.potential||99)){F.attrs[k]++;done++;}
+  }
+  recalcOvr();
+  return done;
 }
 function enterRankings(){RANK=RANK.filter(notYou);RANK.splice(14,0,{you:true});DIVSTATE[curDivName].rank=RANK.slice(0,15);RANK=DIVSTATE[curDivName].rank;}
 function setContract(){
@@ -1119,21 +1560,23 @@ function payFight(won,kind,title){
   F.money=(F.money||0)+total;F.careerEarn=(F.careerEarn||0)+total;
   F.lastEarn={show:show,win:winb,venum:venum,bonus:bonus,ppv:ppv,total:total,notes:notes};
 }
+var ATTR_DESC={poder:'Dano e chance de knockdown',velocidade:'Acertar, esquivar e escapar do chão',precisao:'Acertar e derrubar com golpe limpo',defesa:'Não ser atingido',chao:'Quedas, controle e finalizações',cardio:'Gás até o último round',queixo:'Aguentar os golpes',fightIQ:'Executar o plano, defender finalização',agressao:'Volume de ataque e instinto matador',coracao:'Reagir quando está machucado',carisma:'Vende luta: bolsa, bônus e PPV'};
 function openTreino(){
   var pts=F.tp||0;
   var icons={poder:'💥',velocidade:'⚡',precisao:'🎯',defesa:'🛡️',chao:'🤼',cardio:'🫁',queixo:'🪨',fightIQ:'🧠',agressao:'😤',coracao:'❤️',carisma:'⭐'};
   var h='<div class="ladder-h">🥋 CENTRO DE TREINO <button class="lx" onclick="closeLadder()">✕</button></div>';
-  h+='<div class="trn-hero"><div class="trn-cell"><b class="g">'+pts+'</b><span>PONTOS</span></div><div class="trn-cell"><b>'+F.ovr+'</b><span>OVERALL</span></div></div>';
-  h+='<div class="trn-note">'+(pts>0?'Distribua seus pontos ↓ · Teto de potencial: '+(F.potential||99):'Vença lutas pra ganhar pontos. Teto de potencial: '+(F.potential||99))+'</div>';
+  h+='<div class="trn-hero"><div class="trn-cell"><b class="g">'+pts+'</b><span>PONTOS</span></div><div class="trn-cell"><b>'+F.ovr+'</b><span>OVERALL</span></div><div class="trn-cell"><b>'+(F.potential||99)+'</b><span>POTENCIAL</span></div></div>';
+  h+='<div class="trn-note">Cada +1 custa <b>1 pt</b> até 69, <b>2</b> até 79, <b>3</b> até 87 e <b>4</b> daí pra cima. Ninguém passa do potencial.</div>';
   var list=ATTRS.concat([{key:'carisma',label:'Carisma',fame:true}]);
   h+='<div class="trn-list">';
-  for(var i=0;i<list.length;i++){var a=list[i];var v=a.fame?(F.carisma||40):F.attrs[a.key];var can=(pts>0&&v<(a.fame?99:(F.potential||99)));
+  for(var i=0;i<list.length;i++){var a=list[i];var v=a.fame?(F.carisma||40):F.attrs[a.key];var cost=a.fame?1:tpCost(v);var capped=v>=(a.fame?99:(F.potential||99));var can=(pts>=cost&&!capped);
     if(a.fame)h+='<div class="trn-sec">FAMA & MARKETING</div>';
-    h+='<div class="trn-row"><span class="trn-ico">'+(icons[a.key]||'•')+'</span><div class="trn-mid"><div class="trn-top"><span>'+a.label+'</span><b>'+v+'</b></div><div class="trn-bar"><i style="width:'+v+'%"></i></div></div><button class="trn-plus'+(can?'':' off')+'" onclick="spendTP(\''+a.key+'\')">+</button></div>';}
+    h+='<div class="trn-row"><span class="trn-ico">'+(icons[a.key]||'•')+'</span><div class="trn-mid"><div class="trn-top"><span>'+a.label+' <small>'+(ATTR_DESC[a.key]||'')+'</small></span><b>'+v+'</b></div><div class="trn-bar"><i style="width:'+v+'%"></i></div></div>'+
+      '<button class="trn-plus'+(can?'':' off')+'" onclick="spendTP(\''+a.key+'\')">+<small>'+(capped?'máx':cost+'pt')+'</small></button></div>';}
   h+='</div>';
   showOverlay(h);
 }
-function spendTP(key){if((F.tp||0)<=0)return;var v=key==='carisma'?(F.carisma||40):F.attrs[key];var cap=key==='carisma'?99:(F.potential||99);if(v>=cap)return;if(key==='carisma')F.carisma=v+1;else{F.attrs[key]=v+1;recalcOvr();}F.tp--;saveGame();renderFicha();renderStages();openTreino();}
+function spendTP(key){var v=key==='carisma'?(F.carisma||40):F.attrs[key];var cap=key==='carisma'?99:(F.potential||99);var cost=key==='carisma'?1:tpCost(v);if((F.tp||0)<cost||v>=cap)return;if(key==='carisma')F.carisma=v+1;else{F.attrs[key]=v+1;recalcOvr();}F.tp-=cost;saveGame();renderFicha();renderStages();openTreino();}
 function openCarteira(){
   var c=F.contract||{name:'-',show:0,win:0};
   var h='<div class="ladder-h">CARTEIRA & LOJA <button class="lx" onclick="closeLadder()">✕</button></div>';
@@ -1295,31 +1738,34 @@ function showRetirement(){
 function rollInjury(kind,won,round){
   if(F.retired)return;
   var risk=0.05;
-  if(!won && (kind==='ko'||kind==='tko'))risk+=0.28;
+  if(!won && (kind==='ko'||kind==='tko'))risk+=0.22;
   if(kind==='sub'&&!won)risk+=0.05;
   if(round>=3 && kind==='dec')risk+=0.06;
   risk+=(100-(F.durability||70))/400;
-  risk+=(F.wear||0)/500+Math.max(0,(F.age||25)-32)*0.015;
+  risk+=(F.wear||0)/800+Math.max(0,(F.age||25)-32)*0.01;
   if(F.reinjuryRisk)risk+=0.12;
   F.reinjuryRisk=false;
   if(hasTrait('vidro'))risk+=0.1;if(hasTrait('ferro'))risk*=0.5;
   if(kind==='nc')risk*=0.5;
   if(Math.random()>=risk)return;
   var tipo=pick(['corte profundo','mão fraturada','joelho estourado','ombro deslocado','costela trincada','nariz quebrado','ligamento rompido']);
-  var rr=Math.random(),low=(F.durability||70)<70,oldw=((F.wear||0)>70||(F.age||25)>34);
-  var cataP=0.025+(low?0.03:0)+(oldw?0.05:0);
-  var sev; if(rr<cataP)sev='cata';else if(rr<cataP+0.16)sev='grave';else if(rr<cataP+0.48)sev='moderada';else sev='leve';
+  var rr=Math.random();
+  var cataP=0.003+((F.age||25)>32?0.008:0)+((F.wear||0)>80?0.015:0)+(hasTrait('vidro')?0.02:0)+((F.durability||70)<65?0.008:0);
+  var sev; if(rr<cataP)sev='cata';else if(rr<cataP+0.14)sev='grave';else if(rr<cataP+0.46)sev='moderada';else sev='leve';
   if(sev==='cata'){F.retired=true;F.retireCause='lesao';return;}
-  if(sev==='leve'){F.money=Math.max(0,(F.money||0)-5000);F.wear=(F.wear||0)+2;F._leveNote=true;return;}
+  if(sev==='leve'){F.money=Math.max(0,(F.money||0)-Math.round(5000*medFactor()));F.wear=(F.wear||0)+2;F._leveNote=true;return;}
   F.injuryPending={sev:sev,tipo:tipo,meses:(sev==='grave'?rnd(6,12):rnd(3,6)),cost:(sev==='grave'?150000:40000),perm:(sev==='grave'?rnd(2,4):0)};
 }
+/* Fração do custo médico que o lutador paga: várzea/nacional são baratos; na Liga o seguro cobre metade. */
+function medFactor(){return F.stage2==='varzea'?0.08:(F.stage2==='nacional'?0.2:0.5);}
+function injuryCosts(inj){var full=Math.round(inj.cost*medFactor()/100)*100;return {full:full,basic:Math.round(full*0.4/100)*100};}
 function hurtAttrs(pts){var ks=['poder','velocidade','cardio','queixo','chao','precisao','defesa','agressao'];for(var i=0;i<pts;i++){var k=ks[Math.floor(Math.random()*ks.length)];if(F.attrs[k]!=null)F.attrs[k]=Math.max(40,F.attrs[k]-1);}recalcOvr();}
 function openInjury(){
   var inj=F.injuryPending;if(!inj){closeLadder();return;}
-  var full=inj.cost,basic=Math.round(inj.cost*0.4);
+  var ic=injuryCosts(inj),full=ic.full,basic=ic.basic;
   var canFull=(F.money||0)>=full,canBasic=(F.money||0)>=basic;
   var h='<div class="ladder-h">🏥 SALA DE RECUPERAÇÃO <button class="lx" onclick="closeLadder()">✕</button></div>';
-  h+='<div style="padding:12px 16px;color:var(--dim);font-family:Oswald;font-size:12px">Você sofreu: <b style="color:#fff">'+inj.tipo+'</b> (lesão '+inj.sev+'). Carteira: <b style="color:#37d47e">'+fmtMoney(F.money||0)+'</b>. Escolha a recuperação:</div>';
+  h+='<div style="padding:12px 16px;color:var(--dim);font-family:Oswald;font-size:12px">Você sofreu: <b style="color:#fff">'+inj.tipo+'</b> (lesão '+inj.sev+'). Carteira: <b style="color:#37d47e">'+fmtMoney(F.money||0)+'</b>.'+(F.stage2==='liga'?' O seguro da Liga cobre metade da conta.':'')+' Escolha a recuperação:</div>';
   h+='<div class="offer"><div class="of-top"><b>Cirurgia + recuperação total</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(full)+'</span></div><div class="of-terms">Layoff ~'+inj.meses+' meses · volta 100%'+(inj.perm?' (grave: ainda ~'+inj.perm+' de sequela)':'')+'</div>'+(canFull?'<button class="btn gold sm" onclick="treatInjury(\'full\')">TRATAR ▸</button>':'<div class="of-note" style="color:var(--red2)">Sem dinheiro — precisa de '+fmtMoney(full)+'</div>')+'</div>';
   h+='<div class="offer"><div class="of-top"><b>Tratamento básico</b><span class="of-bonus" style="color:#ff2436">-'+fmtMoney(basic)+'</span></div><div class="of-terms">Layoff curto · sequela leve + risco de reagravar</div>'+(canBasic?'<button class="btn sm" onclick="treatInjury(\'basic\')">FAZER ▸</button>':'<div class="of-note" style="color:var(--red2)">Sem dinheiro — precisa de '+fmtMoney(basic)+'</div>')+'</div>';
   h+='<div class="offer"><div class="of-top"><b>Se virar sozinho</b><span class="of-bonus" style="color:var(--dim)">grátis</span></div><div class="of-terms">Sem médico: muito tempo parado, sequela pesada e alto risco de nova lesão'+(inj.sev==='grave'?' — pode encerrar a carreira':'')+'</div><button class="btn ghost sm" onclick="treatInjury(\'none\')">AGUENTAR NA RAÇA ▸</button></div>';
@@ -1327,9 +1773,10 @@ function openInjury(){
 }
 function treatInjury(mode){
   var inj=F.injuryPending;if(!inj)return;
-  if(mode==='full'){if((F.money||0)<inj.cost){toast('Sem dinheiro pra isso');return;}F.money-=inj.cost;F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/6));if(inj.perm)hurtAttrs(inj.perm);}
-  else if(mode==='basic'){var b=Math.round(inj.cost*0.4);if((F.money||0)<b){toast('Sem dinheiro pra isso');return;}F.money-=b;F.age=(F.age||25)+Math.max(0,Math.round(inj.meses/12));hurtAttrs((inj.perm||0)+rnd(1,3));F.reinjuryRisk=true;}
-  else{F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/4));hurtAttrs((inj.perm||0)+rnd(3,6));F.reinjuryRisk=true;F.wear=(F.wear||0)+4;if(inj.sev==='grave'&&Math.random()<0.28){F.retired=true;F.retireCause='lesao';F.injuryPending=null;closeLadder();showRetirement();return;}}
+  var ic=injuryCosts(inj);
+  if(mode==='full'){if((F.money||0)<ic.full){toast('Sem dinheiro pra isso');return;}F.money-=ic.full;F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/6));if(inj.perm)hurtAttrs(inj.perm);}
+  else if(mode==='basic'){if((F.money||0)<ic.basic){toast('Sem dinheiro pra isso');return;}F.money-=ic.basic;F.age=(F.age||25)+Math.max(0,Math.round(inj.meses/12));hurtAttrs((inj.perm||0)+rnd(1,3));F.reinjuryRisk=true;}
+  else{F.age=(F.age||25)+Math.max(1,Math.round(inj.meses/4));hurtAttrs((inj.perm||0)+rnd(3,6));F.reinjuryRisk=true;F.wear=(F.wear||0)+4;if(inj.sev==='grave'&&Math.random()<((F.age||25)>=30?0.12:0.04)){F.retired=true;F.retireCause='lesao';F.injuryPending=null;closeLadder();showRetirement();return;}}
   F.wear=(F.wear||0)+3;F.injuryPending=null;applyAging();
   closeLadder();renderStages();renderFicha();
   if(checkRetire()){showRetirement();return;}
@@ -1351,8 +1798,6 @@ var TRAITS=[
 function rollTraits(){var pool=TRAITS.slice(),out=[],nt=rnd(1,3);for(var i=0;i<nt&&pool.length;i++){var j=Math.floor(Math.random()*pool.length);out.push(pool[j].id);pool.splice(j,1);}return out;}
 function hasTrait(id){return F.traits&&F.traits.indexOf(id)>=0;}
 function traitName(id){for(var i=0;i<TRAITS.length;i++)if(TRAITS[i].id===id)return TRAITS[i];return null;}
-function heartMult(f){return f.hp<35?1+Math.max(0,((f.a.coracao||55)-55))/160:1;}
-function yTraitOut(r){var m=1;if(hasTrait('explosivo')){if(r<=1)m*=1.2;if(r>=3)m*=0.85;}if(hasTrait('lento'))m*=0.9;return m;}
 function shareCard(){
   var txt="🥊 "+F.name+" \""+F.nick+"\" — "+F.state+"\n⭐ OVR "+F.ovr+" • "+F.weight+" • Cartel "+F.w+"-"+F.l+"-"+F.d+(F.champion?" • 🏆 CAMPEÃO MUNDIAL":"")+"\nJoga SANGUE NO OCTÓGONO!";
   if(navigator.share){navigator.share({text:txt}).catch(function(){});}
@@ -1367,10 +1812,21 @@ function saveGame(){
   try{
     var co=null;
     if(currentOpp){co={};for(var k in currentOpp)if(k!=='ref')co[k]=currentOpp[k];co.refName=currentOpp.ref?currentOpp.ref.name:null;}
-    localStorage.setItem(SAVE_KEY,JSON.stringify({v:1,ts:Date.now(),phase:PHASE,F:F,DIVSTATE:DIVSTATE,cur:curDivName,opp:co,view:RESULTVIEW,last:LASTRES}));
+    localStorage.setItem(SAVE_KEY,JSON.stringify({v:2,ts:Date.now(),phase:PHASE,F:F,DIVSTATE:DIVSTATE,cur:curDivName,opp:co,view:RESULTVIEW,last:LASTRES}));
   }catch(e){}
 }
-function readSave(){try{var raw=localStorage.getItem(SAVE_KEY);if(!raw)return null;var d=JSON.parse(raw);return (d&&d.v===1&&d.F&&d.DIVSTATE)?d:null;}catch(e){return null;}}
+function readSave(){try{var raw=localStorage.getItem(SAVE_KEY);if(!raw)return null;var d=JSON.parse(raw);return (d&&(d.v===1||d.v===2)&&d.F&&d.DIVSTATE)?migrateSave(d):null;}catch(e){return null;}}
+/* v1 (etapa 1): ranking na escala antiga e sem estilos -> reescala pelo posto, gera estilo/atributos e re-sorteia o oponente. */
+function migrateSave(d){
+  if(d.v>=2)return d;
+  for(var n in d.DIVSTATE){var st=d.DIVSTATE[n];
+    st.rank.forEach(function(e,k){if(e.you)return;e.sty=styleFor(e.name);e.a=genAttrs(npcOvrForRank(k),e.sty,3);e.ovr=ovrOf(e.a);});
+    if(st.champ){st.champ.sty=styleFor(st.champ.name);st.champ.a=genAttrs(84+rnd(0,3),st.champ.sty,3);st.champ.ovr=ovrOf(st.champ.a);}
+  }
+  if(d.phase==='prefight'||d.phase==='fight'){d.phase='prefight';d.opp=null;}
+  d.F.cs=d.F.cs||{};
+  d.v=2;return d;
+}
 function clearSave(){try{localStorage.removeItem(SAVE_KEY);}catch(e){}}
 function resolveRef(n){if(!n)return null;if(CHAMP&&CHAMP.name===n)return CHAMP;var i=rankIndexByName(n);return i>=0?RANK[i]:null;}
 function loadGame(){
