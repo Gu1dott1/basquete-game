@@ -4,7 +4,7 @@
 
 ```bash
 node tools/sim.js luta        # planos, estilos, atributos, curva de OVR, finalizações e decisões
-node tools/sim.js carreira    # carreiras completas com dois robôs + estabilidade do mundo vivo
+node tools/sim.js carreira      # carreiras completas com dois robôs + estabilidade do mundo vivo
 node tools/sim.js tudo
 ```
 
