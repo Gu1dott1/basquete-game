@@ -295,7 +295,7 @@ function botPickOffer(G, smart) {
   let best = 0, bestScore = -1e9;
   offs.forEach((o, i) => {
     const gap = G.F.ovr - o.ovr;
-    let sc = gap * 2 + ({ title: 30, super: 18, risco: 8, short: 10, revanche: 6, fogo: 9, grande: 6, segura: 0, local: 0, prospecto: 2, defesa: 5, estrela: 8, callout: 8, rivalidade: 8, primeTitle: 30 }[o.kind] || 0);
+    let sc = gap * 2 + ({ title: 30, super: 18, risco: 8, short: 10, revanche: 6, fogo: 9, grande: 6, segura: 0, local: 0, prospecto: 2, defesa: 5, estrela: 8, callout: 8, rivalidade: 8, trilogia: 7, primeTitle: 30 }[o.kind] || 0);
     if (gap < -6) sc -= 25;
     if (o.title && gap >= -7) sc += 20;
     if (sc > bestScore) { bestScore = sc; best = i; }

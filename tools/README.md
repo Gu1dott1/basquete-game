@@ -17,6 +17,8 @@ Os dois robôs:
 
 A diferença entre os dois mostra quanto as decisões do jogador importam. O simulador também pode ser importado (`require('./tools/sim.js')`) para testes pontuais. Ele exporta `loadGame`, `fight`, `mkDef` e `flat`.
 
+Os circuitos de várzea e nacional têm elenco fixo por divisão (os lutadores lutam entre si, sobem de circuito e se aposentam), e as propostas incluem revanche, trilogia e acerto de contas com rivais. Os robôs aceitam essas propostas como qualquer outra.
+
 Os robôs também passam pelos sistemas de carreira: calendário (descanso, suspensão médica e lesões empurram as lutas), pesagem real, desistência do adversário, seletiva da Liga, contratos de 4 lutas (renovam com a Liga), academia (o esperto vai pra escola do estilo e pro Combat Lab quando entra no ranking) e as pendências entre lutas (`pendAuto`: renova o contrato, recusa doping, segue lutando depois do recado do médico).
 
 ## Alvos de referência
