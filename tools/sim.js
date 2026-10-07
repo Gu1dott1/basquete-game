@@ -68,6 +68,9 @@ function loadGame(seed) {
     navigator: {},
     setTimeout: () => 0,
     clearTimeout: () => {},
+    setInterval: () => 0,
+    clearInterval: () => {},
+    __SIM: true,
     console,
   };
   ctx.window = ctx;
@@ -207,11 +210,11 @@ function runFights(G) {
         const sa = G.STY_KEYS[i % 8], sb = G.STY_KEYS[(i * 3 + 1) % 8];
         const r = fight(G, mkDef(G, 'Y', G.genAttrs(70 + gap, sa, 3), sa), mkDef(G, 'O', G.genAttrs(70, sb, 3), sb), 3, g => G.aiPlan(g.GF.Y, g.GF.O));
         if (r.won === true) w++;
-        if (r.kind === 'ko' || r.kind === 'tko') ko++; else if (r.kind === 'sub') sub++; else if (r.kind === 'dec') dec++; else if (r.kind === 'draw') dr++; else nc++;
+        if (r.kind === 'ko' || r.kind === 'tko') ko++; else if (r.kind === 'sub') sub++; else if (r.kind === 'dec' || r.kind === 'tdec') dec++; else if (r.kind === 'draw') dr++; else nc++;
       }
       rows.push([(gap > 0 ? '+' : '') + gap, pct(w, N), pct(ko, N), pct(sub, N), pct(dec, N), pct(dr, N), pct(nc, N)]);
     });
-    table('DIFERENÇA DE OVR (Y - O) — vitória do Y e como as lutas acabam (estilos variados, IA)', ['gap', 'vitória', 'KO/TKO', 'final.', 'decisão', 'empate', 'NC'], rows);
+    table('DIFERENÇA DE OVR (Y - O) — vitória do Y e como as lutas acabam (estilos variados, IA)', ['gap', 'vitória', 'KO/TKO', 'final.', 'decisão', 'empate', 'NC/DQ'], rows);
   }
 
   // 6) decisões e estatísticas médias por round
@@ -269,14 +272,58 @@ function botShop(G) {
     if (owned < it.max && F.money >= it.cost + 60000) G.buyItem(id);
   });
 }
+function botTeam(G) {
+  const F = G.F;
+  if (F.stage2 !== 'liga') return;
+  const m = F.money || 0;
+  const want = m > 2.5e6 ? 2 : (m > 4e5 ? 1 : 0);
+  ['striking', 'grappling', 'fisico', 'fisio'].forEach(k => { if (G.teamLv(k) < want) { F.team = F.team || {}; F.team[k] = want; } });
+  if (m > 6e5 && G.teamLv('empresario') < 1) { F.team.empresario = 1; }
+}
+/* academia: o esperto vai pra escola do estilo quando pode (e pro Combat Lab quando está no ranking) */
+const GYM_FOR = { jiujitsu: 'tatame', muaythai: 'thai', boxe: 'boxe', wrestler: 'wrestle', trocador: 'thai' };
+function botGym(G) {
+  const F = G.F;
+  const want = G.gymOk('lab') ? 'lab' : (GYM_FOR[G.PLAYER_STY[F.style]] || 'tatame');
+  const k = G.gymOk(want) ? want : (G.gymOk('tatame') && want === 'wrestle' ? 'tatame' : null);
+  if (k && F.gym !== k && (F.money || 0) > 3000) { F.gym = k; F.gymSince = F.wk || 0; }
+}
+/* escolhe a oferta: o esperto pesa o risco pelo OVR; o preguiçoso aceita a primeira */
+function botPickOffer(G, smart) {
+  const offs = G.F.offers || [];
+  if (!smart) return 0;
+  let best = 0, bestScore = -1e9;
+  offs.forEach((o, i) => {
+    const gap = G.F.ovr - o.ovr;
+    let sc = gap * 2 + ({ title: 30, super: 18, risco: 8, short: 10, revanche: 6, fogo: 9, grande: 6, segura: 0, local: 0, prospecto: 2, defesa: 5, estrela: 8, callout: 8, rivalidade: 8, primeTitle: 30 }[o.kind] || 0);
+    if (gap < -6) sc -= 25;
+    if (o.title && gap >= -7) sc += 20;
+    if (sc > bestScore) { bestScore = sc; best = i; }
+  });
+  return best;
+}
+function botWeek(G, smart) {
+  const o = G.currentOpp, w = o.week;
+  if (!smart || w.camp === 'curto') { if (!smart) { w.camp = w.camp === 'curto' ? 'curto' : 'casa'; w.media = 'respeito'; w.cut = 'normal'; } return; }
+  const m = G.F.money || 0;
+  const pick = ['elite', 'estudo', 'fisico', 'casa'].find(k => G.campCost(k) * 4 <= m) || 'casa';
+  w.camp = pick;
+  w.media = (G.F.ovr - o.ovr >= 2) ? 'provocar' : 'respeito';
+  w.cut = G.cutRisk('pesado') < 0.08 ? 'pesado' : 'normal';
+}
+function divSnapshot(G) {
+  const st = G.DIVSTATE[G.curDivName];
+  const top = st.rank.filter(e => !e.you).slice(0, 5);
+  return { champ: st.champ.ovr, top5: top.reduce((s, e) => s + e.ovr, 0) / Math.max(1, top.length) };
+}
 function runCareer(G, smart, idx) {
   const F = G.F;
   F.name = 'Bot ' + idx; F.nick = 'Bot' + idx;
   F.weight = G.WEIGHTS[idx % 8]; F.style = G.STYLES[idx % 5]; F.state = 'SP';
   G.DIVSTATE = {};
-  G.F.w = 0; G.F.l = 0; G.F.d = 0;
+  G.F.w = 0; G.F.l = 0; G.F.d = 0; G.F.look = null;
   G.initFighterAttrs(); G.goCard();
-  const log = { fights: 0, firstRanked: null, firstShot: null, firstTitle: null, titles: 0, defenses: 0, peakOvr: 0, ovrAt: {}, cause: null, age: 0, wins: 0, losses: 0, injuries: 0 };
+  const log = { fights: 0, firstRanked: null, firstShot: null, firstTitle: null, titles: 0, defenses: 0, peakOvr: 0, ovrAt: {}, world: {}, cause: null, age: 0, wins: 0, losses: 0, injuries: 0, ach: 0, retiredNpc: 0 };
   while (!F.retired && log.fights < 160) {
     if (F.injuryPending) {
       log.injuries++;
@@ -285,11 +332,16 @@ function runCareer(G, smart, idx) {
       if (F.retired) break;
       continue;
     }
+    if (F.pend && F.pend.length) { G.pendAuto(); continue; }
     if (F.pendingOffer) { G.chooseOffer(F.pendingOffer, 0); continue; }
-    if (smart) botShop(G);
+    if (smart) { botShop(G); botTeam(G); botGym(G); }
     botSpend(G, smart);
-    if (G.PHASE !== 'prefight') G.nextFight();
+    if (G.PHASE !== 'offers' && G.PHASE !== 'week' && G.PHASE !== 'prefight') G.goToOffers();
     if (F.retired) break;
+    if (G.PHASE === 'offers' && !(F.offers && F.offers.length)) G.goToOffers();
+    if (G.PHASE === 'offers') G.acceptOffer(botPickOffer(G, smart));
+    if (G.PHASE === 'week') { botWeek(G, smart); G.confirmWeek(); }
+    if (G.PHASE !== 'prefight') continue;
     const o = G.currentOpp;
     if (o.title && log.firstShot === null) log.firstShot = log.fights + 1;
     G.gfStart();
@@ -308,13 +360,16 @@ function runCareer(G, smart, idx) {
     if (log.firstRanked === null && F.stage2 === 'liga' && G.playerRank() < 16) log.firstRanked = log.fights;
     if (wasTitle && F.champion && log.firstTitle === null) log.firstTitle = log.fights;
     log.peakOvr = Math.max(log.peakOvr, F.ovr);
-    [10, 20, 30, 40].forEach(k => { if (log.fights === k) log.ovrAt[k] = F.ovr; });
+    [10, 20, 30, 40].forEach(k => { if (log.fights === k) { log.ovrAt[k] = F.ovr; log.world[k] = divSnapshot(G); } });
   }
+  log.ach = Object.keys(F.ach || {}).length;
+  log.retiredNpc = G.WORLD.retired || 0;
   log.titles = F.titleWins || 0; log.defenses = F.titleDef || 0; log.cause = F.retireCause || 'limite'; log.age = F.age;
   log.money = F.careerEarn || 0;
   return log;
 }
 function median(a) { if (!a.length) return '-'; const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; }
+const WORLDROWS = [];
 function runCareers(G) {
   const C = opt.c;
   const rows = [];
@@ -325,6 +380,8 @@ function runCareers(G) {
     const causes = {};
     logs.forEach(l => { causes[l.cause] = (causes[l.cause] || 0) + 1; });
     const ovr = k => median(logs.filter(l => l.ovrAt[k] != null).map(l => l.ovrAt[k]));
+    const wavg = (k, f) => { const a = logs.filter(l => l.world[k]).map(l => l.world[k][f]); return a.length ? (a.reduce((x, y) => x + y, 0) / a.length).toFixed(1) : '-'; };
+    WORLDROWS.push([nm, '~85/' + [10, 20, 30, 40].map(k => wavg(k, 'champ')).join('/'), [10, 20, 30, 40].map(k => wavg(k, 'top5')).join('/'), (logs.reduce((s, l) => s + l.retiredNpc, 0) / C).toFixed(1), (logs.reduce((s, l) => s + l.ach, 0) / C).toFixed(1)]);
     rows.push([nm,
       pct(champs.length, C) + '%',
       (logs.reduce((s, l) => s + l.defenses, 0) / C).toFixed(1),
@@ -339,6 +396,7 @@ function runCareers(G) {
       Object.keys(causes).map(k => k + ' ' + pct(causes[k], C) + '% (~' + median(logs.filter(l => l.cause === k).map(l => l.age)) + 'a)').join(', '),
     ]);
   });
+  WORLDROWS.length && table('MUNDO VIVO — divisão do jogador (médias)', ['robô', 'campeão OVR luta 0/10/20/30/40', 'top 5 OVR luta 10/20/30/40', 'aposentadorias de NPC (11 divisões)', 'conquistas por carreira'], WORLDROWS);
   table('CARREIRAS (' + C + ' por robô) — medianas', ['robô', 'campeão', 'defesas', 'lutas p/ ranking', 'p/ 1ª disputa', 'p/ 1º título', 'lutas', 'vitórias', 'OVR luta 10/20/30', 'OVR máx', 'idade fim', 'motivo do fim'], rows);
 }
 
